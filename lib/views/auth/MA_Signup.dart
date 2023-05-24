@@ -23,6 +23,10 @@ class _SignupViewState extends State<SignupView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController paysController = TextEditingController();
   TextEditingController villeController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController userController = TextEditingController();
+  TextEditingController telephoneController = TextEditingController();
 
   bool _isShow1 = true;
   bool _isShow2 = false;
@@ -195,7 +199,7 @@ class _SignupViewState extends State<SignupView> {
                                   height: 75,
                                   child: myTextField(
                                       bool: false,
-                                      icon: 'assets/ville.png',
+                                      icon: 'assets/phone_icon.png',
                                       text: 'Telephone',
                                       validator: (String input){
                                         if(input.isEmpty){
@@ -204,14 +208,14 @@ class _SignupViewState extends State<SignupView> {
                                         }
 
                                       },
-                                      controller: villeController
+                                      controller: telephoneController
                                   ),
                                 ),
                                 SizedBox(
                                   height: 75,
                                   child: myTextField(
                                       bool: false,
-                                      icon: 'assets/ville.png',
+                                      icon: 'assets/icon_name.png',
                                       text: 'Nom d\'utilisateur',
                                       validator: (String input){
                                         if(input.isEmpty){
@@ -220,14 +224,14 @@ class _SignupViewState extends State<SignupView> {
                                         }
 
                                       },
-                                      controller: villeController
+                                      controller: userController
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 75,
+                                  height: 72,
                                   child: myTextField(
                                       bool: false,
-                                      icon: 'assets/ville.png',
+                                      icon: 'assets/pass_icon.png',
                                       text: 'Mot de passe',
                                       validator: (String input){
                                         if(input.isEmpty){
@@ -236,14 +240,17 @@ class _SignupViewState extends State<SignupView> {
                                         }
 
                                       },
-                                      controller: villeController
+                                      controller: passwordController
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 75,
+                                  height: Get.height * 0.01,
+                                ),
+                                SizedBox(
+                                  height: 65,
                                   child: myTextField(
                                       bool: false,
-                                      icon: 'assets/ville.png',
+                                      icon: 'assets/pass_icon.png',
                                       text: 'Confirmez votre mot de passe',
                                       validator: (String input){
                                         if(input.isEmpty){
@@ -252,8 +259,38 @@ class _SignupViewState extends State<SignupView> {
                                         }
 
                                       },
-                                      controller: villeController
+                                      controller: confirmPassController
                                   ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.03,
+                                ),
+                                Card(),
+                                SizedBox(
+                                  width: 400,
+                                  height: 100,
+                                  child: Column(
+                                    children: [
+                                      myText(
+                                          text: 'Telecharger une pièce d\'identité \n ( CNI ou Passport)',
+                                          style: GoogleFonts.dmSans(
+                                              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.normal)
+                                          ),
+                                          textAlign: TextAlign.center
+                                      ),
+                                      IconButton(
+                                        icon:  Icon(
+                                          Icons.cloud_upload_outlined,
+                                          size: 50,
+                                        ),
+                                        color: AppColors.orange,
+                                        onPressed: () {},
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

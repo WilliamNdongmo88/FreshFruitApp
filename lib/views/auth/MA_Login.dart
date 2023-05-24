@@ -28,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 Image.asset('assets/logo.png'),
                 SizedBox(
-                  height: Get.height * 0.04,
+                  height: Get.height * 0.03,
                 ),
                 myText(
                     text: 'Connexion',
@@ -40,30 +40,39 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   height: Get.height * 0.04,
                 ),
-                myTextField(
-                    bool: false,
-                    icon: 'assets/mail.png',
-                    text: 'Email',
-                    validator: (String input){
-
-                    },
-                 //   controller: emailController
+                SizedBox(
+                  height: 75,
+                  child: myTextField(
+                      bool: false,
+                      icon: 'assets/mail.png',
+                      text: 'Email',
+                      validator: (String input){
+                        if(input.isEmpty){
+                         // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
+                          return 'Entrer votre Email';
+                        }
+                      },
+                   //   controller: emailController
+                  ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.03,
+                  height: Get.height * 0.01,
                 ),
-                myTextField(
-                    bool: false,
-                    icon: 'assets/icon_name.png',
-                    text: 'Mot de Passe',
-                    validator: (String input){
-                      /*if(input.isEmpty){
-                        Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                        return '';
-                      }*/
+                SizedBox(
+                  height: 75,
+                  child: myTextField(
+                      bool: false,
+                      icon: 'assets/icon_name.png',
+                      text: 'Mot de Passe',
+                      validator: (String input){
+                        if(input.isEmpty){
+                         // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
+                          return 'Entrer votre mot de passe';
+                        }
 
-                    },
-                 //   controller: prenomController
+                      },
+                   //   controller: prenomController
+                  ),
                 ),
                 SizedBox(
                   height: Get.height * 0.02,
@@ -84,7 +93,9 @@ class _LoginViewState extends State<LoginView> {
                   child: elevatedButton(
                     text: 'Connexion',
                     onpress: (){
-
+                      if(!formKey.currentState!.validate()){
+                        return;
+                      }
                     },
                     width: 30.0,
                     height: 40.0,
