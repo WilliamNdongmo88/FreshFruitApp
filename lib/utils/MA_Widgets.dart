@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'MA_Styles.dart';
 
@@ -12,7 +13,7 @@ Widget myTextField({text, String? icon, bool, TextEditingController? controller,
       controller: controller,
       decoration: InputDecoration(
           contentPadding:EdgeInsets.only(top: 5),
-          errorStyle: TextStyle(fontSize: 0),
+        //  errorStyle: TextStyle(fontSize: 14),
           hintStyle: TextStyle(
             color: AppColors.genderTextColor,
           ),
@@ -21,7 +22,8 @@ Widget myTextField({text, String? icon, bool, TextEditingController? controller,
             icon!,
             cacheHeight: 20,
           ),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0))
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
     ),
   );
@@ -29,7 +31,6 @@ Widget myTextField({text, String? icon, bool, TextEditingController? controller,
 
 Widget elevatedButton({text, Function? onpress, width, height}) {
   return ElevatedButton(
-
     style: ElevatedButton.styleFrom(
       minimumSize: Size(width, height),
       backgroundColor: AppColors.orange,
@@ -38,16 +39,18 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
       onpress!();
     },
     child: Text(
-      text,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
+          text,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+
   );
 }
 
-/*Widget elevateButtonRight(text, Function? onpress, text2) {
+/*Widget elevateButtonRight({text, Function? onpress, Icon? icon}) {
   return ElevatedButton(
     onPressed: () {},
     child: Row(
@@ -57,13 +60,37 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
         SizedBox(
         width: 5,
         ),
-        Icon(
-          Icons.$text2
-        ),
+        Icon(icon),
       ],
     ),
     );
 }*/
+
+Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
+  return ElevatedButton.icon(   // <-- ElevatedButton
+    style: ElevatedButton.styleFrom(
+      minimumSize: Size(width, height),
+      backgroundColor: AppColors.orange,
+    ),
+    onPressed: () {
+      onpress!();
+    },
+    label: Text(
+      text,
+      style: TextStyle(
+        fontSize: 18,
+      ),
+    ),
+    icon: icon,
+  );
+}
+
+Widget textButton({text, fontSize, Color? color}){
+    return TextButton(
+      onPressed: null,
+      child: Text(text, style: GoogleFonts.dmSans(color: color, fontSize: fontSize),),
+      );
+}
 
 Widget myText({text, style, textAlign}) {
   return Text(
@@ -71,6 +98,23 @@ Widget myText({text, style, textAlign}) {
     style: style,
     textAlign: textAlign,
     overflow: TextOverflow.ellipsis,
+  );
+}
+
+Widget socialAppsIcons({text,Function? onPressed}) {
+  return InkWell(
+    onTap: ()=> onPressed!(),
+    child: Container(
+      margin: EdgeInsets.all(10),
+      width: 48,
+      height: 48,
+      decoration: BoxDecoration(
+
+        image: DecorationImage(
+          image: AssetImage(text),
+        ),
+      ),
+    ),
   );
 }
 
