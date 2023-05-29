@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,26 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
+  /*Future<void> testlogin(emailAddress, password) async{
+    print('test login testlogin');
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  } */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
                           return 'Entrer votre Email';
                         }
                       },
-                   //   controller: emailController
+                     controller: emailController
                   ),
                 ),
                 SizedBox(
@@ -71,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
                         }
 
                       },
-                   //   controller: prenomController
+                     controller: passwordController
                   ),
                 ),
                 SizedBox(
@@ -94,6 +114,11 @@ class _LoginViewState extends State<LoginView> {
                     text: 'Connexion',
                     onpress: (){
                       if(!formKey.currentState!.validate()){
+                        // print('000001');
+                        // print(emailController);
+                        // print(passwordController);
+                        // testlogin(emailController.value.text,passwordController.value.text);
+                        // print('000002');
                         return;
                       }
                     },
