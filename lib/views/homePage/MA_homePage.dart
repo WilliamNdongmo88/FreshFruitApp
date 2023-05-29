@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:moneyapp/profileScreen.dart';
-import 'package:money_app/utils/MA_TransactionItem.dart';
-
+import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_Widgets.dart';
-// import 'package:moneyapp/transactionScreen.dart';
-
-// import 'MA_CustomIconButton.dart';
 
 class TransactionListScreen extends StatefulWidget {
   const TransactionListScreen({super.key});
@@ -32,22 +27,11 @@ class TransactionListScreenState extends State<TransactionListScreen> {
         "Yaoundé", "Lun06 mai2023"),
     TransactionItem("Terminé", "Ndongmo Thierry", "check", "600.00 USD", "Yaoundé",
         "Lun08 mai2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500.00 USD", "Yaoundé",
-        "Lun08 mai2023"),
     TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD", "Yaoundé",
         "Lun06 mai2023"),
   ];
 
-  int _currentIndex = 0;
-
-  final tabs = [
-    Center(child: Text('Home')),
-    Center(child: Text('Search')),
-    Center(child: Text('Camera')),
-    Center(child: Text('Profile')),
-  ];
-
-  var txt = 'Sample text';
+  var txt = '';
   void funChange(changetxt) {
     setState(() {
       txt = changetxt;
@@ -125,28 +109,28 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                         padding: EdgeInsets.all(20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          // children: [
-                          //   tabs[_currentIndex],
-                          //   buildIconButton(
-                          //       iconColor: Color.fromRGBO(17, 16, 15, 1),
-                          //       iconButton: Icons.settings,
-                          //       buttonText: '',
-                          //       fontSizeIcon: 55,
-                          //       callBackFunction: funChange),
-                          //   // Text(
-                          //   //   txt,
-                          //   //   style: TextStyle(
-                          //   //       color: Colors.white70, fontSize: 15),
-                          //   // ),
-                          //   // SizedBox(
-                          //   //   height: 5,
-                          //   // ),
-                          //   // Text(
-                          //   //   '540,250.50 USD',
-                          //   //   style:
-                          //   //       TextStyle(color: Colors.white, fontSize: 40),
-                          //   // ),
-                          // ],
+                          children: [
+                            Text(txt),
+                            // buildIconButton(
+                            //     iconColor: Color.fromRGBO(17, 16, 15, 1),
+                            //     iconButton: Icons.settings,
+                            //     buttonText: '',
+                            //     fontSizeIcon: 35,
+                            //     callBackFunction: funChange),
+                            // Text(
+                            //   txt,
+                            //   style: TextStyle(
+                            //       color: Colors.white70, fontSize: 15),
+                            // ),
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Text(
+                            //   '540,250.50 USD',
+                            //   style:
+                            //       TextStyle(color: Colors.white, fontSize: 40),
+                            // ),
+                          ],
                         ),
                       ),
                       Container(
@@ -201,12 +185,12 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                       Container(
                         margin: EdgeInsets.only(top: 170),
                         width: double.infinity,
-                        height: 600,
+                        height: 535,
                         decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 240, 238, 238),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                          ),
+                          // borderRadius: BorderRadius.only(
+                          //   topLeft: Radius.circular(20),
+                          // ),
                         ),
                         padding: EdgeInsets.all(20),
                         child: Row(
@@ -216,7 +200,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                 // onTap: () {
                                 //   Navigator.push(
                                 //       context,
-                                //       MaterialPageRoute(builder: (context) =>TransactionScreen()));
+                                //       MaterialPageRoute(
+                                //           builder: (context) =>TransactionScreen()),
+                                //     );
                                 // },
                                 child: ListView.builder(
                                     scrollDirection: Axis.vertical,
@@ -267,116 +253,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        // selectedFontSize: 15,
-        // unselectedFontSize: 10,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.transfer_within_a_station),
-            label: 'Translation',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange),
-            label: 'Devises',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Sttings',
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
-    );
-  }
-}
-
-class TransactionItemWidget extends StatelessWidget {
-  final TransactionItem transaction;
-  const TransactionItemWidget({super.key, required this.transaction});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        // color: Colors.orange,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      // padding: const EdgeInsets.only(left: 30, right: 30),
-      // width: 450,
-      // height: 115,
-      child: GestureDetector(
-          // onTap: () {
-          //   Navigator.push(context,
-          //       MaterialPageRoute(builder: (context) => TransactionScreen()));
-          // },
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-            ),
-            margin: EdgeInsets.all(8),
-            elevation: 8,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(transaction.date,
-                                    style: TextStyle(color: Colors.grey[500])),
-                                Text(transaction.user),
-                              ],
-                            ),
-                          ),
-                          Text(transaction.amont,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 30)),
-                        ]),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Column(children: [
-                      Text(transaction.status,
-                          style: TextStyle(color: Colors.grey[500])),
-                      Container(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: LayoutBuilder(builder: (context, constraints) {
-                            if (transaction.icon == "check") {
-                              return Icon(Icons.check_circle,
-                                  color: Colors.green);
-                            } else if (transaction.icon == "Autorenew") {
-                              return Icon(Icons.autorenew,
-                                  color: Colors.yellow);
-                            } else {
-                              return Icon(Icons.cancel, color: Colors.red);
-                            }
-                          })
-                          //
-                          ),
-                    ]),
-                  ),
-                ],
-              ),
-            ),
-          )),
+      bottomNavigationBar: getFooter(callBackFunction: funChange),
     );
   }
 }

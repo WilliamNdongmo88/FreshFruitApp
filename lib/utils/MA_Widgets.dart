@@ -251,4 +251,66 @@ Widget cardItem({required TransactionItem transaction}) {
     ),
   );
 }
+/**
+ * William Ndongmo
+ */
+class getFooter extends StatefulWidget {
+  final Function callBackFunction;
+  const getFooter({super.key, required this.callBackFunction});
+
+  @override
+  State<getFooter> createState() => _getFooterState(this.callBackFunction);
+}
+
+class _getFooterState extends State<getFooter> {
+  Function callBackFunction;
+
+  _getFooterState(this.callBackFunction);
+
+  int _currentIndex = 0;
+  final tabs = ['Home', 'Transaction', 'Devises', 'Settings'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          top:
+              BorderSide(width: 1.0, color: Color.fromARGB(255, 128, 130, 132)),
+        ),
+        // color: Colors.white,
+      ),
+      child: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        // selectedFontSize: 15,
+        // unselectedFontSize: 12,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.transfer_within_a_station),
+            label: 'Translation',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.currency_exchange),
+            label: 'Devises',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Sttings',
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+            callBackFunction!(tabs[_currentIndex]);
+          });
+        },
+      ),
+    );
+  }
+}
 
