@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'MA_Styles.dart';
@@ -121,6 +122,17 @@ Widget socialAppsIcons({text,Function? onPressed}) {
 
 /**
  * William Ndongmo
+ * 
+ * Call the buildIconButton widget as following
+ * buildIconButton(
+ *                  iconColor: your_iconColor
+ *                  IconData: your_IconData
+ *                  iconButton: your_iconButton
+ *                  buttonText: your_buttonText
+ *                  fontSizeText: your_fontSizeText
+ *                  fontSizeIcon: your_fontSizeIcon
+ *                  callBackFunction: your_callBackFunction)
+ * your_callBackFunction is a function that get the name of the icon that was clicked
  */
 Widget buildIconButton({Color? iconColor,IconData? iconButton,String? buttonText,double? fontSizeText,double? fontSizeIcon,Function? callBackFunction}) {// double fontSizeText, double fontSizeIcon,
 
@@ -151,8 +163,13 @@ Widget buildIconButton({Color? iconColor,IconData? iconButton,String? buttonText
     );
   }
 }
+
 /**
  * William Ndongmo
+ * 
+ * Call the cardItem widget as following
+ * cardItem(transaction: transaction)
+ * transaction  est une liste de transaction
  */
 Widget cardItem({required TransactionItem transaction}) {
   return Card(
@@ -251,8 +268,13 @@ Widget cardItem({required TransactionItem transaction}) {
     ),
   );
 }
+
 /**
  * William Ndongmo
+ * 
+ * Call the getFooter widget as following
+ * getFooter(callBackFunction: myFunction)
+ * myFunction is a function that get the name of the icon that was clicked
  */
 class getFooter extends StatefulWidget {
   final Function callBackFunction;
@@ -285,17 +307,31 @@ class _getFooterState extends State<getFooter> {
         type: BottomNavigationBarType.fixed,
         // selectedFontSize: 15,
         // unselectedFontSize: 12,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.transfer_within_a_station),
+            icon: SvgPicture.asset(
+              'assets/transaction.svg',
+              width: 25,
+              // ignore: deprecated_member_use
+              color: _currentIndex == 1
+                  ? Color.fromRGBO(242, 78, 30, 1)
+                  : Color.fromRGBO(97, 97, 97, 1),
+            ),
             label: 'Translation',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.currency_exchange),
+            icon: SvgPicture.asset(
+              'assets/devises.svg',
+              width: 25,
+              // ignore: deprecated_member_use
+              color: _currentIndex == 2
+                  ? Color.fromRGBO(246, 60, 3, 1)
+                  : Color.fromRGBO(97, 97, 97, 1),
+            ),
             label: 'Devises',
           ),
           BottomNavigationBarItem(
@@ -306,7 +342,7 @@ class _getFooterState extends State<getFooter> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            callBackFunction!(tabs[_currentIndex]);
+            callBackFunction(tabs[_currentIndex]);
           });
         },
       ),
