@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 import 'package:get/get.dart';
+import 'package:money_app/views/MA_LoadingPage.dart';
 import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 
@@ -15,11 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: LoginView(),
+      home: LoadingView(),
     );
   }
 }
-
-
-
-

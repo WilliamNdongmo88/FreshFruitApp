@@ -13,7 +13,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -33,26 +32,25 @@ class _LoginViewState extends State<LoginView> {
                 myText(
                     text: 'Connexion',
                     style: GoogleFonts.dmSans(
-                        textStyle: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)
-                    ),
-                    textAlign: TextAlign.center
-                ),
+                        textStyle: TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold)),
+                    textAlign: TextAlign.center),
                 SizedBox(
                   height: Get.height * 0.04,
                 ),
                 SizedBox(
                   height: 75,
                   child: myTextField(
-                      bool: false,
-                      icon: 'assets/mail.png',
-                      text: 'Email',
-                      validator: (String input){
-                        if(input.isEmpty){
-                         // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                          return 'Entrer votre Email';
-                        }
-                      },
-                   //   controller: emailController
+                    bool: false,
+                    icon: 'assets/mail.png',
+                    text: 'Email',
+                    validator: (String input) {
+                      if (input.isEmpty) {
+                        // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
+                        return 'Entrer votre Email';
+                      }
+                    },
+                    //   controller: emailController
                   ),
                 ),
                 SizedBox(
@@ -61,17 +59,16 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   height: 75,
                   child: myTextField(
-                      bool: false,
-                      icon: 'assets/icon_name.png',
-                      text: 'Mot de Passe',
-                      validator: (String input){
-                        if(input.isEmpty){
-                         // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                          return 'Entrer votre mot de passe';
-                        }
-
-                      },
-                   //   controller: prenomController
+                    bool: false,
+                    icon: 'assets/icon_name.png',
+                    text: 'Mot de Passe',
+                    validator: (String input) {
+                      if (input.isEmpty) {
+                        // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
+                        return 'Entrer votre mot de passe';
+                      }
+                    },
+                    //   controller: prenomController
                   ),
                 ),
                 SizedBox(
@@ -80,10 +77,11 @@ class _LoginViewState extends State<LoginView> {
                 myText(
                     text: 'Mot de passe oublié?',
                     style: GoogleFonts.dmSans(
-                        textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: AppColors.blueText)
-                    ),
-                    textAlign: TextAlign.right
-                ),
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: AppColors.blueText)),
+                    textAlign: TextAlign.right),
                 SizedBox(
                   height: Get.height * 0.04,
                 ),
@@ -92,8 +90,8 @@ class _LoginViewState extends State<LoginView> {
                   height: 50,
                   child: elevatedButton(
                     text: 'Connexion',
-                    onpress: (){
-                      if(!formKey.currentState!.validate()){
+                    onpress: () {
+                      if (!formKey.currentState!.validate()) {
                         return;
                       }
                     },
@@ -104,42 +102,31 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   height: Get.height * 0.06,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     socialAppsIcons(
                         text: 'assets/fb.png',
-                        onPressed: (){
-
-                        //  Get.to(()=> ProfileScreen());
-
-                        }
-                    ),
-
+                        onPressed: () {
+                          //  Get.to(()=> ProfileScreen());
+                        }),
                     socialAppsIcons(
                         text: 'assets/google.png',
-                        onPressed: (){
-
-                      //    authController.signInWithGoogle();
-
-                        }
-
-                    ),
+                        onPressed: () {
+                          //    authController.signInWithGoogle();
+                        }),
                   ],
                 ),
                 myText(
                     text: 'Vous n\'avez pas encore de compte?',
                     style: GoogleFonts.dmSans(
-                        textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-                    ),
-                    textAlign: TextAlign.center
-                ),
+                        textStyle: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    textAlign: TextAlign.center),
                 textButton(
                     text: 'Creer un compte',
                     fontSize: 20.0,
-                    color: AppColors.orange
-                )
+                    color: AppColors.orange)
               ],
             ),
           ),
