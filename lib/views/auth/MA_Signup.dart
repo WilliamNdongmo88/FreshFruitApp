@@ -230,7 +230,7 @@ class _SignupViewState extends State<SignupView> {
                                 SizedBox(
                                   height: 72,
                                   child: myTextField(
-                                      bool: false,
+                                      bool: true,
                                       icon: 'assets/pass_icon.png',
                                       text: 'Mot de passe',
                                       validator: (String input){
@@ -249,7 +249,7 @@ class _SignupViewState extends State<SignupView> {
                                 SizedBox(
                                   height: 65,
                                   child: myTextField(
-                                      bool: false,
+                                      bool: true,
                                       icon: 'assets/pass_icon.png',
                                       text: 'Confirmez votre mot de passe',
                                       validator: (String input){

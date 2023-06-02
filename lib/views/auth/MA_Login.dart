@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:money_app/controller/MA_AuthController.dart';
 
 import '../../utils/MA_Styles.dart';
 import '../../utils/MA_Widgets.dart';
@@ -36,6 +37,14 @@ class _LoginViewState extends State<LoginView> {
       print(e);
     }
   } */
+  late AuthController authController;
+
+  @override
+  void initState(){
+    super.initState();
+    authController = Get.put(AuthController());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +77,11 @@ class _LoginViewState extends State<LoginView> {
                       text: 'Email',
                       validator: (String input){
                         if(input.isEmpty){
-                         // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
                           return 'Entrer votre Email';
+                        }
+
+                        if(!input.contains('@')){
+                          return 'Email invalide';
                         }
                       },
                      controller: emailController
@@ -81,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(
                   height: 75,
                   child: myTextField(
-                      bool: false,
+                      bool: true,
                       icon: 'assets/icon_name.png',
                       text: 'Mot de Passe',
                       validator: (String input){
@@ -113,6 +125,7 @@ class _LoginViewState extends State<LoginView> {
                   child: elevatedButton(
                     text: 'Connexion',
                     onpress: (){
+                      print('******* press on the connexion button ');
                       if(!formKey.currentState!.validate()){
                         // print('000001');
                         // print(emailController);
@@ -121,6 +134,8 @@ class _LoginViewState extends State<LoginView> {
                         // print('000002');
                         return;
                       }
+
+                      authController.signUp(email: emailController.text.trim(),password: passwordController.text.trim());
                     },
                     width: 30.0,
                     height: 40.0,
@@ -146,7 +161,7 @@ class _LoginViewState extends State<LoginView> {
                         text: 'assets/google.png',
                         onPressed: (){
 
-                      //    authController.signInWithGoogle();
+                          authController.signInWithGoogle();
 
                         }
 
