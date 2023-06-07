@@ -8,3 +8,9 @@ class TransactionItem {
   TransactionItem(
       this.status, this.user, this.icon, this.amont, this.city, this.date);
 }
+
+class FormData {
+  String email;
+  String password;
+  FormData(this.email, this.password);
+}

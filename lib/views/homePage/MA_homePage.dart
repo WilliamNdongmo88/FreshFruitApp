@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../utils/MA_TransactionItem.dart';
+import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
 
 class TransactionListScreen extends StatefulWidget {
@@ -197,13 +198,14 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                           children: [
                             Expanded(
                               child: GestureDetector(
-                                // onTap: () {
-                                //   Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //           builder: (context) =>TransactionScreen()),
-                                //     );
-                                // },
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                            TransactionScreen()),
+                                    );
+                                },
                                 child: ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
