@@ -28,6 +28,7 @@ class _LoadingViewState extends State<LoadingView>
                     key: formKey,
                     child: Column(children: [
                       //  this image is the logo that we want to display
+                      //  comment test
                       Image.asset('assets/logo.png'),
                       SizedBox(
                         height: Get.height * 0.03,
