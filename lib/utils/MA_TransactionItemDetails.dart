@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'MA_Widgets.dart';
 
 class TransactionScreen extends StatefulWidget {
+  static const transactionScreenPage = '/TransactionScreen';
   const TransactionScreen({super.key});
 
   @override
@@ -21,8 +22,21 @@ class _TransactionScreenState extends State<TransactionScreen>
       if (changetxt == "Open_pop_up") {
         showDialog(
           context: context,
-          builder: (ctx) => Center(child: GetDataForm(ctx: ctx)),
+          builder: (ctx) => Center(
+              child: GetDataForm(ctx: ctx, callBackFunction: funInputChange)),
         );
+      }
+    });
+  }
+
+  late bool valueOfBool = false;
+  var codeReception = 'null';
+  void funInputChange(dataMap) {
+    setState(() {
+      if (dataMap["boolValue"] == true) {
+        valueOfBool = true;
+        codeReception = dataMap["password"];
+        print('dataMap--> $dataMap');
       }
     });
   }
@@ -33,6 +47,7 @@ class _TransactionScreenState extends State<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
+    var message = ModalRoute.of(context)?.settings.arguments;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(
@@ -104,6 +119,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                         children: [
                           Text(
                             txt,
+                            // message,
                             style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 15,
@@ -112,7 +128,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
+                          Text(
                             'James Kora',
                             style: TextStyle(
                                 color: Colors.white,
@@ -295,7 +311,9 @@ class _TransactionScreenState extends State<TransactionScreen>
                         children: [
                           tabDetails(
                               valueTab: tabs[current],
-                              callBackFunction: funChange),
+                              callBackFunction: funChange,
+                              valueOfBool: valueOfBool,
+                              codeReception: codeReception),
                         ],
                       ),
                     ),

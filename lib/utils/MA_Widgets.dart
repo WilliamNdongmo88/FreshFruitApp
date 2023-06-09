@@ -120,6 +120,53 @@ Widget socialAppsIcons({text,Function? onPressed}) {
   );
 }
 
+
+
+//Will Code Start
+
+Widget fieldInput({
+  required String topText,
+  required String bottomText,
+  required String svgLink,
+}) {
+  return Container(
+    margin: const EdgeInsets.only(top: 15),
+    child: Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                topText,
+                style: TextStyle(
+                    color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                bottomText,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 5), //'assets/spinner.svg'
+          child: SvgPicture.asset(svgLink,
+              width: 30,
+              // ignore: deprecated_member_use
+              color: Color.fromRGBO(246, 60, 3, 1)),
+        ),
+      ],
+    ),
+  );
+}
+
 /**
  * William Ndongmo
  * 
@@ -134,13 +181,18 @@ Widget socialAppsIcons({text,Function? onPressed}) {
  *                  callBackFunction: your_callBackFunction)
  * your_callBackFunction is a function that get the name of the icon that was clicked
  */
-Widget buildIconButton({Color? iconColor,IconData? iconButton,String? buttonText,double? fontSizeText,double? fontSizeIcon,Function? callBackFunction}) {
-
+Widget buildIconButton(
+    {Color? iconColor,
+    required IconData iconButton,
+    String? buttonText,
+    double? fontSizeText,
+    double? fontSizeIcon,
+    Function? callBackFunction}) {
   if (buttonText != '') {
     print('---> $buttonText');
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      // mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
           iconSize: fontSizeIcon,
@@ -156,9 +208,16 @@ Widget buildIconButton({Color? iconColor,IconData? iconButton,String? buttonText
       ],
     );
   } else {
+    var label = 'WithoutLabel';
     return Column(
       children: [
-        Icon(iconButton, color: iconColor, size: fontSizeText),
+        IconButton(
+          iconSize: fontSizeIcon,
+          icon: Icon(iconButton, color: iconColor),
+          onPressed: () {
+            callBackFunction!(label);
+          },
+        ),
       ],
     );
   }
@@ -205,54 +264,121 @@ Widget buildIconButtonSvg(
   );
 }
 
-Widget fieldInput({
-  required String topText,
-  required String bottomText,
-  required String svgLink,
-}) {
-  return Container(
-    margin: const EdgeInsets.only(top: 15),
-    child: Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                topText,
-                style: TextStyle(
-                    color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                bottomText,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
+/**
+ * William Ndongmo
+ * 
+ * Call the cardItem widget as following
+ * cardItem(transaction: transaction)
+ * transaction  est une liste de transaction
+ */
+Widget cardItem({required TransactionItem transaction}) {
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+    ),
+    margin: EdgeInsets.all(8),
+    elevation: 8,
+    child: Container(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                                width: 1.0,
+                                color: Color.fromARGB(255, 128, 130, 132)),
+                          ),
+                          // color: Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      '${transaction.city}, ${transaction.date}',
+                                      style:
+                                          TextStyle(color: Colors.grey[500])),
+                                ],
+                              ),
+                            ),
+                            Text(transaction.status,
+                                style: TextStyle(color: Colors.grey[500])),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(transaction.user),
+                          const SizedBox(height: 10),
+                          Text(transaction.amont,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 30)),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.only(top: 0),
+                              child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                if (transaction.icon == "check") {
+                                  return const Icon(Icons.check_circle,
+                                      color: Colors.green);
+                                } else if (transaction.icon == "Autorenew") {
+                                  return const Icon(Icons.autorenew,
+                                      color: Colors.yellow);
+                                } else {
+                                  return const Icon(Icons.cancel,
+                                      color: Colors.red);
+                                }
+                              })
+                              //
+                              ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(bottom: 5), //'assets/spinner.svg'
-          child: SvgPicture.asset(svgLink,
-              width: 30,
-              // ignore: deprecated_member_use
-              color: Color.fromRGBO(246, 60, 3, 1)),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
 
-Widget tabDetails({String? valueTab, Function? callBackFunction}) {
+Widget tabDetails(
+    {String? valueTab,
+    Function? callBackFunction,
+    bool? valueOfBool,
+    String? codeReception}) {
   if (valueTab == 'Transaction') {
     return tabTransaction();
   } else if (valueTab == 'Destinataire') {
-    return tabDestinataire(callBackFunction);
+    print('-->codeReception $codeReception');
+    return tabDestinataire(callBackFunction, valueOfBool!, codeReception!);
   } else {
     return tabExpediteur();
   }
@@ -494,7 +620,8 @@ Widget tabTransaction() {
   );
 }
 
-Widget tabDestinataire(Function? callBackFunction) {
+Widget tabDestinataire(
+    Function? callBackFunction, bool valueOfBool, String codeReception) {
   return Padding(
     padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
     child: Container(
@@ -631,82 +758,67 @@ Widget tabDestinataire(Function? callBackFunction) {
             ),
           ),
           SizedBox(
-            height: 35,
+            height: 25,
           ),
-          // Container(
-          //   width: double.infinity,
-          //   decoration: const BoxDecoration(
-          //     border: Border(
-          //       bottom: BorderSide(
-          //           width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-          //     ),
-          //   ),
-          //   child: Container(
-          //     margin: const EdgeInsets.only(top: 15),
-          //     child: Row(
-          //       children: [
-          //         Expanded(
-          //           child: Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: const [
-          //               Text(
-          //                 "Status",
-          //                 style: TextStyle(
-          //                     color: Color.fromRGBO(79, 79, 79, 1),
-          //                     fontSize: 15),
-          //               ),
-          //               SizedBox(
-          //                 height: 10,
-          //               ),
-          //               Text(
-          //                 'En Attente',
-          //                 style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 15,
-          //                     fontWeight: FontWeight.bold),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //         Container(
-          //           margin: EdgeInsets.only(bottom: 5),
-          //           child: SvgPicture.asset('assets/spinner.svg',
-          //               width: 30,
-          //               // ignore: deprecated_member_use
-          //               color: Color.fromRGBO(246, 60, 3, 1)),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 15,
-          // ),
-          Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+          if (valueOfBool == false && codeReception == 'null') ...[
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                      width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                ),
               ),
-            ),
-            width: double.infinity,
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
+              width: double.infinity,
               child: Container(
-                margin: const EdgeInsets.only(left: 55),
-                child: GestureDetector(
-                  onTap: () {
-                    callBackFunction!('Open_pop_up');
-                  },
-                  child: Text(
-                    "voir code de reception",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 78, 1), fontSize: 18),
+                margin: const EdgeInsets.only(top: 15),
+                child: Container(
+                  margin: const EdgeInsets.only(left: 55),
+                  child: GestureDetector(
+                    onTap: () {
+                      callBackFunction!('Open_pop_up');
+                    },
+                    child: Text(
+                      "voir code de reception",
+                      style: TextStyle(
+                          color: Color.fromRGBO(79, 79, 78, 1), fontSize: 18),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+          ] else
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                      width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                ),
+              ),
+              child: Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Code de reception",
+                      style: TextStyle(
+                          color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'trans: $codeReception',
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     ),
@@ -963,261 +1075,6 @@ Widget tabExpediteur() {
   );
 }
 
-
-class GetDataForm extends StatefulWidget {
-  final ctx;
-  const GetDataForm({super.key, this.ctx});
-
-  @override
-  State<GetDataForm> createState() => _GetDataFormState(this.ctx);
-}
-
-class _GetDataFormState extends State<GetDataForm> {
-  var ctx;
-  _GetDataFormState(this.ctx);
-  final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Flexible(
-        fit: FlexFit.tight,
-        child: Container(
-          child: AlertDialog(
-            title: Container(
-                padding: EdgeInsets.only(top: 15, bottom: 10),
-                child: Text("Veillez confirmer votre identité")),
-            content: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Email",
-                            style: TextStyle(
-                                color: Color.fromRGBO(97, 97, 97, 1))),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 42,
-                          child: TextFormField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)))),
-                            validator: (value) {
-                              if (value != null) {
-                                return 'Please enter a user';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Mot de Pass",
-                            style: TextStyle(
-                                color: Color.fromRGBO(97, 97, 97, 1))),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 42,
-                          child: TextFormField(
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)))),
-                            validator: (value) {
-                              if (value != null) {
-                                return 'Please enter a user';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              Container(
-                margin: EdgeInsets.only(bottom: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(229, 225, 225, 1),
-                        ),
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text(
-                          'Annuler',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 50,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(242, 78, 30, 1),
-                        ),
-                        onPressed: () {
-                          FormData formData = FormData(
-                              emailController.value.text,
-                              passwordController.value.text);
-                          print('formData --> $formData');
-                        },
-                        child: Text(
-                          'Confirmer',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-/**
- * William Ndongmo
- * 
- * Call the cardItem widget as following
- * cardItem(transaction: transaction)
- * transaction  est une liste de transaction
- */
-Widget cardItem({required TransactionItem transaction}) {
-  return Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-    ),
-    margin: EdgeInsets.all(8),
-    elevation: 8,
-    child: Container(
-      padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                                width: 1.0,
-                                color: Color.fromARGB(255, 128, 130, 132)),
-                          ),
-                          // color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      '${transaction.city}, ${transaction.date}',
-                                      style:
-                                          TextStyle(color: Colors.grey[500])),
-                                ],
-                              ),
-                            ),
-                            Text(transaction.status,
-                                style: TextStyle(color: Colors.grey[500])),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(transaction.user),
-                          const SizedBox(height: 10),
-                          Text(transaction.amont,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 30)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: LayoutBuilder(
-                                  builder: (context, constraints) {
-                                if (transaction.icon == "check") {
-                                  return const Icon(Icons.check_circle,
-                                      color: Colors.green);
-                                } else if (transaction.icon == "Autorenew") {
-                                  return const Icon(Icons.autorenew,
-                                      color: Colors.yellow);
-                                } else {
-                                  return const Icon(Icons.cancel,
-                                      color: Colors.red);
-                                }
-                              })
-                              //
-                              ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 /**
  * William Ndongmo
  * 
@@ -1246,8 +1103,7 @@ class _getFooterState extends State<getFooter> {
     return Container(
       decoration: const BoxDecoration(
         border: Border(
-          top:
-              BorderSide(width: 1.0, color: Color.fromARGB(255, 128, 130, 132)),
+          top: BorderSide(width: 1, color: Color.fromARGB(255, 128, 130, 132)),
         ),
         // color: Colors.white,
       ),
@@ -1259,7 +1115,7 @@ class _getFooterState extends State<getFooter> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Accueil',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -1270,7 +1126,7 @@ class _getFooterState extends State<getFooter> {
                   ? Color.fromRGBO(242, 78, 30, 1)
                   : Color.fromRGBO(97, 97, 97, 1),
             ),
-            label: 'Translation',
+            label: 'Transaction',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -1284,7 +1140,14 @@ class _getFooterState extends State<getFooter> {
             label: 'Devises',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: SvgPicture.asset(
+              'assets/settings.svg',
+              width: 25,
+              // ignore: deprecated_member_use
+              color: _currentIndex == 3
+                  ? Color.fromRGBO(246, 60, 3, 1)
+                  : Color.fromRGBO(97, 97, 97, 1),
+            ),
             label: 'Sttings',
           ),
         ],
@@ -1299,3 +1162,279 @@ class _getFooterState extends State<getFooter> {
   }
 }
 
+class GetDataForm extends StatefulWidget {
+  final ctx;
+  final Function? callBackFunction;
+  const GetDataForm({super.key, this.ctx, this.callBackFunction});
+
+  @override
+  State<GetDataForm> createState() =>
+      _GetDataFormState(this.ctx, this.callBackFunction);
+}
+
+class _GetDataFormState extends State<GetDataForm> {
+  var ctx;
+  final callBackFunction;
+  _GetDataFormState(this.ctx, this.callBackFunction);
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Widget build(BuildContext context) {
+    Map inputData = {};
+    String email;
+    var password;
+    bool boolValue = false;
+    return SingleChildScrollView(
+      child: Container(
+        child: AlertDialog(
+          title: Container(
+              padding: EdgeInsets.only(top: 15, bottom: 10),
+              child: Text("Veillez confirmer votre identité")),
+          content: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Email",
+                          style:
+                              TextStyle(color: Color.fromRGBO(97, 97, 97, 1))),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)))),
+                        validator: (value) {
+                          if (value == '') {
+                            return 'Please enter a email';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Mot de Pass",
+                          style:
+                              TextStyle(color: Color.fromRGBO(97, 97, 97, 1))),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)))),
+                        validator: (value) {
+                          if (value == '') {
+                            return 'Please enter a password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Container(
+              margin: EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(229, 225, 225, 1),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: Text(
+                        'Annuler',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(242, 78, 30, 1),
+                      ),
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          boolValue = true;
+                          inputData["email"] = emailController.text;
+                          inputData["password"] = passwordController.text;
+                          inputData["boolValue"] = boolValue;
+                          callBackFunction(inputData);
+                          print('inputData--> $inputData');
+                          Navigator.of(ctx).pop();
+                        } else {
+                          boolValue = false;
+                        }
+                      },
+                      child: Text(
+                        'Confirmer',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget controller({ctx}) {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final userController = TextEditingController();
+  return SingleChildScrollView(
+    child: Flexible(
+      fit: FlexFit.tight,
+      child: Container(
+        child: AlertDialog(
+          title: Container(
+              padding: EdgeInsets.only(top: 15, bottom: 10),
+              child: Text("Veillez confirmer votre identité")),
+          content: Form(
+            child: Column(
+              children: [
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Email",
+                          style:
+                              TextStyle(color: Color.fromRGBO(97, 97, 97, 1))),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 42,
+                        child: TextFormField(
+                          controller: userController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)))),
+                          validator: (value) {
+                            if (value != null) {
+                              return 'Please enter a user';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Mot de Pass",
+                          style:
+                              TextStyle(color: Color.fromRGBO(97, 97, 97, 1))),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 42,
+                        child: TextFormField(
+                          controller: userController,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)))),
+                          validator: (value) {
+                            if (value != null) {
+                              return 'Please enter a user';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Container(
+              margin: EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(229, 225, 225, 1),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: Text(
+                        'Annuler',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(242, 78, 30, 1),
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        'Confirmer',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}

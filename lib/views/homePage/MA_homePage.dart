@@ -4,6 +4,7 @@ import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
 
 class TransactionListScreen extends StatefulWidget {
+  static const transactionListScreen = '/';
   const TransactionListScreen({super.key});
 
   @override
@@ -31,7 +32,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD", "Yaoundé",
         "Lun06 mai2023"),
   ];
-
+  Map myMap = {"numero_transaction": "8745126554988", "status": "Terminé"};
   var txt = '';
   void funChange(changetxt) {
     setState(() {
@@ -199,12 +200,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                            TransactionScreen()),
-                                    );
+                                  Navigator.pushNamed(context,
+                                      TransactionScreen.transactionScreenPage,
+                                      arguments: myMap);
                                 },
                                 child: ListView.builder(
                                     scrollDirection: Axis.vertical,
