@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 import 'package:get/get.dart';
 import 'package:money_app/utils/MA_TransactionItemDetails.dart';
@@ -6,7 +7,9 @@ import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 import 'package:money_app/views/homePage/MA_homePage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
