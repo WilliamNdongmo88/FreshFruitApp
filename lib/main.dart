@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-//import 'package:money_app/utils/MA_Constant.dart';
+import 'package:money_app/utils/MA_Constant.dart';
+import 'package:get/get.dart';
+import 'package:money_app/views/auth/MA_Login.dart';
+import 'package:money_app/views/auth/MA_Signup.dart';
+import 'MA_TransactionStepper.dart';
+import 'test.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,7 +16,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home:  transfertForm(),
+    );
   }
 }
 
