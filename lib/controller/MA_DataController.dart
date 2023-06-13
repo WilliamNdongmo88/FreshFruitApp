@@ -57,7 +57,7 @@ class DataController extends GetxController{
   }
 
 
-   Future<void> retrieveCountry() async{
+   Future<List<MA_Helper_Country>> retrieveCountry() async{
       print(FirebaseAuth.instance.currentUser);
       print("enter in nl_manage_country");
       dynamic result = await callCloudFunction('nl_manage_country',{"action": "GET-ALL-WITH-CITIES"});
@@ -99,7 +99,9 @@ class DataController extends GetxController{
         print(result['ErrorCode']);
         print(result['message']);
       }
-
+      return CountryList;
    }
+
+
 
 }

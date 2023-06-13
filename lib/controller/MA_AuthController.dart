@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:money_app/controller/MA_DataController.dart';
 
 import '../views/auth/MA_Signup.dart';
+import 'Helper classes/MA_Helper_Country.dart';
 
 class AuthController extends GetxController{
 
@@ -34,8 +35,8 @@ class AuthController extends GetxController{
     });
   }
 
-  void login({String? email, String? password}){
-
+  void login({String? email, String? password, List<MA_Helper_Country>? listCountry}){
+    print("in the login fonction");
     isLoading(true);
 
     auth.signInWithEmailAndPassword(email: email!, password: password!)
@@ -43,11 +44,24 @@ class AuthController extends GetxController{
       /// Login Sucess
       isLoading(false);
      // Get.to(()=> HomeScreen());
+      Get.to(()=> SignupView(), arguments: listCountry);
+
     } ).catchError((e) {
       isLoading(false);
-      Get.snackbar('Error',"$e");
+      //Get.snackbar('Error',"$e");
       print("Error in authentication $e");
+
     });
+
+  }
+
+  void logout(){
+      print("********** in the logout function ***************");
+      auth.signOut().then((value){
+        print("*********  Succesfully logout *******");
+      }).catchError((e){
+      print("*** Error when Logging Out $e");
+      });
   }
 
   signInWithGoogle() async {

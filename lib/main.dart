@@ -12,7 +12,7 @@ void main() async {
   FirebaseAuth.instance
       .authStateChanges()
       .listen((User? user) {
-        print("in fire qut check state");
+        print("********** in fire qut check state **********");
         print(user);
           if (user != null) {
             print(user.uid);

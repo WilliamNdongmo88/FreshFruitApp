@@ -41,6 +41,7 @@ dependencies:
   google_sign_in:
   firebase_auth: ^4.6.1
   cloud_functions:
+  equatable:
 dev_dependencies:
   flutter_test:
     sdk: flutter
