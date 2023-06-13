@@ -4,9 +4,11 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_City.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Country.dart';
+import 'package:money_app/utils/MA_Constant.dart';
 
 class DataController extends GetxController{
   List<MA_Helper_Country> CountryList = <MA_Helper_Country>[].obs;
+  RxList<MA_Helper_Country> CountryListToDispatch = <MA_Helper_Country>[].obs;
 /*
   author: Franc TOUTCHA
   * This is a function which help you to call cloud functions
@@ -20,9 +22,10 @@ class DataController extends GetxController{
       HttpsCallableResult result = await callable.call(data); // Make the callable cloud function call
 
       // Check the status code
-      //print(result);
-      //print(result.data);
-      if (result.data['code'] == '200' && result.data['exit'] == 'OK') {
+      print("]]]]]]]]]]]]]]]]result before traitement****************");
+      print(result);
+      print(result.data);
+      if (result.data['code'] == '200'/* && result.data['exit'] == 'OK'*/) {
         // Successful response
         print('Cloud function call successful');
         print('Response: ${result.data['message']}');
@@ -69,7 +72,7 @@ class DataController extends GetxController{
         }else{
           print('enter In good response scope');
           //List<MA_Helper_Country> CountryList = [];
-          print(result['body'].runtimeType);
+          print(result['body']);
           CountryList= List<MA_Helper_Country>.from(
               result['body'].map(
                     (country) =>
@@ -102,6 +105,8 @@ class DataController extends GetxController{
       return CountryList;
    }
 
-
+  void updateCountryList(List<MA_Helper_Country> listC){
+    CountryListToDispatch.value =listC;
+  }
 
 }

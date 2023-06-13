@@ -19,6 +19,7 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> {
+  final DataController dataController = Get.find<DataController>();
 
  /* _SignupViewState(){
     selectedCountry = MA_Helper_Country(code:"CMR", name:"Cameroon", currency:"XAF",id:"CMR", iso2:"CM", iso3:"CMR", cities:[
@@ -26,7 +27,8 @@ class _SignupViewState extends State<SignupView> {
       MA_Helper_City(id:"Yaoundé-CMR", code:"Yaoundé-CMR", name:"Yaoundé", countryId: "CMR")]);
     selectedCity = MA_Helper_City(id:"Yaoundé-CMR", code:"Yaoundé-CMR", name:"Yaoundé", countryId: "CMR");
   } */
-  var countryList = Get.arguments as List<MA_Helper_Country>;
+  late List<MA_Helper_Country> countryList  ;
+
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -48,7 +50,7 @@ class _SignupViewState extends State<SignupView> {
   MA_Helper_City? selectedCity;
 
   late AuthController authController;
-  late DataController dataController;
+  ///late DataController dataController;
   bool _isShow1 = true;
   bool _isShow2 = false;
 
@@ -61,7 +63,8 @@ class _SignupViewState extends State<SignupView> {
   void initState() {
     super.initState();
     authController = Get.put(AuthController());
-    dataController = Get.put(DataController());
+   //// dataController = Get.put(DataController());
+    countryList = dataController.CountryListToDispatch.value ;
     colorController.text = '';
     //callRetrieveCountry();
 
