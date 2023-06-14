@@ -17,7 +17,7 @@ Widget myTextField({label, text, String? icon, bool, TextEditingController? cont
           hintStyle: TextStyle(
             fontSize: 18, color: AppColors.genderTextColor,
           ),
-          labelStyle: TextStyle(fontSize: 18, color: Colors.deepPurpleAccent),
+          labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
           hintText: text,
           labelText: label,
           prefixIcon: Image.asset(

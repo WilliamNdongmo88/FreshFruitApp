@@ -127,7 +127,7 @@ class _LoginViewState extends State<LoginView> {
                   child: myTextField(
                       bool: true,
                       icon: 'assets/icon_name.png',
-                    //  label: 'Pass',
+                      label: 'PassWord',
                       text: 'Mot de Passe',
                       validator: (String input){
                       // final bool rgx = regEx.hasMatch(input).toString() as bool;

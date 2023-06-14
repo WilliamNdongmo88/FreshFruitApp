@@ -5,7 +5,11 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_City.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Country.dart';
 
+import 'Helper classes/MA_Helper_User.dart';
+
 class DataController extends GetxController{
+  var isLoading = false.obs;
+
   List<MA_Helper_Country> CountryList = <MA_Helper_Country>[].obs;
 /*
   author: Franc TOUTCHA
@@ -100,6 +104,46 @@ class DataController extends GetxController{
         print(result['message']);
       }
       return CountryList;
+   }
+
+   Future<String> createUser(MA_Helper_User user) async{
+     isLoading(true);
+     print(FirebaseAuth.instance.currentUser);
+     print("enter in nl_manage_users");
+     String msg="empty";
+     dynamic result = await callCloudFunction('nl_manage_users', {"action": "SAVE",
+                                "user": {
+                                    "userId": user.userId,
+                                    "firstname": user.firstname,
+                                    "lastname": user.lastname,
+                                    "email": user.email,
+                                    "country": user.country,
+                                    "city": user.city,
+                                    "phone": user.phone,
+                                    "gender": user.gender
+                                }});
+     if(result['ErrorCode'] ==null){
+         if(result['message'] !=null){
+           //empty result
+           print('enter In empty response scope');
+           print(result['message']);
+           msg = "K.O.1";
+           isLoading(false);
+         }else{
+           print('enter In good response scope');
+           print(result['body'].runtimeType);
+           msg = result['body'];
+           isLoading(false);
+         }
+     }else{
+       //an error occur
+       print('enter In error response scope');
+       print(result['ErrorCode']);
+       print(result['message']);
+       msg = "K.O";
+       isLoading(false);
+     }
+     return msg;
    }
 
 

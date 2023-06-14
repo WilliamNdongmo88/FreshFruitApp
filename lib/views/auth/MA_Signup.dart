@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +6,7 @@ import 'package:money_app/utils/MA_Styles.dart';
 
 import '../../controller/Helper classes/MA_Helper_City.dart';
 import '../../controller/Helper classes/MA_Helper_Country.dart';
+import '../../controller/Helper classes/MA_Helper_User.dart';
 import '../../controller/MA_AuthController.dart';
 import '../../controller/MA_DataController.dart';
 import '../../utils/MA_Widgets.dart';
@@ -78,7 +80,7 @@ class _SignupViewState extends State<SignupView> {
       print(country.name);
     }
 
-
+    dataController.isLoading.value = false;
     /*selectedCountry = countryList[1];
     selectedCity = countryList[1]?.cities[1] as MA_Helper_City;*/
   }
@@ -100,6 +102,13 @@ class _SignupViewState extends State<SignupView> {
     selectedCountry = countryList[0];
     selectedCity = countryList[0]?.cities[0] as MA_Helper_City;
   }*/
+  String? val;
+  Future<void> callCreateUser(MA_Helper_User user) async{
+    print("*********** in the callCreatUser ***********");
+    print("the valeur of val before the await ist : $val");
+      val = await dataController.createUser(user);
+     print("the valeur of val after the await ist : $val");
+  }
 
 
   @override
@@ -146,7 +155,8 @@ class _SignupViewState extends State<SignupView> {
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/icon_name.png',
-                                      text: 'Nom',
+                                      text: 'entrez votre Nom',
+                                      label: 'Nom',
                                       validator: (String input){
                                         if(input.isEmpty ){
                                           //  Get.snackbar('Warning', 'Le Nom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
@@ -166,7 +176,8 @@ class _SignupViewState extends State<SignupView> {
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/icon_name.png',
-                                      text: 'Prenom',
+                                      label: 'Prenom',
+                                      text: 'Entrez votre Prenom',
                                       validator: (String input){
                                         if(input.isEmpty ){
                                           //  Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
@@ -185,7 +196,8 @@ class _SignupViewState extends State<SignupView> {
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/mail.png',
-                                      text: 'Email',
+                                      label: 'Email',
+                                      text: 'Renseignez Email',
                                       validator: (String input){
 
                                       },
@@ -242,8 +254,14 @@ class _SignupViewState extends State<SignupView> {
                                       });
                                     },
                                     decoration: InputDecoration(
-                                      labelText: "Pays"
+                                      labelText: "Pays",
+                                      labelStyle: TextStyle(fontSize: 18),
+                                      border: OutlineInputBorder(),
                                     ),
+
+                                ),
+                                SizedBox(
+                                  height: Get.height * 0.02,
                                 ),
                                 DropdownButtonFormField(
                                   value: selectedCity,
@@ -258,8 +276,11 @@ class _SignupViewState extends State<SignupView> {
 
                                   },
                                   decoration: InputDecoration(
-                                      labelText: "Ville"
+                                      labelText: "Ville",
+                                      labelStyle: TextStyle(fontSize: 18),
+                                      border: OutlineInputBorder(),
                                   ),
+
                                 ),
                                 SizedBox(
                                   height: Get.height * 0.01,
@@ -362,7 +383,8 @@ class _SignupViewState extends State<SignupView> {
                                 SizedBox(
                                   height: 72,
                                   child: myTextField(
-                                      bool: true,
+                                      label: 'PassWord',
+                                      bool: false,
                                       icon: 'assets/pass_icon.png',
                                       text: 'Mot de passe',
                                       validator: (String input){
@@ -430,15 +452,15 @@ class _SignupViewState extends State<SignupView> {
                                     elevatedButtonright(
                                         text: 'Précedent',
                                         onpress: (){
-                                          if(!formKey.currentState!.validate()){
+                                         /* if(!formKey.currentState!.validate()){
                                             return;
-                                          }
+                                          }*/
                                         //  Get.to(()=>LoginView2());
                                           setState(() {
                                             _isShow1 = true;
                                             _isShow2 = false;
                                           });
-
+                                          dataController.isLoading.value = false;
                                         },
                                         width: 130.0,
                                         height: 40.0,
@@ -446,16 +468,32 @@ class _SignupViewState extends State<SignupView> {
                                             Icons.chevron_left_outlined
                                         )
                                     ),
-                                    elevatedButton(
-                                      text: 'Créer un compte',
-                                      onpress: (){
-                                        if(!formKey.currentState!.validate()){
-                                          return;
-                                        }
-                                      },
-                                      width: 130.0,
-                                      height: 40.0,
+                                    Obx(()=> dataController.isLoading.value? Center(child: CircularProgressIndicator(),) :Container(
+                                      child: elevatedButton(
+                                        text: 'Créer un compte',
+                                        onpress: (){
+                                          print("**** press on Créer un compte ****");
+                                          if(!formKey.currentState!.validate()){
+                                            return;
+                                          }
+                                          MA_Helper_User usr = MA_Helper_User(
+                                              FirebaseAuth.instance.currentUser?.uid as String,
+                                            prenomController.text.trim(),
+                                            nomController.text.trim() ,
+                                            emailController.text.trim(),
+                                            selectedCountry?.id as String,
+                                            selectedCity?.id as String,
+                                            telephoneController.text.trim(),
+                                            "M"
+                                          );
+
+                                          callCreateUser(usr);
+                                        },
+                                        width: 130.0,
+                                        height: 40.0,
+                                      ),
                                     ),
+                                    )
                                   ],
                                 ),
                               ],
