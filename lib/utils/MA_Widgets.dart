@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'MA_Styles.dart';
 
-Widget myTextField({text, String? icon, bool, TextEditingController? controller,Function? validator}) {
+Widget myTextField({label, text, String? icon, bool, TextEditingController? controller,Function? validator}) {
   return Container(
     height: 50,
     child: TextFormField(
@@ -12,12 +12,14 @@ Widget myTextField({text, String? icon, bool, TextEditingController? controller,
       obscureText: bool,
       controller: controller,
       decoration: InputDecoration(
-          contentPadding:EdgeInsets.only(top: 5),
+          contentPadding:EdgeInsets.only(top: 5, bottom: 0),
         //  errorStyle: TextStyle(fontSize: 14),
           hintStyle: TextStyle(
-            color: AppColors.genderTextColor,
+            fontSize: 18, color: AppColors.genderTextColor,
           ),
+          labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
           hintText: text,
+          labelText: label,
           prefixIcon: Image.asset(
             icon!,
             cacheHeight: 20,
@@ -49,22 +51,6 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
 
   );
 }
-
-/*Widget elevateButtonRight({text, Function? onpress, Icon? icon}) {
-  return ElevatedButton(
-    onPressed: () {},
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('Download'), // <-- Text
-        SizedBox(
-        width: 5,
-        ),
-        Icon(icon),
-      ],
-    ),
-    );
-}*/
 
 Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
   return ElevatedButton.icon(   // <-- ElevatedButton
@@ -118,3 +104,36 @@ Widget socialAppsIcons({text,Function? onPressed}) {
   );
 }
 
+/*Widget dropDownmenuWithSearch({controller, menuItem, itemType}){
+  return DropdownMenu<IconLabel>(
+      controller: controller,
+      enableFilter: false,
+      leadingIcon: const Icon(Icons.search),
+      label: const Text('Icon'),
+      dropdownMenuEntries: menuItem,
+      inputDecorationTheme: const InputDecorationTheme(
+      filled: true,
+      contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+      ),
+      onSelected: (itemType? icon) {
+        setState(() {
+        selectedIcon = icon;
+        });
+
+      },
+   );
+}*/
+
+/*Widget dropDownmenu({controller, menuItem, itemType}){
+    return DropdownMenu<ColorLabel>(
+      initialSelection: ColorLabel.green,
+      controller: controller,
+      label: const Text('Color'),
+      dropdownMenuEntries: menuItem,
+      onSelected: (ColorLabel? color) {
+        setState(() {
+          selectedColor = color;
+        });
+      },
+    );
+}*/
