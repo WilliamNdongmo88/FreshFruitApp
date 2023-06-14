@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:money_app/controller/MA_DataController.dart';
+import 'package:money_app/views/app content/MA_Provider_CheckUser.dart';
 
+import '../views/auth/MA_Login.dart';
 import '../views/auth/MA_Signup.dart';
 import 'Helper classes/MA_Helper_Country.dart';
 
@@ -43,9 +45,7 @@ class AuthController extends GetxController{
         .then((value) {
       /// Login Sucess
       isLoading(false);
-     // Get.to(()=> HomeScreen());
-      Get.to(()=> SignupView(), arguments: listCountry);
-
+      ///go to dashboard directly
     } ).catchError((e) {
       isLoading(false);
       //Get.snackbar('Error',"$e");
@@ -59,6 +59,7 @@ class AuthController extends GetxController{
       print("********** in the logout function ***************");
       auth.signOut().then((value){
         print("*********  Succesfully logout *******");
+        Get.to(()=> LoginView());
       }).catchError((e){
       print("*** Error when Logging Out $e");
       });
@@ -85,7 +86,7 @@ class AuthController extends GetxController{
 
       ///SuccessFull loged in
       //Get.to(() => BottomBarView());
-      Get.to(()=> SignupView());
+      Get.to(()=> AppContent());
     }).catchError((e) {
       /// Error in getting Login
       isLoading(false);
