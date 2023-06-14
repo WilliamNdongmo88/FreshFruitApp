@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:money_app/controller/Helper%20classes/MA_Helper_Country.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 import 'package:get/get.dart';
+import 'package:money_app/views/MA_LoadingPage.dart';
 import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      login-and-signup
       home: AppWrapper(),
     );
   }
@@ -76,7 +78,3 @@ class AppWrapper extends StatelessWidget {
   }
 
 }
-
-
-
-
