@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      login-and-signup
       home: AppWrapper(),
     );
   }
