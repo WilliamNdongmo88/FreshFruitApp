@@ -1,43 +1,58 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
+import '../MA_DevisesPage.dart';
+import '../MA_SettingsPage.dart';
+import '../MA_TransactionPage.dart';
 
 class TransactionListScreen extends StatefulWidget {
+  bool check;
   static const transactionListScreen = '/';
-  const TransactionListScreen({super.key});
+  static const settingspage = '/SettingsPage';
+  static const devisespage = '/DevisesPage';
+  static const transactionpage = '/TransactionPage';
+
+  TransactionListScreen({super.key, required this.check});
 
   @override
-  State<TransactionListScreen> createState() => TransactionListScreenState();
+  State<TransactionListScreen> createState() =>
+      TransactionListScreenState(this.check);
 }
 
 class TransactionListScreenState extends State<TransactionListScreen> {
   final List<TransactionItem> transactions = [
-    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD", "Yaoundé",
-        "Lun06 mai2023"),
-    TransactionItem("En cours", "Tcheuffa Evariste", "Autorenew", "750.00 USD",
-        "Yaoundé", "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "Cancel", "1350.00 USD",
-        "Yaoundé", "Lun06 mai2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500.00 USD", "Yaoundé",
-        "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD", "Yaoundé",
-        "Lun06 mai2023"),
-    TransactionItem("En cours", "Tcheuffa Evariste", "Autorenew", "750.00 USD",
-        "Yaoundé", "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "Cancel", "1350.00 USD",
-        "Yaoundé", "Lun06 mai2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600.00 USD", "Yaoundé",
-        "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD", "Yaoundé",
-        "Lun06 mai2023"),
+    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD",
+        "USA", "Lundi 06 mai 2023"),
+    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
+        "750.00 USD", "USA", "Lundi 06 mai 2023"),
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350.00 USD",
+        "USA", "Lundi 06 mai 2023"),
+    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500.00 USD",
+        "USA", "Lun08 mai2023"),
+    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD",
+        "USA", "Lundi 06 mai 2023"),
+    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
+        "750.00 USD", "USA", "Lun08 mai2023"),
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350.00 USD",
+        "USA", "Lundi 06 mai 2023"),
+    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600.00 USD",
+        "USA", "Lun08 mai2023"),
+    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD",
+        "USA", "Lundi 06 mai 2023"),
   ];
-  Map myMap = {"numero_transaction": "8745126554988", "status": "Terminé"};
+  Map myMap = {"checkVal": false};
+  bool check;
+  TransactionListScreenState(this.check);
   var txt = '';
+  int currentIndex = 0;
   void funChange(changetxt) {
     setState(() {
-      txt = changetxt;
+      // currentIndex = changetxt;
+      // print('currentIndex--> $currentIndex');
+      // txt = changetxt;
     });
   }
 
@@ -46,81 +61,55 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     List<TransactionItemToFireBase> alltransactions = [];
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 240, 238, 238),
-        elevation: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Padding(
-              padding: EdgeInsets.only(left: 0),
-            ),
-            Text(
-              "Bonjour,",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 75, 67, 67), fontSize: 12),
-            ),
-            Text(
-              "Lisa Camilla",
-              style: TextStyle(color: Colors.black, fontSize: 15),
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              // onTap: () {
-              //   Navigator.push(context,
-              //       MaterialPageRoute(builder: (context) => ProfileScreen()));
-              // },
-              child: Icon(
-                Icons.account_circle,
-                size: 26.0,
-                color: Color.fromRGBO(242, 78, 30, 1),
-              ),
-            ),
-          ),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.notifications,
-                  size: 26.0,
-                  color: Color.fromRGBO(242, 78, 30, 1),
-                ),
-              )),
-        ],
-      ),
-      body: 
-      // StreamBuilder<QuerySnapshot>(
-      //   stream: FirebaseFirestore.instance
-      //       .collection("users")
-      //       .orderBy('name')
-      //       .snapshots(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasError) {
-      //       return Center(
-      //         child: Text("An has Error occured"),
-      //       );
-      //     }
-      //     if (snapshot.hasData) {
-      //       alltransactions = snapshot.data!.docs
-      //           .map((elt) => TransactionItemToFireBase.fromJson(
-      //               elt.data() as Map<String, dynamic>))
-      //           .toList();
-      //       return ListView.builder(
-      //           itemCount: alltransactions.length,
-      //           itemBuilder: (context, index) {
-      //             return Text(alltransactions[index].status);
-      //           });
-      //     } else {
-      //       return const Center(child: CircularProgressIndicator());
-      //     }
-      //   },
+      // appBar: AppBar(
+      //   backgroundColor: Color.fromARGB(255, 240, 238, 238),
+      //   elevation: 0,
+      //   title: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: const [
+      //       Padding(
+      //         padding: EdgeInsets.only(left: 0),
+      //       ),
+      //       Text(
+      //         "Bonjour,",
+      //         style: TextStyle(
+      //             color: Color.fromARGB(255, 75, 67, 67), fontSize: 12),
+      //       ),
+      //       Text(
+      //         "Lisa Camilla",
+      //         style: TextStyle(color: Colors.black, fontSize: 15),
+      //       ),
+      //     ],
+      //   ),
+      //   actions: <Widget>[
+      //     Padding(
+      //       padding: EdgeInsets.only(right: 20.0),
+      //       child: GestureDetector(
+      //         // onTap: () {
+      //         //   Navigator.push(context,
+      //         //       MaterialPageRoute(builder: (context) => ProfileScreen()));
+      //         // },
+      //         child: Icon(
+      //           Icons.account_circle,
+      //           size: 26.0,
+      //           color: Color.fromRGBO(242, 78, 30, 1),
+      //         ),
+      //       ),
+      //     ),
+      //     Padding(
+      //         padding: EdgeInsets.only(right: 20.0),
+      //         child: GestureDetector(
+      //           onTap: () {},
+      //           child: Icon(
+      //             Icons.notifications,
+      //             size: 26.0,
+      //             color: Color.fromRGBO(242, 78, 30, 1),
+      //           ),
+      //       )
+      //     ),
+      //   ],
       // ),
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SafeArea(
@@ -128,7 +117,66 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                 children: [
                   Stack(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:10,right: 20, left: 20, bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                  ),
+                                  Text(
+                                    "Bonjour,",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 75, 67, 67),
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Lisa Camilla",
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 20.0),
+                                    child: GestureDetector(
+                                      // onTap: () {
+                                      //   Navigator.push(context,
+                                      //       MaterialPageRoute(builder: (context) => ProfileScreen()));
+                                      // },
+                                      child: const Icon(
+                                        Icons.account_circle,
+                                        size: 40,
+                                        color: Color.fromRGBO(242, 78, 30, 1),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.only(right: 20.0),
+                                      child: GestureDetector(
+                                        onTap: () {},
+                                        child: const Icon(
+                                          Icons.notifications,
+                                          size: 40,
+                                          color: Color.fromRGBO(242, 78, 30, 1),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Container(
+                        margin: EdgeInsets.only(top: 60),
                         width: double.infinity,
                         height: 130,
                         decoration: const BoxDecoration(
@@ -142,96 +190,93 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(txt),
-                            // buildIconButton(
-                            //     iconColor: Color.fromRGBO(17, 16, 15, 1),
-                            //     iconButton: Icons.settings,
-                            //     buttonText: '',
-                            //     fontSizeIcon: 35,
-                            //     callBackFunction: funChange),
-                            // Text(
-                            //   txt,
-                            //   style: TextStyle(
-                            //       color: Colors.white70, fontSize: 15),
-                            // ),
-                            // SizedBox(
-                            //   height: 5,
-                            // ),
-                            // Text(
-                            //   '540,250.50 USD',
-                            //   style:
-                            //       TextStyle(color: Colors.white, fontSize: 40),
-                            // ),
                           ],
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 100),
+                        margin: EdgeInsets.only(top: 140),
                         width: double.infinity,
-                        height: 90,
+                        height: 80,
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 240, 238, 238),
+                          color: const Color.fromRGBO(255, 255, 255, 1),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
                           ),
                         ),
-                        padding: EdgeInsets.all(32),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'Mes transactions',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                        padding: EdgeInsets.only(left:15, right: 15),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 35),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      'Mes transactions',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 20.0),
-                              child: GestureDetector(
-                                  onTap: () {},
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        'Tout voir',
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.grey,
-                                          fontSize: 15,
+                              Padding(
+                                padding: EdgeInsets.only(right: 20.0),
+                                child: GestureDetector(
+                                    onTap: () {},
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(top: 8),
+                                          child: Text(
+                                            'Tout voir',
+                                            style: GoogleFonts.inter(
+                                              decoration: TextDecoration.underline,
+                                              fontSize: 12,
+                                              fontStyle: FontStyle.normal,
+                                              color: Color.fromARGB(255, 40, 38, 38),
+                                            ),
+                                            // style: TextStyle(
+                                            //   decoration: TextDecoration.underline,
+                                            //   color: Colors.grey,
+                                            //   fontSize: 15,
+                                            //   fontWeight: FontWeight.bold
+                                            // ),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )),
-                            )
-                          ],
+                                      ],
+                                    )),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 170),
+                        margin: EdgeInsets.only(top: 210),
                         width: double.infinity,
-                        height: 535,
+                        height: 600,
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 240, 238, 238),
+                          color: const Color.fromRGBO(255, 255, 255, 1),
                           // borderRadius: BorderRadius.only(
                           //   topLeft: Radius.circular(20),
                           // ),
                         ),
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.only(left:15, right: 15),
                         child: Row(
                           children: [
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context,
-                                      TransactionScreen.transactionScreenPage,
-                                      arguments: myMap);
+                                  // Navigator.pushNamed(context,
+                                  //     TransactionScreen.transactionScreenPage,arguments: 'myMap');
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => TransactionScreen(
+                                          transaction: transactions,
+                                          myMap: myMap)));
                                 },
                                 child: ListView.builder(
                                     scrollDirection: Axis.vertical,
@@ -259,15 +304,20 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                         ),
                       ),
                       Positioned(
-                        top: 70,
+                        top: 120,
                         right: 10,
                         child: Column(
                           children: [
                             FloatingActionButton.extended(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Color.fromRGBO(25, 47, 93, 1),
-                              icon: const Icon(Icons.sync_outlined),
-                              label: const Text('Initier une transaction'),
+                              foregroundColor: const Color.fromRGBO(255, 255, 255, 1),
+                              backgroundColor: Color.fromRGBO(11, 47, 125, 1),
+                              icon: SvgPicture.asset(
+                                'assets/transaction.svg',
+                                width: 35,
+                                // ignore: deprecated_member_use
+                                color:const Color.fromRGBO(255, 255, 255, 1),
+                              ),
+                              label: const Text('Initier une transaction', style: TextStyle(fontSize: 18)),
                               elevation: 10,
                               onPressed: () {},
                             ),
