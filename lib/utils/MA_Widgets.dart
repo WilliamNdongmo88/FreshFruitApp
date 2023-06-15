@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'MA_Styles.dart';
+import 'MA_TransactionItem.dart';
 
 Widget myTextField({label, text, String? icon, bool, TextEditingController? controller,Function? validator}) {
   return Container(
