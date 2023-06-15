@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'MA_Styles.dart';
-import 'MA_TransactionItem.dart';
 
-Widget myTextField(
-    {text,
-    String? icon,
-    bool,
-    TextEditingController? controller,
-    Function? validator}) {
+Widget myTextField({label, text, String? icon, bool, TextEditingController? controller,Function? validator}) {
   return Container(
     height: 50,
     child: TextFormField(
-      validator: (input) => validator!(input),
+
+      validator: (input)=> validator!(input),
       obscureText: bool,
       controller: controller,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(top: 5),
+          contentPadding:EdgeInsets.only(top: 5, bottom: 0),
         //  errorStyle: TextStyle(fontSize: 14),
-        hintStyle: TextStyle(
-          color: AppColors.genderTextColor,
-        ),
-        hintText: text,
-        prefixIcon: Image.asset(
-          icon!,
-          cacheHeight: 20,
-        ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-        focusedBorder:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+          hintStyle: TextStyle(
+            fontSize: 18, color: AppColors.genderTextColor,
+          ),
+          labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
+          hintText: text,
+          labelText: label,
+          prefixIcon: Image.asset(
+            icon!,
+            cacheHeight: 20,
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
     ),
   );
@@ -46,34 +41,19 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
       onpress!();
     },
     child: Text(
-      text,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
+          text,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+
   );
 }
 
-/*Widget elevateButtonRight({text, Function? onpress, Icon? icon}) {
-  return ElevatedButton(
-    onPressed: () {},
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('Download'), // <-- Text
-        SizedBox(
-        width: 5,
-        ),
-        Icon(icon),
-      ],
-    ),
-    );
-}*/
-
-Widget elevatedButtonright({text, Function? onpress, width, height, icon}) {
-  return ElevatedButton.icon(
-    // <-- ElevatedButton
+Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
+  return ElevatedButton.icon(   // <-- ElevatedButton
     style: ElevatedButton.styleFrom(
       minimumSize: Size(width, height),
       backgroundColor: AppColors.orange,
@@ -91,14 +71,11 @@ Widget elevatedButtonright({text, Function? onpress, width, height, icon}) {
   );
 }
 
-Widget textButton({text, fontSize, Color? color}) {
-  return TextButton(
-    onPressed: null,
-    child: Text(
-      text,
-      style: GoogleFonts.dmSans(color: color, fontSize: fontSize),
-    ),
-  );
+Widget textButton({text, fontSize, Color? color}){
+    return TextButton(
+      onPressed: null,
+      child: Text(text, style: GoogleFonts.dmSans(color: color, fontSize: fontSize),),
+      );
 }
 
 Widget myText({text, style, textAlign}) {
@@ -110,14 +87,15 @@ Widget myText({text, style, textAlign}) {
   );
 }
 
-Widget socialAppsIcons({text, Function? onPressed}) {
+Widget socialAppsIcons({text,Function? onPressed}) {
   return InkWell(
-    onTap: () => onPressed!(),
+    onTap: ()=> onPressed!(),
     child: Container(
       margin: EdgeInsets.all(10),
       width: 48,
       height: 48,
       decoration: BoxDecoration(
+
         image: DecorationImage(
           image: AssetImage(text),
         ),
@@ -173,7 +151,7 @@ Widget fieldInput({
 
 /**
  * William Ndongmo
- * 
+ *
  * Call the buildIconButton widget as following
  * buildIconButton(
  *                  iconColor: your_iconColor
@@ -229,7 +207,7 @@ Widget buildIconButton(
 
 /**
  * William Ndongmo
- * 
+ *
  * Call the buildIconButtonSvg widget as following
  * buildIconButton(
  *                  iconColor: your_iconColor
@@ -270,7 +248,7 @@ Widget buildIconButtonSvg(
 
 /**
  * William Ndongmo
- * 
+ *
  * Call the cardItem widget as following
  * cardItem(transaction: transaction)
  * transaction  est une liste d'elements
@@ -424,7 +402,7 @@ Widget cardItem({required TransactionItem transaction}) {
 
 /**
  * William Ndongmo
- * 
+ *
  * Call the getFooter widget as following
  * getFooter(callBackFunction: myFunction)
  * myFunction is a function that get the name of the icon that was clicked
@@ -508,3 +486,36 @@ class _getFooterState extends State<getFooter> {
     );
   }
 }
+/*Widget dropDownmenuWithSearch({controller, menuItem, itemType}){
+  return DropdownMenu<IconLabel>(
+      controller: controller,
+      enableFilter: false,
+      leadingIcon: const Icon(Icons.search),
+      label: const Text('Icon'),
+      dropdownMenuEntries: menuItem,
+      inputDecorationTheme: const InputDecorationTheme(
+      filled: true,
+      contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+      ),
+      onSelected: (itemType? icon) {
+        setState(() {
+        selectedIcon = icon;
+        });
+
+      },
+   );
+}*/
+
+/*Widget dropDownmenu({controller, menuItem, itemType}){
+    return DropdownMenu<ColorLabel>(
+      initialSelection: ColorLabel.green,
+      controller: controller,
+      label: const Text('Color'),
+      dropdownMenuEntries: menuItem,
+      onSelected: (ColorLabel? color) {
+        setState(() {
+          selectedColor = color;
+        });
+      },
+    );
+}*/
