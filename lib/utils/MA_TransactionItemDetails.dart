@@ -3,19 +3,29 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../views/MA_DevisesPage.dart';
+import '../views/MA_SettingsPage.dart';
+import '../views/MA_TransactionPage.dart';
+import '../views/homePage/MA_homePage.dart';
 import 'MA_CallableWidget.dart';
+import 'MA_TransactionItem.dart';
 import 'MA_Widgets.dart';
 
 class TransactionScreen extends StatefulWidget {
+  List<TransactionItem> transaction;
+  Map myMap;
   static const transactionScreenPage = '/TransactionScreen';
-  const TransactionScreen({super.key});
+  TransactionScreen({super.key, required this.transaction, required this.myMap});
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState();
+  State<TransactionScreen> createState() => _TransactionScreenState(this.transaction, this.myMap);
 }
 
-class _TransactionScreenState extends State<TransactionScreen>
-    with TickerProviderStateMixin {
+class _TransactionScreenState extends State<TransactionScreen> with TickerProviderStateMixin {
+  List<TransactionItem> transaction;
+  Map myMap;
+  bool check = true;
+  _TransactionScreenState(this.transaction, this.myMap);
   var txt = 'Nom du bénéficiaire';
   void funChange(changetxt) {
     setState(() {
@@ -26,7 +36,23 @@ class _TransactionScreenState extends State<TransactionScreen>
           builder: (ctx) => Center(
               child: GetDataForm(ctx: ctx, callBackFunction: funInputChange)),
         );
+      } else if (changetxt == 'WithoutLabel') {
+        Navigator.pushNamed(
+            context, TransactionListScreen.transactionListScreen);
       }
+    });
+  }
+
+  void funChange2(changetxt) {
+    setState(() {
+      // currentIndex = changetxt;
+      // print('currentIndex--> $currentIndex');
+      // txt = changetxt;
+      if (changetxt == 0) {
+        Navigator.pushNamed(context, TransactionListScreen.transactionListScreen);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => TransactionListScreen(check: check)));
+      } 
     });
   }
 
@@ -48,7 +74,7 @@ class _TransactionScreenState extends State<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
-    var message = ModalRoute.of(context)?.settings.arguments;
+    String message = ModalRoute.of(context)?.settings.arguments as String;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(
@@ -107,20 +133,13 @@ class _TransactionScreenState extends State<TransactionScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // buildIconButton(
-                    //     iconColor: Color.fromRGBO(17, 16, 15, 1),
-                    //     iconButton: Icons.settings,
-                    //     buttonText: '',
-                    //     fontSizeIcon: 35,
-                    //     callBackFunction: funChange),
                     Container(
                       margin: const EdgeInsets.only(top: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            txt,
-                            // message,
+                            transaction[0].status,
                             style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 15,
@@ -289,7 +308,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                                           tabs[index],
                                           style: GoogleFonts.laila(
                                               fontSize:
-                                                  current == index ? 18 : 16,
+                                              current == index ? 18 : 16,
                                               fontWeight: FontWeight.w500,
                                               color: current == index
                                                   ? Color.fromRGBO(
@@ -327,7 +346,7 @@ class _TransactionScreenState extends State<TransactionScreen>
         ),
       ),
 
-      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      bottomNavigationBar: getFooter(callBackFunction: funChange2),
     );
   }
 }
