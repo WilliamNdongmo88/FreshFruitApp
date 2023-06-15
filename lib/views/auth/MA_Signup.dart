@@ -195,49 +195,9 @@ class _SignupViewState extends State<SignupView> {
                                   height: Get.height * 0.01,
                                 ),
                                 SizedBox(
-                                  height: 75,
-                                  child: myTextField(
-                                      bool: false,
-                                      icon: 'assets/mail.png',
-                                      label: 'Email',
-                                      text: 'Renseignez Email',
-                                      validator: (String input){
-
-                                      },
-                                      controller: emailController
-                                  ),
-                                ),
-                                SizedBox(
                                   height: Get.height * 0.01,
                                 ),
-                                /*SizedBox(
-                                  height: 75,
-                                  child: myTextField(
-                                      bool: false,
-                                      icon: 'assets/flag.png',
-                                      text: 'Pays',
-                                      validator: (String input){
-                                        if(input.isEmpty){
-                                          // Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                                          return 'Veillez renseigner le pays';
-                                        }
 
-                                      },
-                                      controller: paysController
-                                  ),
-                                ),*/
-                               /* DropdownMenu<MA_Helper_Country>(
-                                  width: 100,
-                                 // initialSelection: ColorLabel.green,
-                                  controller: colorController,
-                                  label: const Text('Color'),
-                                  dropdownMenuEntries: countryEntries,
-                                  onSelected: (MA_Helper_Country? country) {
-                                    setState(() {
-                                      selectedColor = country;
-                                    });
-                                  },
-                                ),*/
                                 DropdownButtonFormField(
                                     value: selectedCountry,
                                     items: countryList.map(

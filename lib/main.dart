@@ -29,12 +29,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: AppColors.mainAppColor),
+     /* theme: ThemeData(primarySwatch: AppColors.mainAppColor),
       initialRoute: '/',
       routes: {
         TransactionListScreen.transactionListScreen: (context) => const TransactionListScreen(),
         TransactionScreen.transactionScreenPage: (context) => TransactionScreen(),
-      },
+      },*/
       home: AppWrapper(),
     );
   }
@@ -51,7 +51,8 @@ class AppWrapper extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //spinner of the application
-          return Center(child: CircularProgressIndicator());
+          //return Center(child: CircularProgressIndicator());
+          return LoadingView();
         } else if (snapshot.hasError) {
           //error screen
           return Center(child: Text('Error: ${snapshot.error}'));

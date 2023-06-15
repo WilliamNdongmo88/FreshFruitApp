@@ -73,9 +73,11 @@ Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
   );
 }
 
-Widget textButton({text, fontSize, Color? color}){
+Widget textButton({text, Function? onpress, fontSize, Color? color}){
     return TextButton(
-      onPressed: null,
+      onPressed: (){
+        onpress!();
+      },
       child: Text(text, style: GoogleFonts.dmSans(color: color, fontSize: fontSize),),
       );
 }
@@ -488,6 +490,21 @@ class _getFooterState extends State<getFooter> {
     );
   }
 }
+
+/*Widget dropDownbouton({controller, menuItem, itemType}){
+    return DropdownButtonFormField(
+      initialSelection: ColorLabel.green,
+      controller: controller,
+      label: const Text('Color'),
+      dropdownMenuEntries: menuItem,
+      onSelected: (ColorLabel? color) {
+        setState(() {
+          selectedColor = color;
+        });
+      },
+    );
+}*/
+
 /*Widget dropDownmenuWithSearch({controller, menuItem, itemType}){
   return DropdownMenu<IconLabel>(
       controller: controller,
@@ -508,16 +525,4 @@ class _getFooterState extends State<getFooter> {
    );
 }*/
 
-/*Widget dropDownmenu({controller, menuItem, itemType}){
-    return DropdownMenu<ColorLabel>(
-      initialSelection: ColorLabel.green,
-      controller: controller,
-      label: const Text('Color'),
-      dropdownMenuEntries: menuItem,
-      onSelected: (ColorLabel? color) {
-        setState(() {
-          selectedColor = color;
-        });
-      },
-    );
-}*/
+

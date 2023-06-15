@@ -23,11 +23,7 @@ class AuthController extends GetxController{
         .then((value) {
       isLoading(false);
       ///retrieve Country and cities
-        retrieveCountry().then((value) => {
-          Get.to(()=> SignupView())
-        }).catchError((e){
-          print("Error when retrieving $e");
-        });
+       Get.to(()=> SignupView());
       /// Navigate user to profile screen
 
     }).catchError((e) {
@@ -37,7 +33,7 @@ class AuthController extends GetxController{
     });
   }
 
-  void login({String? email, String? password, List<MA_Helper_Country>? listCountry}){
+  void login({String? email, String? password}){
     print("in the login fonction");
     isLoading(true);
 

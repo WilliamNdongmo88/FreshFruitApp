@@ -16,6 +16,27 @@ class LoadingView extends StatefulWidget {
 
 class _LoadingViewState extends State<LoadingView>
     with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    );
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_animationController);
+
+    _animationController.repeat();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose(); // Cancel the animation and dispose of the controller
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +85,9 @@ class _LoadingViewState extends State<LoadingView>
                   SpinKitFadingCircle(
                     color: Color.fromARGB(240, 248, 61, 4),
                     size: 126.0,
-                    controller: AnimationController(
+                    controller: _animationController,/*AnimationController(
                         vsync: this,
-                        duration: const Duration(milliseconds: 120)),
+                        duration: const Duration(milliseconds: 2500))*/
                   )
                 ]))));
   }
