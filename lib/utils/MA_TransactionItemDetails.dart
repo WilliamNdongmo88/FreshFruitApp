@@ -74,7 +74,6 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    String message = ModalRoute.of(context)?.settings.arguments as String;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(
@@ -330,6 +329,7 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           tabDetails(
+                              transaction:transaction,
                               valueTab: tabs[current],
                               callBackFunction: funChange,
                               valueOfBool: valueOfBool,

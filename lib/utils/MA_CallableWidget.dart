@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'MA_TransactionItem.dart';
+
 //Will Code Start
 
 Widget fieldInput({
@@ -49,10 +51,11 @@ Widget fieldInput({
 Widget tabDetails(
     {String? valueTab,
     Function? callBackFunction,
+    List<TransactionItem>? transaction,
     bool? valueOfBool,
     String? codeReception}) {
   if (valueTab == 'Transaction') {
-    return tabTransaction();
+    return tabTransaction(transaction);
   } else if (valueTab == 'Destinataire') {
     print('-->codeReception $codeReception');
     return tabDestinataire(callBackFunction, valueOfBool!, codeReception!);
@@ -61,7 +64,8 @@ Widget tabDetails(
   }
 }
 
-Widget tabTransaction() {
+Widget tabTransaction(transaction) {
+  int frais = 20;
   return Padding(
     padding: const EdgeInsets.only(left: 30, right: 30),
     child: Container(
@@ -147,45 +151,8 @@ Widget tabTransaction() {
             ),
             child: fieldInput(
                 topText: 'Status',
-                bottomText: 'En Attente',
+                bottomText: transaction[0].status,
                 svgLink: 'assets/spinner.svg'),
-            // Container(
-            //   margin: const EdgeInsets.only(top: 15),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: const [
-            //             Text(
-            //               "Status",
-            //               style: TextStyle(
-            //                   color: Color.fromRGBO(79, 79, 79, 1),
-            //                   fontSize: 15),
-            //             ),
-            //             SizedBox(
-            //               height: 10,
-            //             ),
-            //             Text(
-            //               'En Attente',
-            //               style: TextStyle(
-            //                   color: Colors.black,
-            //                   fontSize: 15,
-            //                   fontWeight: FontWeight.bold),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //       Container(
-            //         margin: EdgeInsets.only(bottom: 5),
-            //         child: SvgPicture.asset('assets/spinner.svg',
-            //             width: 30,
-            //             // ignore: deprecated_member_use
-            //             color: Color.fromRGBO(246, 60, 3, 1)),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ),
           SizedBox(
             height: 15,
@@ -205,7 +172,7 @@ Widget tabTransaction() {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Montant",
                           style: TextStyle(
@@ -216,7 +183,7 @@ Widget tabTransaction() {
                           height: 10,
                         ),
                         Text(
-                          '450 USD',
+                          transaction[0].amont,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -229,7 +196,7 @@ Widget tabTransaction() {
                     margin: EdgeInsets.only(right: 100),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Frais",
                           style: TextStyle(
@@ -240,7 +207,7 @@ Widget tabTransaction() {
                           height: 10,
                         ),
                         Text(
-                          '20 USD',
+                          '$frais USD',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -279,7 +246,7 @@ Widget tabTransaction() {
                     Container(
                       // margin: const EdgeInsets.only(right: 25),
                       child: Text(
-                        '470 USD',
+                        '${int.parse(transaction[0].amont) + frais} USD',
                         style: TextStyle(
                             color: Color.fromRGBO(246, 60, 3, 1),
                             fontSize: 35,

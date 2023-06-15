@@ -24,23 +24,23 @@ class TransactionListScreen extends StatefulWidget {
 
 class TransactionListScreenState extends State<TransactionListScreen> {
   final List<TransactionItem> transactions = [
-    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD",
+    TransactionItem("Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
     TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
-        "750.00 USD", "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350.00 USD",
+        "750", "USA", "Lundi 06 mai 2023"),
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500.00 USD",
+    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500",
         "USA", "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD",
+    TransactionItem("Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
     TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
-        "750.00 USD", "USA", "Lun08 mai2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350.00 USD",
+        "750", "USA", "Lun08 mai2023"),
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600.00 USD",
+    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600",
         "USA", "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450.00 USD",
+    TransactionItem("Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
   ];
   Map myMap = {"checkVal": false};
@@ -297,7 +297,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                           },
                                           child: cardItem(
                                               transaction: transaction));
-                                    }),
+                                    }
+                                  ),
                               ),
                             ),
                           ],
