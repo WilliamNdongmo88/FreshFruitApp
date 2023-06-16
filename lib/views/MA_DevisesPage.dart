@@ -30,7 +30,7 @@ class _DevisesPageState extends State<DevisesPage> {
       body: Center(
         child: Text('Devises page'),
       ),
-      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:2),
     );
   }
 }

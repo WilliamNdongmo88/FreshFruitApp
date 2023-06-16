@@ -24,26 +24,25 @@ class TransactionListScreen extends StatefulWidget {
 
 class TransactionListScreenState extends State<TransactionListScreen> {
   final List<TransactionItem> transactions = [
-    TransactionItem("Terminé", "William Ndongmo", "check", "450",
+    TransactionItem(1,"Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
+    TransactionItem(2,"En Traitement", "Tcheuffa Evariste", "traitement",
         "750", "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
+    TransactionItem(3,"En Attente", "William Ndongmo", "attente", "1350",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500",
+    TransactionItem(4,"Terminé", "Ndongmo Thierry", "check", "500",
         "USA", "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450",
+    TransactionItem(5,"Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
+    TransactionItem(6,"En Traitement", "Tcheuffa Evariste", "traitement",
         "750", "USA", "Lun08 mai2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
+    TransactionItem(7,"En Attente", "William Ndongmo", "attente", "1350",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600",
+    TransactionItem(8,"Terminé", "Ndongmo Thierry", "check", "600",
         "USA", "Lun08 mai2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450",
+    TransactionItem(9,"Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
   ];
-  Map myMap = {"checkVal": false};
   bool check;
   TransactionListScreenState(this.check);
   var txt = '';
@@ -125,9 +124,6 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                  ),
                                   Text(
                                     "Bonjour,",
                                     style: TextStyle(
@@ -258,7 +254,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                       Container(
                         margin: EdgeInsets.only(top: 210),
                         width: double.infinity,
-                        height: 600,
+                        height: 545,
                         decoration: const BoxDecoration(
                           color: const Color.fromRGBO(255, 255, 255, 1),
                           // borderRadius: BorderRadius.only(
@@ -269,36 +265,31 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                         child: Row(
                           children: [
                             Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  // Navigator.pushNamed(context,
-                                  //     TransactionScreen.transactionScreenPage,arguments: 'myMap');
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => TransactionScreen(
-                                          transaction: transactions,
-                                          myMap: myMap)));
-                                },
-                                child: ListView.builder(
+                              child: ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
                                     itemCount: transactions.length,
                                     itemBuilder: (context, index) {
                                       final transaction = transactions[index];
-                                      return Dismissible(
-                                          key: Key(transaction.user),
-                                          onDismissed: (direction) {
-                                            setState(() {
-                                              transactions.removeAt(index);
-                                            });
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                                        "${transaction.user} supprimé")));
-                                          },
-                                          child: cardItem(
-                                              transaction: transaction));
+                                      return ListTile(
+                                        title: Dismissible(
+                                            key: Key(transaction.user),
+                                            onDismissed: (direction) {
+                                              setState(() {
+                                                transactions.removeAt(index);
+                                              });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          "${transaction.user} supprimé")));
+                                            },
+                                            child: cardItem(transaction: transaction)),
+                                            onTap: () {
+                                              Navigator.of(context).push( MaterialPageRoute(
+                                                  builder: (context) =>TransactionScreen(transaction:transactions, index: index)));
+                                        },
+                                      );
                                     }
-                                  ),
                               ),
                             ),
                           ],
@@ -333,7 +324,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:0),
     );
   }
 }

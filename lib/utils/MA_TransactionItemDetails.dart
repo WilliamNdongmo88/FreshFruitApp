@@ -13,19 +13,22 @@ import 'MA_Widgets.dart';
 
 class TransactionScreen extends StatefulWidget {
   List<TransactionItem> transaction;
-  Map myMap;
+  int index;
   static const transactionScreenPage = '/TransactionScreen';
-  TransactionScreen({super.key, required this.transaction, required this.myMap});
+  TransactionScreen(
+      {super.key, required this.transaction, required this.index});
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState(this.transaction, this.myMap);
+  State<TransactionScreen> createState() =>
+      _TransactionScreenState(this.transaction, this.index);
 }
 
-class _TransactionScreenState extends State<TransactionScreen> with TickerProviderStateMixin {
+class _TransactionScreenState extends State<TransactionScreen>
+    with TickerProviderStateMixin {
   List<TransactionItem> transaction;
-  Map myMap;
+  int index;
   bool check = true;
-  _TransactionScreenState(this.transaction, this.myMap);
+  _TransactionScreenState(this.transaction, this.index);
   var txt = 'Nom du bénéficiaire';
   void funChange(changetxt) {
     setState(() {
@@ -49,10 +52,11 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
       // print('currentIndex--> $currentIndex');
       // txt = changetxt;
       if (changetxt == 0) {
-        Navigator.pushNamed(context, TransactionListScreen.transactionListScreen);
+        Navigator.pushNamed(
+            context, TransactionListScreen.transactionListScreen);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => TransactionListScreen(check: check)));
-      } 
+      }
     });
   }
 
@@ -138,7 +142,7 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            transaction[0].status,
+                            '$index',
                             style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 15,
@@ -307,7 +311,7 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
                                           tabs[index],
                                           style: GoogleFonts.laila(
                                               fontSize:
-                                              current == index ? 18 : 16,
+                                                  current == index ? 18 : 16,
                                               fontWeight: FontWeight.w500,
                                               color: current == index
                                                   ? Color.fromRGBO(
@@ -329,7 +333,8 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           tabDetails(
-                              transaction:transaction,
+                              index:index,
+                              transaction: transaction,
                               valueTab: tabs[current],
                               callBackFunction: funChange,
                               valueOfBool: valueOfBool,
@@ -346,7 +351,7 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
         ),
       ),
 
-      bottomNavigationBar: getFooter(callBackFunction: funChange2),
+      bottomNavigationBar: getFooter(callBackFunction: funChange2, currentIndex:1),
     );
   }
 }

@@ -2,60 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'MA_TransactionItem.dart';
+import 'MA_Widgets.dart';
 
 //Will Code Start
 
-Widget fieldInput({
-  required String topText,
-  required String bottomText,
-  required String svgLink,
-}) {
-  return Container(
-    margin: const EdgeInsets.only(top: 15),
-    child: Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                topText,
-                style: TextStyle(
-                    color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                bottomText,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(bottom: 5), //'assets/spinner.svg'
-          child: SvgPicture.asset(svgLink,
-              width: 30,
-              // ignore: deprecated_member_use
-              color: Color.fromRGBO(246, 60, 3, 1)),
-        ),
-      ],
-    ),
-  );
-}
 
 Widget tabDetails(
     {String? valueTab,
     Function? callBackFunction,
     List<TransactionItem>? transaction,
+    int? index,
     bool? valueOfBool,
     String? codeReception}) {
   if (valueTab == 'Transaction') {
-    return tabTransaction(transaction);
+    return tabTransaction(transaction, index);
   } else if (valueTab == 'Destinataire') {
     print('-->codeReception $codeReception');
     return tabDestinataire(callBackFunction, valueOfBool!, codeReception!);
@@ -64,202 +24,91 @@ Widget tabDetails(
   }
 }
 
-Widget tabTransaction(transaction) {
+Widget tabTransaction(transaction, index) {
   int frais = 20;
   return Padding(
     padding: const EdgeInsets.only(left: 30, right: 30),
-    child: Container(
-      child: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "N° Transaction",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '65214789471',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Date de creation",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '26/05/2023',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: fieldInput(
-                topText: 'Status',
-                bottomText: transaction[0].status,
-                svgLink: 'assets/spinner.svg'),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
+    child: Column(
+      children: [
+        outputField(
+          topTextLeft: 'N° Transaction',
+          bottomTextLeft: '65214789471',
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        outputField(
+            topTextLeft: 'Date',
+            bottomTextLeft: '26/06/2023',
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        if (transaction[index].status == 'Terminé') ...[
+          outputField(
+              topTextLeft: 'Status',
+              bottomTextLeft: transaction[index].status,
+              svgLink: 'assets/termine.svg',
+              color: Color(0xFF2ADFB6)),
+        ] else if (transaction[index].status == 'En Traitement') ...[
+          outputField(
+              topTextLeft: 'Status',
+              bottomTextLeft: transaction[index].status,
+              svgLink: 'assets/termine.svg',
+              color: Color(0xFFFFC700)),
+        ] else
+        outputField(
+              topTextLeft: 'Status',
+              bottomTextLeft: transaction[index].status,
+              svgLink: 'assets/spinner.svg',
+              color: Color(0xFFF24E1E)),
+        const SizedBox(
+          height: 10,
+        ),
+        outputField(
+            topTextLeft: 'Status',
+            bottomTextLeft: transaction[index].status,
+            topTextRight: 'Frais',
+            bottomTextRight_Int: frais),
+        SizedBox(
+          width: double.infinity,
+          child: Container(
+            margin: const EdgeInsets.only(top: 15),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
               child: Row(
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Montant",
-                          style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 79, 1),
-                              fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          transaction[0].amont,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    child: Container(
+                      // margin: const EdgeInsets.only(left: 25),
+                      child: const Text(
+                        "Montant total:",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Container(
-                    margin: EdgeInsets.only(right: 100),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Frais",
-                          style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 79, 1),
-                              fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          '$frais USD',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    // margin: const EdgeInsets.only(right: 25),
+                    child: Text(
+                      '${int.parse(transaction[index].amont) + frais}\$',
+                      style: TextStyle(
+                          color: Color.fromRGBO(246, 60, 3, 1),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: Container(
-              margin: const EdgeInsets.only(top: 25),
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        // margin: const EdgeInsets.only(left: 25),
-                        child: Text(
-                          "Montant total:",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      // margin: const EdgeInsets.only(right: 25),
-                      child: Text(
-                        '${int.parse(transaction[0].amont) + frais} USD',
-                        style: TextStyle(
-                            color: Color.fromRGBO(246, 60, 3, 1),
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
@@ -271,137 +120,24 @@ Widget tabDestinataire(
     child: Container(
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Nom du destinataire",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Robert Boum',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(
+              topTextLeft: 'Nom du destinataire',
+              bottomTextLeft: 'Robert Boum'),
+          const SizedBox(
             height: 15,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Pays",
-                          style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 79, 1),
-                              fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Cameroon',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(right: 50),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Ville",
-                          style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 79, 1),
-                              fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Yaoundé',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          outputField(
+              topTextLeft: 'Pays',
+              bottomTextLeft: 'Cameroon',
+              topTextRight: 'Vile',
+              bottomTextRight_String: 'Yaoundé'),
+          const SizedBox(
+            height: 15,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "N° Téléphone",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '+237655002318',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(
+              topTextLeft: 'N° Téléphone',
+              bottomTextLeft: '+237655002318'),
+          const SizedBox(
             height: 25,
           ),
           if (valueOfBool == false && codeReception == 'null') ...[
@@ -475,244 +211,31 @@ Widget tabExpediteur() {
     child: Container(
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Nom de léexpéditeur",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Robert Boum',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(topTextLeft: 'Nom de léexpéditeur',bottomTextLeft: 'Robert Boum'),
+          const SizedBox(
             height: 5,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Pays",
-                          style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 79, 1),
-                              fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'USA',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(right: 50),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Ville",
-                          style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 79, 1),
-                              fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'New York',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(
+              topTextLeft: 'Pays',
+              bottomTextLeft: 'USA',
+              topTextRight: 'Vile',
+              bottomTextRight_String: 'New York'),
+          const SizedBox(
             height: 5,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "N° Téléphone",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '+237655002318',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(topTextLeft: 'N° Téléphone',bottomTextLeft: '+237655002318'),
+          const SizedBox(
             height: 5,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "N° Passport",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '06548578',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(topTextLeft: 'N° Passport', bottomTextLeft: '06548578'),
+          const SizedBox(
             height: 5,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Date de délivrance",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '13/12/2023',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
+          outputField(topTextLeft: 'Date de délivrance', bottomTextLeft: '13/12/2023'),
+          const SizedBox(
             height: 5,
           ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
-              ),
-            ),
-            child: Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Date d'expiration",
-                    style: TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '13/12/2028',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          outputField(topTextLeft: "Date d'expiration", bottomTextLeft: '13/12/2028'),
         ],
       ),
     ),

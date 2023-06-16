@@ -32,7 +32,7 @@ class TransactionPageState extends State<TransactionPage> {
       body: Center(
         child: Text('Page de details de transaction'),
       ),
-      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:1),
     );
   }
 }

@@ -28,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Center(
         child: Text('Setting page'),
       ),
-      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:3),
     );
   }
 }

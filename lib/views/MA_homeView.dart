@@ -50,7 +50,7 @@ class _HomeWiewScreensState extends State<HomeWiewScreens> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentIndex],
-      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      // bottomNavigationBar: getFooter(callBackFunction: funChange),
     );
   }
 }
