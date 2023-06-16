@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:money_app/views/auth/MA_Login.dart';
 import '../../controller/MA_AuthController.dart';
 import '../../controller/MA_DataController.dart';
 import '../../utils/MA_Styles.dart';
@@ -177,18 +178,18 @@ class _MaSignupViewState extends State<MaSignupView> {
                   height: Get.height * 0.06,
                 ),
                 myText(
-                    text: 'Vous avez déjà encore de compte?',
+                    text: 'Vous avez déjà un compte?',
                     style: GoogleFonts.dmSans(
                         textStyle: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
                     textAlign: TextAlign.center),
                 textButton(
-                    text: 'Creer un compte',
+                    text: ' Connectez vous ',
                     fontSize: 20.0,
                     color: AppColors.orange,
                     onpress: (){
-                      print('******* press on the Créer un compte button ****');
-                      Get.to(()=> MaSignupView());
+                      print('******* press on the Connectez vous button ****');
+                      Get.to(()=> LoginView());
                     }
                 )
               ],

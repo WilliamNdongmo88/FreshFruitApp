@@ -84,7 +84,6 @@ class AppWrapper extends StatelessWidget {
       });
     print("**************result of auth status change before retrun: $res ******");
     return res;
-
   }
 
 }

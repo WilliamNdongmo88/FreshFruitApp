@@ -194,10 +194,6 @@ class _SignupViewState extends State<SignupView> {
                                 SizedBox(
                                   height: Get.height * 0.01,
                                 ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-
                                 DropdownButtonFormField(
                                     value: selectedCountry,
                                     items: countryList.map(
@@ -316,7 +312,8 @@ class _SignupViewState extends State<SignupView> {
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/phone_icon.png',
-                                      text: 'Telephone',
+                                      text: 'Numero de Telephone',
+                                      label: 'Telephone',
                                       validator: (String input){
                                         if(input.isEmpty){
                                           //   Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
@@ -341,42 +338,6 @@ class _SignupViewState extends State<SignupView> {
 
                                       },
                                       controller: userController
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 72,
-                                  child: myTextField(
-                                      label: 'PassWord',
-                                      bool: false,
-                                      icon: 'assets/pass_icon.png',
-                                      text: 'Mot de passe',
-                                      validator: (String input){
-                                        if(input.isEmpty){
-                                          //   Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                                          return 'Veillez entrer un mot de passe';
-                                        }
-
-                                      },
-                                      controller: passwordController
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                SizedBox(
-                                  height: 65,
-                                  child: myTextField(
-                                      bool: true,
-                                      icon: 'assets/pass_icon.png',
-                                      text: 'Confirmez votre mot de passe',
-                                      validator: (String input){
-                                        if(input.isEmpty){
-                                          //   Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                                          return 'Veillez entrer un mot de passe';
-                                        }
-
-                                      },
-                                      controller: confirmPassController
                                   ),
                                 ),
                                 SizedBox(
@@ -479,7 +440,11 @@ class _SignupViewState extends State<SignupView> {
                 textButton(
                   text: 'Se connecter',
                   fontSize: 20.0,
-                   color: AppColors.orange
+                  color: AppColors.orange,
+                    onpress: (){
+                      print('******* press on the Se connecter button ****');
+                      Get.to(()=> LoginView());
+                    }
                 )
               ],
             ),
