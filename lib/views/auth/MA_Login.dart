@@ -10,6 +10,7 @@ import '../../controller/MA_DataController.dart';
 import '../../utils/MA_Styles.dart';
 import '../../utils/MA_Widgets.dart';
 import 'MA_Signup.dart';
+import 'MA_Signup2.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -133,7 +134,7 @@ class _LoginViewState extends State<LoginView> {
                          // Get.snackbar('Warning', 'Le Mot de passe est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
                           return 'Entrer votre mot de passe';
                         }
-                        /*if(input.length<8){
+                        if(input.length<8){
                           return 'The Pass should be at least 8 character';
                         }
                         if(regEx.hasMatch(input).toString()=='false'){
@@ -144,7 +145,7 @@ class _LoginViewState extends State<LoginView> {
                         }else{
                           print("**** regex else****");
                           print(regEx.hasMatch(input));
-                        }*/
+                        }
                       },
                      controller: passwordController
                   ),
@@ -181,16 +182,11 @@ class _LoginViewState extends State<LoginView> {
                         onpress: (){
                           print('******* press on the connexion button ');
                           if(!formKey.currentState!.validate()){
-                            // print('000001');
-                            // print(emailController);
-                            // print(passwordController);
-                            // testlogin(emailController.value.text,passwordController.value.text);
-                            // print('000002');
                             return;
                           }
 
                          // authController.signUp(email: emailController.text.trim(),password: passwordController.text.trim());
-                           authController.login(email: emailController.text.trim(),password: passwordController.text.trim(), listCountry: countryList);
+                           authController.login(email: emailController.text.trim(),password: passwordController.text.trim());
 
                         },
                         width: 30.0,
@@ -230,7 +226,12 @@ class _LoginViewState extends State<LoginView> {
                 textButton(
                     text: 'Creer un compte',
                     fontSize: 20.0,
-                    color: AppColors.orange)
+                    color: AppColors.orange,
+                    onpress: (){
+                      print('******* press on the Créer un compte button ');
+                      Get.to(()=> MaSignupView());
+                    }
+                )
               ],
             ),
           ),

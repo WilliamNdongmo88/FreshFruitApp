@@ -194,50 +194,6 @@ class _SignupViewState extends State<SignupView> {
                                 SizedBox(
                                   height: Get.height * 0.01,
                                 ),
-                                SizedBox(
-                                  height: 75,
-                                  child: myTextField(
-                                      bool: false,
-                                      icon: 'assets/mail.png',
-                                      label: 'Email',
-                                      text: 'Renseignez Email',
-                                      validator: (String input){
-
-                                      },
-                                      controller: emailController
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                /*SizedBox(
-                                  height: 75,
-                                  child: myTextField(
-                                      bool: false,
-                                      icon: 'assets/flag.png',
-                                      text: 'Pays',
-                                      validator: (String input){
-                                        if(input.isEmpty){
-                                          // Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                                          return 'Veillez renseigner le pays';
-                                        }
-
-                                      },
-                                      controller: paysController
-                                  ),
-                                ),*/
-                               /* DropdownMenu<MA_Helper_Country>(
-                                  width: 100,
-                                 // initialSelection: ColorLabel.green,
-                                  controller: colorController,
-                                  label: const Text('Color'),
-                                  dropdownMenuEntries: countryEntries,
-                                  onSelected: (MA_Helper_Country? country) {
-                                    setState(() {
-                                      selectedColor = country;
-                                    });
-                                  },
-                                ),*/
                                 DropdownButtonFormField(
                                     value: selectedCountry,
                                     items: countryList.map(
@@ -356,7 +312,8 @@ class _SignupViewState extends State<SignupView> {
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/phone_icon.png',
-                                      text: 'Telephone',
+                                      text: 'Numero de Telephone',
+                                      label: 'Telephone',
                                       validator: (String input){
                                         if(input.isEmpty){
                                           //   Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
@@ -381,42 +338,6 @@ class _SignupViewState extends State<SignupView> {
 
                                       },
                                       controller: userController
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 72,
-                                  child: myTextField(
-                                      label: 'PassWord',
-                                      bool: false,
-                                      icon: 'assets/pass_icon.png',
-                                      text: 'Mot de passe',
-                                      validator: (String input){
-                                        if(input.isEmpty){
-                                          //   Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                                          return 'Veillez entrer un mot de passe';
-                                        }
-
-                                      },
-                                      controller: passwordController
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
-                                SizedBox(
-                                  height: 65,
-                                  child: myTextField(
-                                      bool: true,
-                                      icon: 'assets/pass_icon.png',
-                                      text: 'Confirmez votre mot de passe',
-                                      validator: (String input){
-                                        if(input.isEmpty){
-                                          //   Get.snackbar('Warning', 'Le Prenom est requis.',colorText: Colors.white,backgroundColor: Colors.blue);
-                                          return 'Veillez entrer un mot de passe';
-                                        }
-
-                                      },
-                                      controller: confirmPassController
                                   ),
                                 ),
                                 SizedBox(
@@ -519,7 +440,11 @@ class _SignupViewState extends State<SignupView> {
                 textButton(
                   text: 'Se connecter',
                   fontSize: 20.0,
-                   color: AppColors.orange
+                  color: AppColors.orange,
+                    onpress: (){
+                      print('******* press on the Se connecter button ****');
+                      Get.to(()=> LoginView());
+                    }
                 )
               ],
             ),
