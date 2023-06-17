@@ -54,7 +54,7 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
     child: Text(
       text,
       style: const TextStyle(
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: FontWeight.w500,
       ),
     ),
@@ -156,7 +156,7 @@ Widget outputField({
   Color? color,
 }) {
   return Container(
-    margin: const EdgeInsets.only(top: 10),
+    margin: const EdgeInsets.only(top: 5),
     child: Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -179,13 +179,24 @@ Widget outputField({
                 const SizedBox(
                   height: 10,
                 ),
-                Text(
-                  bottomTextLeft,
+                if(bottomTextRight_Int != null) ...[
+                  Text(
+                  '\$$bottomTextLeft.00',
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
+                ]else if (bottomTextLeft != '') ...[
+                  Text(
+                    bottomTextLeft,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ]
+                
               ],
             ),
           ),
@@ -211,7 +222,7 @@ Widget outputField({
                     height: 10,
                   ),
                   Text(
-                    '$bottomTextRight_Int',
+                    '\$$bottomTextRight_Int.00',
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -387,7 +398,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                   Text(
                                     '${transaction.city}, ${transaction.date}',
                                     style: GoogleFonts.inter(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       fontStyle: FontStyle.normal,
                                       color: const Color.fromARGB(
                                           255, 136, 134, 134),
@@ -432,7 +443,7 @@ Widget cardItem({required TransactionItem transaction}) {
                           if (transaction.status == 'En Traitement') ...[
                             Text(transaction.user,
                                 style: GoogleFonts.inter(
-                                  fontSize: 18,
+                                  fontSize: 14,
                                   fontStyle: FontStyle.normal,
                                   color: const Color.fromARGB(255, 40, 38, 38),
                                 )),
@@ -442,10 +453,10 @@ Widget cardItem({required TransactionItem transaction}) {
                                 const Text('Status: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
+                                        fontSize: 14)),
                                 Text(transaction.status,
                                     style: GoogleFonts.inter(
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       fontStyle: FontStyle.normal,
                                       color:
                                           const Color.fromARGB(255, 40, 38, 38),
@@ -455,7 +466,7 @@ Widget cardItem({required TransactionItem transaction}) {
                           ] else if (transaction.status == 'En Attente') ...[
                             Text(transaction.user,
                                 style: GoogleFonts.inter(
-                                  fontSize: 18,
+                                  fontSize: 14,
                                   fontStyle: FontStyle.normal,
                                   color: const Color.fromARGB(255, 40, 38, 38),
                                 )),
@@ -465,14 +476,14 @@ Widget cardItem({required TransactionItem transaction}) {
                                 Text(
                                   'Status: ',
                                   style: GoogleFonts.inter(
-                                    fontSize: 18,
+                                    fontSize: 14,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(transaction.status,
                                     style: GoogleFonts.inter(
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       fontStyle: FontStyle.normal,
                                       color:
                                           const Color.fromARGB(255, 40, 38, 38),
@@ -482,7 +493,7 @@ Widget cardItem({required TransactionItem transaction}) {
                           ] else
                             Text(transaction.user,
                                 style: GoogleFonts.inter(
-                                  fontSize: 18,
+                                  fontSize: 14,
                                   fontStyle: FontStyle.normal,
                                   color: const Color.fromARGB(255, 40, 38, 38),
                                 )),
@@ -503,23 +514,31 @@ Widget cardItem({required TransactionItem transaction}) {
                                 if (transaction.icon == "check") {
                                   return SvgPicture.asset(
                                     'assets/termine.svg',
-                                    width: 35,
+                                    width: 30,
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFF2ADFB6),
                                   );
                                 } else if (transaction.icon == "traitement") {
                                   return SvgPicture.asset(
                                     'assets/spinner.svg',
-                                    width: 35,
+                                    width: 30,
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFFFFC700),
                                   );
-                                } else {
+                                } else if (transaction.icon == "attente") {
                                   return SvgPicture.asset(
                                     'assets/spinner.svg',
-                                    width: 35,
+                                    width: 30,
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFFF24E1E),
+                                  );
+                                }
+                                else {
+                                  return SvgPicture.asset(
+                                    'assets/cancel.svg',
+                                    width: 30,
+                                    // ignore: deprecated_member_use
+                                    color: const Color(0xFFFFF0000),
                                   );
                                 }
                               })
@@ -558,7 +577,6 @@ class getFooter extends StatefulWidget {
 class _getFooterState extends State<getFooter> {
   Function callBackFunction;
   int currentIndex;
-  var check;
 
   _getFooterState(this.callBackFunction, this.currentIndex);
   final tabs = ['Home', 'Transaction', 'Devises', 'Settings'];
@@ -623,14 +641,10 @@ class _getFooterState extends State<getFooter> {
             callBackFunction(currentIndex);
             if (currentIndex == 0) {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionListScreen(
-                        check: check,
-                      )));
+                  builder: (context) => TransactionListScreen()));
             } else if (currentIndex == 1) {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionPage(
-                        index: check,
-                      )));
+                  builder: (context) => TransactionPage()));
             } else if (currentIndex == 2) {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const DevisesPage()));

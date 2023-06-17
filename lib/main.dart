@@ -7,9 +7,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  var check;
-
-
   MyApp({super.key});
 
   // This widget is the root of your application.
@@ -27,7 +24,7 @@ class MyApp extends StatelessWidget {
       //   SettingsPage.settingspage: (context) => const SettingsPage(),
       //   DevisesPage.devisespage: (context) => DevisesPage(),
       // },
-      home: TransactionListScreen(check: check,),
+      home: TransactionListScreen(),
     );
   }
 }

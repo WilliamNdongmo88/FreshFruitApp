@@ -18,9 +18,10 @@ Widget tabDetails(
     return tabTransaction(transaction, index);
   } else if (valueTab == 'Destinataire') {
     print('-->codeReception $codeReception');
-    return tabDestinataire(callBackFunction, valueOfBool!, codeReception!);
+    return tabDestinataire(
+        transaction, index, callBackFunction, valueOfBool!, codeReception!);
   } else {
-    return tabExpediteur();
+    return tabExpediteur(transaction, index, callBackFunction, valueOfBool!, codeReception!);
   }
 }
 
@@ -53,27 +54,34 @@ Widget tabTransaction(transaction, index) {
         ] else if (transaction[index].status == 'En Traitement') ...[
           outputField(
               topTextLeft: 'Status',
-              bottomTextLeft: transaction[index].status,
-              svgLink: 'assets/termine.svg',
+              bottomTextLeft: 'En cours de Traitement',
+              svgLink: 'assets/spinner.svg',
               color: Color(0xFFFFC700)),
-        ] else
-        outputField(
+        ] else if (transaction[index].status == 'En Attente') ...[
+          outputField(
               topTextLeft: 'Status',
               bottomTextLeft: transaction[index].status,
               svgLink: 'assets/spinner.svg',
               color: Color(0xFFF24E1E)),
+        ]
+        else
+        outputField(
+              topTextLeft: 'Status',
+              bottomTextLeft: transaction[index].status,
+              svgLink: 'assets/cancel.svg',
+              color: const Color(0xFFFFF0000)),
         const SizedBox(
           height: 10,
         ),
         outputField(
-            topTextLeft: 'Status',
-            bottomTextLeft: transaction[index].status,
+            topTextLeft: 'Montant',
+            bottomTextLeft: transaction[index].amont,
             topTextRight: 'Frais',
             bottomTextRight_Int: frais),
         SizedBox(
           width: double.infinity,
           child: Container(
-            margin: const EdgeInsets.only(top: 15),
+            margin: EdgeInsets.only(top: transaction[index].status == 'Terminé'? 35 : 15),
             child: Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
@@ -85,23 +93,20 @@ Widget tabTransaction(transaction, index) {
                         "Montant total:",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Container(
-                    // margin: const EdgeInsets.only(right: 25),
-                    child: Text(
-                      '${int.parse(transaction[index].amont) + frais}\$',
-                      style: TextStyle(
-                          color: Color.fromRGBO(246, 60, 3, 1),
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    '\$${int.parse(transaction[index].amont) + frais}.00',
+                    style: const TextStyle(
+                        color: Color.fromRGBO(246, 60, 3, 1),
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -114,34 +119,35 @@ Widget tabTransaction(transaction, index) {
 }
 
 Widget tabDestinataire(
+    transaction, index,
     Function? callBackFunction, bool valueOfBool, String codeReception) {
   return Padding(
     padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
     child: Container(
       child: Column(
         children: [
+          if(transaction[index].status == 'En Traitement') ...[
           outputField(
-              topTextLeft: 'Nom du destinataire',
-              bottomTextLeft: 'Robert Boum'),
+              topTextLeft: 'Nom de lz banque',
+              bottomTextLeft: 'UBA'),
           const SizedBox(
             height: 15,
           ),
           outputField(
-              topTextLeft: 'Pays',
-              bottomTextLeft: 'Cameroon',
-              topTextRight: 'Vile',
-              bottomTextRight_String: 'Yaoundé'),
+              topTextLeft: 'Intitulé du compte',
+              bottomTextLeft: '9874 5247 6582 1458',),
           const SizedBox(
             height: 15,
           ),
           outputField(
-              topTextLeft: 'N° Téléphone',
-              bottomTextLeft: '+237655002318'),
+              topTextLeft: 'N° Compte',
+              bottomTextLeft: '012458479'),
           const SizedBox(
             height: 25,
           ),
           if (valueOfBool == false && codeReception == 'null') ...[
             Container(
+              margin: const EdgeInsets.only(top:  35 ),
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
@@ -157,7 +163,7 @@ Widget tabDestinataire(
                     onTap: () {
                       callBackFunction!('Open_pop_up');
                     },
-                    child: Text(
+                    child: const Text(
                       "voir code de reception",
                       style: TextStyle(
                           color: Color.fromRGBO(79, 79, 78, 1), fontSize: 18),
@@ -199,19 +205,187 @@ Widget tabDestinataire(
                 ),
               ),
             ),
+          ]else if (transaction[index].status == 'En Attente' || transaction[index].status == 'Terminé' ||
+              transaction[index].status == 'Annulé') ...[
+            outputField(
+                topTextLeft: 'Nom du destinataire',
+                bottomTextLeft: 'Robert Boum'),
+            const SizedBox(
+              height: 15,
+            ),
+            outputField(
+                topTextLeft: 'Pays',
+                bottomTextLeft: 'Cameroon',
+                topTextRight: 'Vile',
+                bottomTextRight_String: 'Yaoundé'),
+            const SizedBox(
+              height: 15,
+            ),
+            outputField(
+                topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
+            const SizedBox(
+              height: 25,
+            ),
+            if (valueOfBool == false && codeReception == 'null') ...[
+              Container(
+                margin: const EdgeInsets.only(top: 35),
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                  ),
+                ),
+                width: double.infinity,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 15),
+                  child: Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        callBackFunction!('Open_pop_up');
+                      },
+                      child: const Center(
+                        child: Text(
+                          "voir code de reception",
+                          style: TextStyle(
+                              color: Color.fromRGBO(79, 79, 78, 1), fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ] else
+              Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                  ),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Code de reception",
+                        style: TextStyle(
+                            color: Color.fromRGBO(79, 79, 79, 1), fontSize: 14),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'trans: $codeReception',
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ]
+
         ],
       ),
     ),
   );
 }
 
-Widget tabExpediteur() {
+Widget tabExpediteur(transaction, index, Function? callBackFunction, bool valueOfBool, String codeReception) {
   return Padding(
     padding: const EdgeInsets.only(left: 30, right: 30),
-    child: Container(
-      child: Column(
-        children: [
+    child: Column(
+      children: [
+        if(transaction[index].status == 'Terminé' || transaction[index].status == 'En Traitement') ...[
+          const SizedBox(
+            height: 20,
+          ),
           outputField(topTextLeft: 'Nom de léexpéditeur',bottomTextLeft: 'Robert Boum'),
+          const SizedBox(
+            height: 35,
+          ),
+          outputField(
+            topTextLeft: 'Pays',
+            bottomTextLeft: 'USA',
+            topTextRight: 'Vile',
+            bottomTextRight_String: 'New York'),
+          const SizedBox(
+            height: 35,
+          ),
+          outputField(topTextLeft: 'N° Téléphone',bottomTextLeft: '+237655002318'),
+          const SizedBox(
+            height: 35,
+          ),
+          if (valueOfBool == false && codeReception == 'null') ...[
+            Container(
+              // margin: const EdgeInsets.only(top: 35),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                      width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                ),
+              ),
+              width: double.infinity,
+              child: Container(
+                margin: const EdgeInsets.only(top: 15),
+                child: Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      callBackFunction!('Open_pop_up');
+                    },
+                    child: const Center(
+                      child: Text(
+                        "voir photo CNI",
+                        style: TextStyle(
+                            color: Color.fromRGBO(79, 79, 78, 1), fontSize: 13),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ] else
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                      width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                ),
+              ),
+              child: Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Code de reception",
+                      style: TextStyle(
+                          color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'trans: $codeReception',
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ]else if (transaction[index].status == 'En Traitement' || transaction[index].status == 'En Attente' ||
+            transaction[index].status == 'Annulé') ...[
+          outputField(
+              topTextLeft: 'Nom de léexpéditeur',
+              bottomTextLeft: 'Robert Boum'),
           const SizedBox(
             height: 5,
           ),
@@ -223,7 +397,8 @@ Widget tabExpediteur() {
           const SizedBox(
             height: 5,
           ),
-          outputField(topTextLeft: 'N° Téléphone',bottomTextLeft: '+237655002318'),
+          outputField(
+              topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
           const SizedBox(
             height: 5,
           ),
@@ -231,13 +406,17 @@ Widget tabExpediteur() {
           const SizedBox(
             height: 5,
           ),
-          outputField(topTextLeft: 'Date de délivrance', bottomTextLeft: '13/12/2023'),
+          outputField(
+              topTextLeft: 'Date de délivrance',
+              bottomTextLeft: '13/12/2023'),
           const SizedBox(
             height: 5,
           ),
-          outputField(topTextLeft: "Date d'expiration", bottomTextLeft: '13/12/2028'),
-        ],
-      ),
+          outputField(
+              topTextLeft: "Date d'expiration", bottomTextLeft: '13/12/2028'),
+        ]
+
+      ],
     ),
   );
 }

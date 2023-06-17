@@ -9,42 +9,43 @@ import '../MA_SettingsPage.dart';
 import '../MA_TransactionPage.dart';
 
 class TransactionListScreen extends StatefulWidget {
-  bool check;
   static const transactionListScreen = '/';
   static const settingspage = '/SettingsPage';
   static const devisespage = '/DevisesPage';
   static const transactionpage = '/TransactionPage';
 
-  TransactionListScreen({super.key, required this.check});
+  TransactionListScreen({super.key});
 
   @override
   State<TransactionListScreen> createState() =>
-      TransactionListScreenState(this.check);
+      TransactionListScreenState();
 }
 
 class TransactionListScreenState extends State<TransactionListScreen> {
   final List<TransactionItem> transactions = [
-    TransactionItem(1,"Terminé", "William Ndongmo", "check", "450",
+    TransactionItem("Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem(2,"En Traitement", "Tcheuffa Evariste", "traitement",
+    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
         "750", "USA", "Lundi 06 mai 2023"),
-    TransactionItem(3,"En Attente", "William Ndongmo", "attente", "1350",
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem(4,"Terminé", "Ndongmo Thierry", "check", "500",
+    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500",
         "USA", "Lun08 mai2023"),
-    TransactionItem(5,"Terminé", "William Ndongmo", "check", "450",
+    TransactionItem("Annulé", "William Ndongmo", "cancel", "425", "USA",
+        "Lundi 06 mai 2023"),
+    TransactionItem("Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem(6,"En Traitement", "Tcheuffa Evariste", "traitement",
+    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
         "750", "USA", "Lun08 mai2023"),
-    TransactionItem(7,"En Attente", "William Ndongmo", "attente", "1350",
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem(8,"Terminé", "Ndongmo Thierry", "check", "600",
+    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600",
         "USA", "Lun08 mai2023"),
-    TransactionItem(9,"Terminé", "William Ndongmo", "check", "450",
+    TransactionItem( "Annulé", "William Ndongmo", "cancel", "850", "USA",
+        "Lundi 06 mai 2023"),
+    TransactionItem("Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
   ];
-  bool check;
-  TransactionListScreenState(this.check);
   var txt = '';
   int currentIndex = 0;
   void funChange(changetxt) {

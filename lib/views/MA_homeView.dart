@@ -18,7 +18,6 @@ class _HomeWiewScreensState extends State<HomeWiewScreens> {
   int currentIndex = 0;
 
   static var index;
-  static var check;
 
   void funChange(changetxt) {
     setState(() {
@@ -37,9 +36,9 @@ class _HomeWiewScreensState extends State<HomeWiewScreens> {
   }
 
   final screens = [
-    Container(child: TransactionListScreen(check: check)),
+    Container(child: TransactionListScreen()),
     Container(
-      child: TransactionPage(index: index),
+      child: TransactionPage(),
     ),
     Container(child: DevisesPage()),
     Container(
