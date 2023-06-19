@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../views/MA_DevisesPage.dart';
+import '../views/MA_SettingsPage.dart';
+import '../views/MA_TransactionPage.dart';
+import '../views/homePage/MA_homePage.dart';
 import 'MA_Styles.dart';
 import 'MA_TransactionItem.dart';
 
@@ -65,7 +69,7 @@ Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
     },
     label: Text(
       text,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 18,
       ),
     ),
@@ -95,7 +99,7 @@ Widget socialAppsIcons({text,Function? onPressed}) {
   return InkWell(
     onTap: ()=> onPressed!(),
     child: Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       width: 48,
       height: 48,
       decoration: BoxDecoration(
@@ -110,45 +114,119 @@ Widget socialAppsIcons({text,Function? onPressed}) {
 
 //Will Code Start
 
-Widget fieldInput({
-  required String topText,
-  required String bottomText,
-  required String svgLink,
+/// William Ndongmo
+///
+/// Call the outputField widget as following
+/// outputField(
+///                  topTextLeft: your_topTextLeft
+///                  bottomTextLeft: your_bottomTextLeft
+///                  topTextRight: your_topTextRight
+///                  bottomTextRight_String: your_bottomTextRight_String
+///                  bottomTextRight_Int: your_bottomTextRight_Int
+///                  svgLink: your_svgLink
+///                  color: your_color)
+/// your_callBackFunction is a function that get the name of the icon that was clicked
+Widget outputField({
+  String topTextLeft = '',
+  String bottomTextLeft = '',
+  String topTextRight = '',
+  String bottomTextRight_String = '',
+  int? bottomTextRight_Int,
+  String svgLink = '',
+  Color? color,
 }) {
   return Container(
-    margin: const EdgeInsets.only(top: 15),
-    child: Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                topText,
-                style: TextStyle(
-                    color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                bottomText,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
+    margin: const EdgeInsets.only(top: 10),
+    child: Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom:
+              BorderSide(width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  topTextLeft,
+                  style: const TextStyle(
+                      color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  bottomTextLeft,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(bottom: 5), //'assets/spinner.svg'
-          child: SvgPicture.asset(svgLink,
-              width: 30,
-              // ignore: deprecated_member_use
-              color: Color.fromRGBO(246, 60, 3, 1)),
-        ),
-      ],
+          Container(
+            margin: const EdgeInsets.only(right: 25),
+            child: SvgPicture.asset(svgLink,
+                width: 30,
+                // ignore: deprecated_member_use
+                color: color),
+          ),
+          if (bottomTextRight_Int != null) ...[
+            Container(
+              margin: const EdgeInsets.only(right: 75),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    topTextRight,
+                    style: const TextStyle(
+                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '$bottomTextRight_Int',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ] else if (bottomTextRight_String != '') ...[
+            Container(
+              margin: const EdgeInsets.only(right: 75),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    topTextRight,
+                    style: const TextStyle(
+                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    bottomTextRight_String,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ]
+        ],
+      ),
     ),
   );
 }
@@ -167,6 +245,18 @@ Widget fieldInput({
  *                  callBackFunction: your_callBackFunction)
  * your_callBackFunction is a function that get the name of the icon that was clicked
  */
+/// William Ndongmo
+///
+/// Call the buildIconButton widget as following
+/// buildIconButton(
+///                  iconColor: your_iconColor
+///                  IconData: your_IconData
+///                  iconButton: your_iconButton
+///                  buttonText: your_buttonText
+///                  fontSizeText: your_fontSizeText
+///                  fontSizeIcon: your_fontSizeIcon
+///                  callBackFunction: your_callBackFunction)
+/// your_callBackFunction is a function that get the name of the icon that was clicked
 Widget buildIconButton(
     {Color? iconColor,
     required IconData iconButton,
@@ -223,6 +313,18 @@ Widget buildIconButton(
  *                  callBackFunction: your_callBackFunction)
  * your_callBackFunction is a function that get the name of the icon that was clicked
  */
+/// William Ndongmo
+///
+/// Call the buildIconButtonSvg widget as following
+/// buildIconButton(
+///                  iconColor: your_iconColor
+///                  IconData: your_IconData
+///                  iconSvg: your_svgPath
+///                  buttonText: your_buttonText
+///                  fontSizeText: your_fontSizeText
+///                  fontSizeIcon: your_fontSizeIcon
+///                  callBackFunction: your_callBackFunction)
+/// your_callBackFunction is a function that get the name of the icon that was clicked
 Widget buildIconButtonSvg(
     {Color? iconColor,
     // required IconData iconButton,
@@ -257,12 +359,17 @@ Widget buildIconButtonSvg(
  * cardItem(transaction: transaction)
  * transaction  est une liste d'elements
  */
+/// William Ndongmo
+///
+/// Call the cardItem widget as following
+/// cardItem(transaction: transaction)
+/// transaction  est une liste d'elements
 Widget cardItem({required TransactionItem transaction}) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
     ),
-    margin: EdgeInsets.all(8),
+    margin: const EdgeInsets.all(8),
     elevation: 8,
     child: Container(
       padding: const EdgeInsets.all(12),
@@ -293,18 +400,38 @@ Widget cardItem({required TransactionItem transaction}) {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      '${transaction.city}, ${transaction.date}',
-                                      style:
-                                          TextStyle(color: Colors.grey[500], fontSize: 18)),
+                                    '${transaction.city}, ${transaction.date}',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      color: const Color.fromARGB(
+                                          255, 136, 134, 134),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            if(transaction.status == 'En Traitement' || transaction.status == 'En Attente') ...[
-                              Text('En cours',
-                                  style: TextStyle(color: Colors.grey[500], fontSize: 18)),
-                            ]else
-                            Text(transaction.status,
-                                style: TextStyle(color: Colors.grey[500], fontSize: 18)),
+                            if (transaction.status == 'En Traitement' ||
+                                transaction.status == 'En Attente') ...[
+                              Text(
+                                'En cours',
+                                style: GoogleFonts.inter(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color:
+                                      const Color.fromARGB(255, 136, 134, 134),
+                                ),
+                              ),
+                            ] else
+                              Text(
+                                transaction.status,
+                                style: GoogleFonts.inter(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal,
+                                  color:
+                                      const Color.fromARGB(255, 136, 134, 134),
+                                ),
+                              ),
                           ],
                         ),
                       )
@@ -317,23 +444,13 @@ Widget cardItem({required TransactionItem transaction}) {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if(transaction.status == 'En Traitement') ...[
-                            Text(transaction.user, style: const TextStyle(
-                                    color: Color.fromARGB(255, 40, 38, 38),
-                                    fontSize: 18)),
-                            const SizedBox(height: 7),
-                            Row(
-                              children: [
-                                Text('Status: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                Text(transaction.status,
-                                    style: const TextStyle(color: Color.fromARGB(255, 40, 38, 38),
-                                        fontSize: 18)),
-                              ],
-                            ),
-                          ]else if (transaction.status == 'En Attente') ...[
-                            Text(transaction.user, style: const TextStyle(
-                                    color: Color.fromARGB(255, 40, 38, 38),
-                                    fontSize: 18)),
+                          if (transaction.status == 'En Traitement') ...[
+                            Text(transaction.user,
+                                style: GoogleFonts.inter(
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.normal,
+                                  color: const Color.fromARGB(255, 40, 38, 38),
+                                )),
                             const SizedBox(height: 7),
                             Row(
                               children: [
@@ -342,17 +459,50 @@ Widget cardItem({required TransactionItem transaction}) {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18)),
                                 Text(transaction.status,
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 40, 38, 38),
-                                        fontSize: 18)),
+                                    style: GoogleFonts.inter(
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.normal,
+                                      color:
+                                          const Color.fromARGB(255, 40, 38, 38),
+                                    )),
+                              ],
+                            ),
+                          ] else if (transaction.status == 'En Attente') ...[
+                            Text(transaction.user,
+                                style: GoogleFonts.inter(
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.normal,
+                                  color: const Color.fromARGB(255, 40, 38, 38),
+                                )),
+                            const SizedBox(height: 7),
+                            Row(
+                              children: [
+                                Text(
+                                  'Status: ',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 18,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(transaction.status,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.normal,
+                                      color:
+                                          const Color.fromARGB(255, 40, 38, 38),
+                                    )),
                               ],
                             ),
                           ] else
-                          Text(transaction.user, style: const TextStyle(
-                                    color: Color.fromARGB(255, 40, 38, 38),
-                                    fontSize: 18)),
+                            Text(transaction.user,
+                                style: GoogleFonts.inter(
+                                  fontSize: 18,
+                                  fontStyle: FontStyle.normal,
+                                  color: const Color.fromARGB(255, 40, 38, 38),
+                                )),
                           const SizedBox(height: 10),
-                          Text(transaction.amont,
+                          Text('\$${transaction.amont}',
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 30)),
                         ],
@@ -362,27 +512,27 @@ Widget cardItem({required TransactionItem transaction}) {
                       child: Column(
                         children: [
                           Container(
-                              padding: const EdgeInsets.only(top: 0),
+                              margin: const EdgeInsets.only(right: 15),
                               child: LayoutBuilder(
                                   builder: (context, constraints) {
                                 if (transaction.icon == "check") {
                                   return SvgPicture.asset(
                                     'assets/termine.svg',
-                                    width: 25,
+                                    width: 35,
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFF2ADFB6),
                                   );
                                 } else if (transaction.icon == "traitement") {
                                   return SvgPicture.asset(
                                     'assets/spinner.svg',
-                                    width: 25,
+                                    width: 35,
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFFFFC700),
                                   );
                                 } else {
                                   return SvgPicture.asset(
                                     'assets/spinner.svg',
-                                    width: 25,
+                                    width: 35,
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFFF24E1E),
                                   );
@@ -404,27 +554,28 @@ Widget cardItem({required TransactionItem transaction}) {
   );
 }
 
-/**
- * William Ndongmo
- *
- * Call the getFooter widget as following
- * getFooter(callBackFunction: myFunction)
- * myFunction is a function that get the name of the icon that was clicked
- */
+/// William Ndongmo
+///
+/// Call the getFooter widget as following
+/// getFooter(callBackFunction: myFunction)
+/// myFunction is a function that get the name of the icon that was clicked
 class getFooter extends StatefulWidget {
+  int currentIndex;
   final Function callBackFunction;
-  const getFooter({super.key, required this.callBackFunction});
+  getFooter(
+      {super.key, required this.callBackFunction, required this.currentIndex});
 
   @override
-  State<getFooter> createState() => _getFooterState(this.callBackFunction);
+  State<getFooter> createState() =>
+      _getFooterState(this.callBackFunction, this.currentIndex);
 }
 
 class _getFooterState extends State<getFooter> {
   Function callBackFunction;
+  int currentIndex;
+  var check;
 
-  _getFooterState(this.callBackFunction);
-
-  int _currentIndex = 0;
+  _getFooterState(this.callBackFunction, this.currentIndex);
   final tabs = ['Home', 'Transaction', 'Devises', 'Settings'];
 
   @override
@@ -437,12 +588,12 @@ class _getFooterState extends State<getFooter> {
         // color: Colors.white,
       ),
       child: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: currentIndex,
         type: BottomNavigationBarType.fixed,
         // selectedFontSize: 15,
         // unselectedFontSize: 12,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',
           ),
@@ -451,9 +602,9 @@ class _getFooterState extends State<getFooter> {
               'assets/transaction.svg',
               width: 25,
               // ignore: deprecated_member_use
-              color: _currentIndex == 1
-                  ? Color.fromRGBO(242, 78, 30, 1)
-                  : Color.fromRGBO(97, 97, 97, 1),
+              color: currentIndex == 1
+                  ? const Color.fromRGBO(242, 78, 30, 1)
+                  : const Color.fromRGBO(97, 97, 97, 1),
             ),
             label: 'Transaction',
           ),
@@ -462,9 +613,9 @@ class _getFooterState extends State<getFooter> {
               'assets/devises.svg',
               width: 25,
               // ignore: deprecated_member_use
-              color: _currentIndex == 2
-                  ? Color.fromRGBO(246, 60, 3, 1)
-                  : Color.fromRGBO(97, 97, 97, 1),
+              color: currentIndex == 2
+                  ? const Color.fromRGBO(246, 60, 3, 1)
+                  : const Color.fromRGBO(97, 97, 97, 1),
             ),
             label: 'Devises',
           ),
@@ -473,17 +624,35 @@ class _getFooterState extends State<getFooter> {
               'assets/settings.svg',
               width: 25,
               // ignore: deprecated_member_use
-              color: _currentIndex == 3
-                  ? Color.fromRGBO(246, 60, 3, 1)
-                  : Color.fromRGBO(97, 97, 97, 1),
+              color: currentIndex == 3
+                  ? const Color.fromRGBO(246, 60, 3, 1)
+                  : const Color.fromRGBO(97, 97, 97, 1),
             ),
             label: 'Sttings',
           ),
         ],
         onTap: (index) {
           setState(() {
-            _currentIndex = index;
-            callBackFunction(tabs[_currentIndex]);
+            currentIndex = index;
+            print('currenrIndex--> $currentIndex');
+            callBackFunction(currentIndex);
+            if (currentIndex == 0) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransactionListScreen(
+                        //check: check,
+                      )));
+            } else if (currentIndex == 1) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransactionPage(
+                        index: check,
+                      )));
+            } else if (currentIndex == 2) {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const DevisesPage()));
+            } else if (currentIndex == 3) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SettingsPage()));
+            }
           });
         },
       ),

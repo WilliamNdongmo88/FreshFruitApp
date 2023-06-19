@@ -24,6 +24,7 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController username = TextEditingController();
+  TextEditingController forgetEmailController = TextEditingController();
 
   /*Future<void> testlogin(emailAddress, password) async{
     print('test login testlogin');
@@ -162,16 +163,58 @@ class _LoginViewState extends State<LoginView> {
                     )
                 ),*/
                 SizedBox(
-                  height: Get.height * 0.02,
+                  height: Get.height * 0.01,
                 ),
-                myText(
-                    text: 'Mot de passe oublié?',
-                    style: GoogleFonts.dmSans(
-                        textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                            color: AppColors.blueText)),
-                    textAlign: TextAlign.right),
+                InkWell(
+                  onTap: (){
+                    Get.defaultDialog(
+                      title: 'Forget Password?',
+                      content: Container(
+                        width: Get.width,
+                        child: Column(
+                          children: [
+                            myTextField(
+                                bool: false,
+                                icon: 'assets/pass_icon.png',
+                                text: 'enter your email...',
+                                controller: forgetEmailController
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            MaterialButton(
+                              color: AppColors.orange,
+                              onPressed: (){
+                                authController.forgetPassword(forgetEmailController.text.trim());
+                              },child: Text("Sent"),minWidth: double.infinity,)
+
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: Get.height * 0.02,
+                    ),
+                    child:  myText(
+                        text: 'Mot de passe oublié?',
+                        style: GoogleFonts.dmSans(
+                            textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal,
+                                color: AppColors.blueText)),
+                        textAlign: TextAlign.right),
+                    /*myText(
+                        text: 'Forgot password?',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.orange,
+                        )),*/
+                  ),
+                ),
                 SizedBox(
                   height: Get.height * 0.04,
                 ),
@@ -214,7 +257,7 @@ class _LoginViewState extends State<LoginView> {
                         }
 
                     ),
-                  
+
                   ],
                 ),
                 myText(

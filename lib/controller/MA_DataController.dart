@@ -6,6 +6,7 @@ import 'package:money_app/controller/Helper classes/MA_Helper_City.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Country.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 
+import '../views/homePage/MA_homePage.dart';
 import 'Helper classes/MA_Helper_User.dart';
 
 class DataController extends GetxController{
@@ -138,6 +139,7 @@ class DataController extends GetxController{
            print(result['body'].runtimeType);
            msg = result['body'];
            isLoading(false);
+           Get.to(()=> TransactionListScreen());
          }
      }else{
        //an error occur

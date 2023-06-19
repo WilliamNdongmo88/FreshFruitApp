@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:money_app/controller/Helper%20classes/MA_Helper_Country.dart';
 import 'package:money_app/utils/MA_Constant.dart';
@@ -7,12 +9,10 @@ import 'package:money_app/utils/MA_Styles.dart';
 import 'package:money_app/utils/MA_TransactionItemDetails.dart';
 import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'firebase_options.dart';
-import 'package:money_app/views/app content/MA_Provider_CheckUser.dart';
-import 'package:money_app/controller/MA_DataController.dart';
 import 'package:money_app/views/homePage/MA_homePage.dart';
+
+import 'controller/MA_DataController.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +61,8 @@ class AppWrapper extends StatelessWidget {
           print(snapshot.data);
           //send him to dashboard
           //return Center(child: Text("*******send him to dashboard************"));
-          return SignupView();
+          return TransactionListScreen();
+          //return LoginView();
         } else {
           return LoginView();
         }
