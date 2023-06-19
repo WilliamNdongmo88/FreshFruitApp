@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:money_app/utils/MA_Widgets.dart';
-import 'package:money_app/views/MA_RecapInformation.dart';
+//import 'package:money_app/views/MA_RecapInformation.dart';
 
 class transfertForm extends StatefulWidget {
   const transfertForm({Key? key}) : super(key: key);
@@ -11,6 +11,8 @@ class transfertForm extends StatefulWidget {
 }
 
 class _transfertFormState extends State<transfertForm> {
+
+
   int currentStep = 0;
   int _Amount = 0;
   bool displayManualRecap = false;
@@ -50,6 +52,20 @@ class _transfertFormState extends State<transfertForm> {
 
 
 
+void funcBack(){
+  if(currentStep==0){
+   print('go back');
+  }else if(currentStep==1){
+    setState(() {
+      currentStep -=1;
+    });
+  }else if(currentStep==2){
+    setState(() {
+      currentStep -=1;
+    });
+  }
+}
+
   void funChange (){
 
   }
@@ -60,159 +76,233 @@ class _transfertFormState extends State<transfertForm> {
       currentStep = arguments;
     }
 
-    return Scaffold(bottomNavigationBar: getFooter(callBackFunction: funChange),
-      appBar: AppBar(
+    return Scaffold(
+      bottomNavigationBar: getFooter(callBackFunction: funChange),
+      /*appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Flutter Stepper Demo'),
         centerTitle: true,
-      ),
+      ),*/
       body: Theme(
         data: Theme.of(context).copyWith(
           colorScheme: const ColorScheme.light(primary: Colors.deepOrange),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Container(
-              child: Stepper(
-            steps: getSteps(),
-            currentStep: currentStep,
-            type: StepperType.horizontal,
-            onStepContinue: () {
-              final isLastStep = currentStep == getSteps().length - 1;
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                child: Container(
+                  margin: EdgeInsets.only(left: 20, top: 0),
+                  child: Row(
 
-              if (isLastStep) {
-                if(_selectedGender == 'manuel'){
-                  setState(() {
-                    displayManualRecap = true;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TransactionInfo(
-                          selectedGender: _selectedGender,
-                          CountrySender:dropdownvalueSender,
-                          CountryReceiver:dropdownvalueReceiver,
-                          amountController:amountController.text,
-                          NameBank:NameBank.text,
-                          IntituleBank:IntituleBank.text,
-                          numberAccount:numberAccount.text,
-                          receptionCode:receptionCode.text,
-                          NameReceiver:NameReceiver.text,
-                          PhoneNumber:PhoneNumber.text,
-                          CountryReception:dropdownvalueCountryReception,
-                          CityReception:dropdownvalueCityReception,
-                          currentStep : currentStep
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment:MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: buildIconButton(
+                            iconColor: Color.fromRGBO(17, 16, 15, 1),
+                            iconButton: Icons.arrow_back_ios,
+                            buttonText: '',
+                            fontSizeIcon: 35,
+                            callBackFunction: funcBack),
                       ),
-                    ),
-                  );
-                }else if(_selectedGender == 'bancaire'){
-                  setState(() {
-                    displayBankRecap = true;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TransactionInfo(
-                        selectedGender: _selectedGender,
-                        CountrySender:dropdownvalueSender,
-                        CountryReceiver:dropdownvalueReceiver,
-                        amountController:amountController.text,
-                        NameBank:NameBank.text,
-                        IntituleBank:IntituleBank.text,
-                        numberAccount:numberAccount.text,
-                        receptionCode:receptionCode.text,
-                        NameReceiver:NameReceiver.text,
-                        PhoneNumber:PhoneNumber.text,
-                        CountryReception:dropdownvalueCountryReception,
-                        CityReception:dropdownvalueCityReception,
-                          currentStep : currentStep
+                      Container(
+//margin: EdgeInsets.only(bottom:640),
+                        child: const Text(
+                          "Transaction d'argent",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                  );
-                }
-                print('Completed');
-              } else {
-                setState(() {
-                  currentStep += 1;
-                });
-              }
-            },
-            onStepCancel: () {
-              currentStep == 0
-                  ? null
-                  : setState(() {
-                      currentStep -= 1;
-                    });
-            },
-            controlsBuilder: (BuildContext context, ControlsDetails details) {
-              final isLastStep = currentStep == getSteps().length - 1;
-              return Container(
-                margin: EdgeInsets.only(top:15),// modifie la position des elevated button
-                child: Row(
-                  children: [
-                    if (currentStep == 0) ...[
-                      Expanded(
-                          child: ElevatedButton(
-                        onPressed: details.onStepContinue,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('Suivant'), // <-- Text
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              // <-- Icon
-                              Icons.arrow_forward_ios,
-                              size: 24.0,
-                            ),
-                          ],
-                        ),
-                      )),
-                    ] else if (currentStep > 0 && currentStep == 1) ...[
-                      Expanded(
-                          child: ElevatedButton(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Icon(
-                              // <-- Icon
-                              Icons.arrow_back_ios_new,
-                              size: 24.0,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text('Précédent'),
-                          ],
-                        ),
-                        onPressed: details.onStepCancel,
-                      )),
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: ElevatedButton(
-                        onPressed: details.onStepContinue,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('Suivant'), // <-- Text
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              // <-- Icon
-                              Icons.arrow_forward_ios,
-                              size: 24.0,
-                            ),
-                          ],
-                        ),
-                      )),
-                    ]
-                  ],
+                    ],
+                  ),
                 ),
-              ); //* gestion de sboutons du bas//
-            },
-          )),
+              ),
+              Positioned(
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Container(
+                      margin: EdgeInsets.only(top: 35),
+                      child: Stepper(
+                        steps: getSteps(),
+                        currentStep: currentStep,
+                        type: StepperType.horizontal,
+                        onStepContinue: () {
+                          final isLastStep = currentStep == getSteps().length - 1;
+
+                          if (isLastStep) {
+/* if(_selectedGender == 'manuel'){
+                        setState(() {
+                          displayManualRecap = true;
+                        });
+                       /* Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TransactionInfo(
+                                selectedGender: _selectedGender,
+                                CountrySender:dropdownvalueSender,
+                                CountryReceiver:dropdownvalueReceiver,
+                                amountController:amountController.text,
+                                NameBank:NameBank.text,
+                                IntituleBank:IntituleBank.text,
+                                numberAccount:numberAccount.text,
+                                receptionCode:receptionCode.text,
+                                NameReceiver:NameReceiver.text,
+                                PhoneNumber:PhoneNumber.text,
+                                CountryReception:dropdownvalueCountryReception,
+                                CityReception:dropdownvalueCityReception,
+                                currentStep : currentStep
+                            ),
+                          ),
+                        );*/
+                      }else if(_selectedGender == 'bancaire'){
+                        setState(() {
+                          displayBankRecap = true;
+                        });*/
+/*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TransactionInfo(
+                              selectedGender: _selectedGender,
+                              CountrySender:dropdownvalueSender,
+                              CountryReceiver:dropdownvalueReceiver,
+                              amountController:amountController.text,
+                              NameBank:NameBank.text,
+                              IntituleBank:IntituleBank.text,
+                              numberAccount:numberAccount.text,
+                              receptionCode:receptionCode.text,
+                              NameReceiver:NameReceiver.text,
+                              PhoneNumber:PhoneNumber.text,
+                              CountryReception:dropdownvalueCountryReception,
+                              CityReception:dropdownvalueCityReception,
+                                currentStep : currentStep
+                            ),
+                          ),
+                        );*/
+                          } else {
+                            setState(() {
+                              currentStep += 1;
+                            });
+                          }
+                        },
+                        onStepCancel: () {
+                          currentStep == 0
+                              ? null
+                              : setState(() {
+                            currentStep -= 1;
+                          });
+                        },
+                        controlsBuilder: (BuildContext context, ControlsDetails details) {
+                          final isLastStep = currentStep == getSteps().length - 1;
+                          return Container(
+                            margin: EdgeInsets.only(top:15),// modifie la position des elevated button
+                            child: Row(
+                              children: [
+                                if (currentStep == 0) ...[
+                                  Expanded(
+                                      child: SizedBox(
+                                        height: 50,
+                                        child: ElevatedButton(
+                                          onPressed: details.onStepContinue,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const [
+                                              Text('Suivant'), // <-- Text
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Icon(
+// <-- Icon
+                                                Icons.arrow_forward_ios,
+                                                size: 24.0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+                                ] else if (currentStep > 0 && currentStep == 1) ...[
+                                  Expanded(
+                                      child: ElevatedButton(
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const [
+                                            Icon(
+// <-- Icon
+                                              Icons.arrow_back_ios_new,
+                                              size: 24.0,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text('Précédent'),
+                                          ],
+                                        ),
+                                        onPressed: details.onStepCancel,
+                                      )),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: details.onStepContinue,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const [
+                                            Text('Suivant'), // <-- Text
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Icon(
+// <-- Icon
+                                              Icons.arrow_forward_ios,
+                                              size: 24.0,
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ]else if (currentStep > 0 && currentStep == 2) ...[
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.deepOrange, // background (button) color
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Text('Annuler'),
+                                        ],
+                                      ),
+                                      onPressed: (){
+                                        _showAlertDialog('annuler');
+                                      },
+                                    ),),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.deepOrange, // background (button) color
+                                      ),
+                                      onPressed: (){
+                                      _showAlertDialog('confirm');
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Text('Confirmer'), // <-- Text
+                                        ],
+                                      ),
+                                    ),),
+                                ]
+                              ],
+                            ),
+                          ); //* gestion de sboutons du bas//
+                        },
+                      )),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );
@@ -365,7 +455,7 @@ class _transfertFormState extends State<transfertForm> {
                               controller: amountController,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                hintText: 'Enter a search term',
+                                hintText: 'Entrer un  montant',
                               ),
                             ),
                           ),
@@ -477,12 +567,12 @@ class _transfertFormState extends State<transfertForm> {
                   )),
             ) // 1er Padding
             ),
-       /* Step(
+        Step(
             isActive: currentStep >= 2,
             title: Text('Etape 3'),
             content: Container(
-              margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              height:495,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              height:465,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -501,54 +591,293 @@ class _transfertFormState extends State<transfertForm> {
                       ))
                 ],
               ),
-              child: Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Center(
-                          child: Text('Vérifier les informations sur la transaction', style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 13))),
-                      const SizedBox(height: 5),
-                      if (_selectedGender == 'manuel') ...[
-                        Container(
-                          child: Column(
-                            children: [
-                              fieldInput(topText:'Pays envoi',bottomText:'USA',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Pays de reception',bottomText:'Cameroun',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Montant',bottomText:'470.00',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Nom du destinataire',bottomText:'Robert Boum',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Pays et ville du destinataire',bottomText:'Yaoundé, Cameroun',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'N°Telephone',bottomText:'+237689457150',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Code de Réception',bottomText:'Trans:062089',svgLink:'assets/material-symbols_edit.svg'),
-                              SizedBox(width: 5),
-                              Text('NB: le code de réception est à transmettre uniquement à votre récépteur.', style: TextStyle(color: Color(0xFF6F6F6F),fontSize: 10)),
-                            ],
-                          ),
-                        )
-                      ]else if (_selectedGender == 'bancaire') ...[
-                        Container(
-                          child: Column(
-                            children: [
-                              fieldInput(topText:'Pays envoi',bottomText:'USA',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Pays de reception',bottomText:'Cameroun',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Montant',bottomText:'470.00',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Nom de la Banque',bottomText:'UBA',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'intitulé du ',bottomText:'Yaoundé, Cameroun',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'N°Compte',bottomText:'012478635',svgLink:'assets/material-symbols_edit.svg'),
-                              fieldInput(topText:'Code de Réception',bottomText:'Trans:062089',svgLink:'assets/material-symbols_edit.svg'),
-                              SizedBox(width: 5),
-                              Text('NB: le code de réception est à transmettre uniquement à votre récépteur.', style: TextStyle(color: Color(0xFF6F6F6F),fontSize: 10)),
-                            ],
-                          ),
-                        )
-                      ]
-                    ],
-                  )),
+              child: Scrollbar(
+                thumbVisibility: true, //always show scrollbar
+                thickness: 10, //width of scrollbar
+                radius: Radius.circular(20), //corner radius of scrollbar
+                scrollbarOrientation: ScrollbarOrientation.right, //which side to show scrollbar
+                child: Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: ListView(
+                      children: [Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Center(
+                              child: Text('Vérifier les informations sur la transaction', style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 13))),
+                          const SizedBox(height: 5),
+                          if (_selectedGender == 'manuel') ...[
+                            Container(
+                              child: Column(
+                                children: [
+                                  fieldInput(topText:'Pays envoi',bottomText:dropdownvalueSender,svgLink:'assets/material-symbols_edit.svg',step:0),
+                                  fieldInput(topText:'Pays de reception',bottomText:dropdownvalueReceiver,svgLink:'assets/material-symbols_edit.svg',step:0),
+                                  fieldInput(topText:'Montant',bottomText:amountController.text,svgLink:'assets/material-symbols_edit.svg',step:0),
+                                  fieldInput(topText:'Nom du destinataire',bottomText:NameReceiver.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:0),
+                                  fieldInput(topText:'Pays et ville du destinataire',bottomText:dropdownvalueCountryReception+','+dropdownvalueCountryReception,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:0),
+                                  fieldInput(topText:'N°Telephone',bottomText:PhoneNumber.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:0),
+                                  fieldInput(topText:'Code de Réception',bottomText:receptionCode.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:0),
+                                  SizedBox(width: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text('NB: le code de réception est à transmettre uniquement à votre récépteur.', style: TextStyle(color: Color(0xFF6F6F6F))),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ]else if (_selectedGender == 'bancaire') ...[
+                            Container(
+                              child: Column(
+                                children: [
+                                  fieldInput(topText:'Pays envoi',bottomText:dropdownvalueSender,svgLink:'assets/material-symbols_edit.svg',step:0),
+                                  fieldInput(topText:'Pays de reception',bottomText:dropdownvalueReceiver,svgLink:'assets/material-symbols_edit.svg',step:0),
+                                  fieldInput(topText:'Montant',bottomText:amountController.text,svgLink:'assets/material-symbols_edit.svg',step:0),
+                                  fieldInput(topText:'Nom de la Banque',bottomText:NameBank.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:1),
+                                  fieldInput(topText:'intitulé du ',bottomText:IntituleBank.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:1),
+                                  fieldInput(topText:'N°Compte',bottomText:numberAccount.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:1),
+                                  fieldInput(topText:'Code de Réception',bottomText:receptionCode.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:1),
+                                  SizedBox(width: 5),
+                                  Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text('NB: le code de réception est à transmettre uniquement à votre récépteur.', style: TextStyle(color: Color(0xFF6F6F6F))),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ]
+                        ],
+                      )],
+                    )),
+              ),
             )
-        )*/
+        )
       ];
 
+
+ //widgets permettant d'afficher la pop up
+
+  Future<void> _showAlertDialog(String? Type) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+       if (Type == 'confirm') {
+         return AlertDialog( // <-- SEE HERE
+           title:  Row(
+             mainAxisAlignment: MainAxisAlignment.start,
+             children: [
+               Container(
+                   decoration: BoxDecoration(
+                     border: Border.all(width: 10, color: Colors.deepOrange),
+                     color: Colors.deepOrange,
+                     shape: BoxShape.circle,
+                   ),
+                   child: Icon(Icons.done_outlined, color: Colors.white,size: 15)),
+             ],
+           ),
+           content: SingleChildScrollView(
+             child: ListBody(
+               children: const <Widget>[
+                 Text("Votre demande de transaction a été bien enregistée. vous recevrez une notification d'ici peu",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),),
+               ],
+             ),
+           ),
+           actions: <Widget>[
+             Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+                 Container(
+                   height: 35,
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.all(Radius.circular(5)),
+                     border: Border.all(width: 1, color: Colors.deepOrange),
+                     color: Colors.deepOrange,
+                   ),
+                   child: TextButton(
+                     child: const Text('ok',style: TextStyle(color: Colors.black),),
+                     onPressed: () {
+                       Navigator.of(context).pop();
+                     },
+                   ),
+                 ),
+               ],
+             ),
+           ],
+         );
+       }else{
+         return AlertDialog(// <-- SEE HERE
+           title:  Row(
+             mainAxisAlignment: MainAxisAlignment.start,
+             children: [
+             SvgPicture.asset(
+             'assets/trash.svg',
+             // placeholderBuilder: (context) => const CircularProgressIndicator(),
+             height: 33.0,
+             width: 38,
+             // fit: BoxFit.cover,
+           ),
+             ],
+           ),
+           content: SingleChildScrollView(
+             child: ListBody(
+               children: const <Widget>[
+                 Text("Annuler la transaction ?",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold ),),
+                 Text(" Cette action sera irreversible",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color:Colors.grey ),)
+               ],
+             ),
+           ),
+           actions: <Widget>[
+             Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+                 Container(
+                   height: 35,
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.all(Radius.circular(5)),
+                     border: Border.all(width: 1, color:Colors.grey ),
+                     color: Colors.grey,
+                   ),
+                   child: TextButton(
+                     onPressed: () {
+                       Navigator.of(context).pop();
+                     },
+                     child: const Text('Non',style: TextStyle(color: Color(0xFF6F6F6F),)
+                   ),
+                 )
+                 ),
+                 SizedBox(width: 30),
+                 Container(
+                   height: 35,
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.all(Radius.circular(5)),
+                     border: Border.all(width: 1, color: Colors.deepOrange),
+                     color: Colors.deepOrange,
+                   ),
+                   child: TextButton(
+                     child: const Text('Oui',style: TextStyle(color: Colors.black),),
+                     onPressed: () {
+                       Navigator.of(context).pop();
+                     },
+                   ),
+                 ),
+
+               ],
+             ),
+           ],
+         );
+       }
+
+      },
+    );
+  }
+
+  // widgets permettant d'afficher l'icone  ci < dans < transaction d'argent
+  Widget buildIconButton(
+      {Color? iconColor,
+        required IconData iconButton,
+        String? buttonText,
+        double? fontSizeText,
+        double? fontSizeIcon,
+        Function? callBackFunction}) {
+    if (buttonText != '') {
+      print('---> $buttonText');
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            iconSize: fontSizeIcon,
+            icon: Icon(iconButton, color: iconColor),
+            onPressed: () {
+              callBackFunction!(buttonText);
+            },
+          ),
+          Text(
+            buttonText!,
+            style: TextStyle(color: iconColor, fontSize: fontSizeText),
+          ),
+        ],
+      );
+    } else {
+      var label = 'WithoutLabel';
+      return Column(
+        children: [
+          IconButton(
+            iconSize: fontSizeIcon,
+            icon: Icon(iconButton, color: iconColor),
+            onPressed: () {
+              callBackFunction!();
+            },
+          ),
+        ],
+      );
+    }
+  }
+  Widget fieldInput({//material-symbols_edit
+    required String topText,
+    required String bottomText,
+    required String svgLink,
+    required int step,
+     int? radioStep,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(top: 15),
+      decoration:  const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1.0, color: Colors.grey),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  topText,
+                  style: const TextStyle(
+                      color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  bottomText,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 25), //'assets/spinner.svg'
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  if(step==0){
+                    currentStep = 0;
+                  }else if(step ==1 && radioStep ==0){
+                    currentStep = 1;
+                    _selectedGender = 'manuel';
+                  }else if(step ==1 && radioStep ==1){
+                    currentStep = 1;
+                    _selectedGender ='bancaire';
+                  }
+                });
+              },
+              child: SvgPicture.asset(
+                  svgLink,
+                  width: 15,
+                  // ignore: deprecated_member_use
+                  color: Color.fromRGBO(246, 60, 3, 1)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   Container InputForm(
     String label,String codeInput
     /*,TextEditingController? controller,Function? validator*/
@@ -567,11 +896,13 @@ class _transfertFormState extends State<transfertForm> {
             child: SizedBox(
               height: 30,
               child:
-                  TextFormField(
+              TextField(
+                    //textDirection: TextDirection.ltr ,
                   cursorColor: Colors.orange,
                     controller: NameBank,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 5),
+
+                    contentPadding: EdgeInsets.only(top: 10,left: 15),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0)),
                     focusedBorder: OutlineInputBorder(
@@ -594,7 +925,7 @@ class _transfertFormState extends State<transfertForm> {
                  cursorColor: Colors.orange,
                  controller: IntituleBank,
                  decoration: InputDecoration(
-                   contentPadding: EdgeInsets.only(top: 5),
+                   contentPadding: EdgeInsets.only(top: 10,left: 15),
                    border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(5.0)),
                    focusedBorder: OutlineInputBorder(
@@ -617,7 +948,7 @@ class _transfertFormState extends State<transfertForm> {
                  cursorColor: Colors.orange,
                  controller: numberAccount,
                  decoration: InputDecoration(
-                   contentPadding: EdgeInsets.only(top: 5),
+                   contentPadding: EdgeInsets.only(top: 10,left: 15),
                    border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(5.0)),
                    focusedBorder: OutlineInputBorder(
@@ -640,7 +971,7 @@ class _transfertFormState extends State<transfertForm> {
                  cursorColor: Colors.orange,
                  controller: receptionCode,
                  decoration: InputDecoration(
-                   contentPadding: EdgeInsets.only(top: 5),
+                   contentPadding: EdgeInsets.only(top: 10,left: 15),
                    border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(5.0)),
                    focusedBorder: OutlineInputBorder(
@@ -663,7 +994,7 @@ class _transfertFormState extends State<transfertForm> {
                  cursorColor: Colors.orange,
                  controller: NameReceiver,
                  decoration: InputDecoration(
-                   contentPadding: EdgeInsets.only(top: 5),
+                   contentPadding: EdgeInsets.only(top: 10,left: 15),
                    border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(5.0)),
                    focusedBorder: OutlineInputBorder(
@@ -681,12 +1012,11 @@ class _transfertFormState extends State<transfertForm> {
              child: SizedBox(
                height: 30,
                child:
-
                TextFormField(
                  cursorColor: Colors.orange,
                  controller: PhoneNumber,
                  decoration: InputDecoration(
-                   contentPadding: EdgeInsets.only(top: 5),
+                   contentPadding: EdgeInsets.only(top: 10,left: 15),
                    border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(5.0)),
                    focusedBorder: OutlineInputBorder(

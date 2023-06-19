@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 import 'MA_TransactionStepper.dart';
-import 'test.dart';
 
 void main() {
   runApp(MyApp());

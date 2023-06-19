@@ -71,6 +71,8 @@ flutter:
     - assets/gg_arrows-exchange-alt-v.svg
     - assets/game-icons_receive-money.svg
     - assets/Vector.svg
+    - assets/material-symbols_edit.svg
+    - assets/trash.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
