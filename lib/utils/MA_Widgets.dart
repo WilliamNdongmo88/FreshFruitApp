@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../views/MA_DevisesPage.dart';
+import '../views/MA_SettingsPage.dart';
+import '../views/MA_TransactionPage.dart';
+import '../views/homePage/MA_homePage.dart';
 import 'MA_Styles.dart';
 import 'MA_TransactionItem.dart';
 
@@ -635,7 +639,7 @@ class _getFooterState extends State<getFooter> {
             if (currentIndex == 0) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => TransactionListScreen(
-                        check: check,
+                        //check: check,
                       )));
             } else if (currentIndex == 1) {
               Navigator.of(context).push(MaterialPageRoute(

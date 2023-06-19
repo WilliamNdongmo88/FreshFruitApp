@@ -161,13 +161,13 @@ class _MaSignupViewState extends State<MaSignupView> {
                     text: ' Signup ',
                     onpress: (){
                       print('******* press on the connexion button ');
-                      /*if(!formKey.currentState!.validate()){
+                      if(!formKey.currentState!.validate()){
                         return;
                       }
 
                       authController.signUp(email: emailController.text.trim(),password: passwordController.text.trim());
-                        */
-                      Get.to(()=> SignupView());
+
+                     // Get.to(()=> SignupView());
                     },
                     width: 30.0,
                     height: 40.0,

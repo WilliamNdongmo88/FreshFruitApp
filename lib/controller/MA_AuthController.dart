@@ -7,6 +7,7 @@ import 'package:money_app/views/app content/MA_Provider_CheckUser.dart';
 
 import '../views/auth/MA_Login.dart';
 import '../views/auth/MA_Signup.dart';
+import '../views/homePage/MA_homePage.dart';
 import 'Helper classes/MA_Helper_Country.dart';
 
 class AuthController extends GetxController{
@@ -42,6 +43,7 @@ class AuthController extends GetxController{
       /// Login Sucess
       isLoading(false);
       ///go to dashboard directly
+      Get.to(()=> TransactionListScreen());
     } ).catchError((e) {
       isLoading(false);
       //Get.snackbar('Error',"$e");
@@ -49,6 +51,16 @@ class AuthController extends GetxController{
 
     });
 
+  }
+
+  void forgetPassword(String email) {
+    print("********** in the forgetPassword function ***************");
+    auth.sendPasswordResetEmail(email: email).then((value) {
+      Get.back();
+      Get.snackbar('Email Sent', 'We have sent password reset email');
+    }).catchError((e) {
+      print("Error in sending password reset email is $e");
+    });
   }
 
   void logout(){

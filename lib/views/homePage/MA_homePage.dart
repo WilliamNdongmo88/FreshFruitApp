@@ -9,17 +9,17 @@ import '../MA_SettingsPage.dart';
 import '../MA_TransactionPage.dart';
 
 class TransactionListScreen extends StatefulWidget {
-  bool check;
+  bool? check;
   static const transactionListScreen = '/';
   static const settingspage = '/SettingsPage';
   static const devisespage = '/DevisesPage';
   static const transactionpage = '/TransactionPage';
 
-  TransactionListScreen({super.key, required this.check});
+  TransactionListScreen({super.key});
 
   @override
   State<TransactionListScreen> createState() =>
-      TransactionListScreenState(this.check);
+      TransactionListScreenState();
 }
 
 class TransactionListScreenState extends State<TransactionListScreen> {
@@ -43,8 +43,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     TransactionItem(9,"Terminé", "William Ndongmo", "check", "450",
         "USA", "Lundi 06 mai 2023"),
   ];
-  bool check;
-  TransactionListScreenState(this.check);
+  bool? check;
+  TransactionListScreenState();
   var txt = '';
   int currentIndex = 0;
   void funChange(changetxt) {

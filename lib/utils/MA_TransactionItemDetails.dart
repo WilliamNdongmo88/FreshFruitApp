@@ -55,7 +55,7 @@ class _TransactionScreenState extends State<TransactionScreen>
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => TransactionListScreen(check: check)));
+            builder: (context) => TransactionListScreen()));
       }
     });
   }
