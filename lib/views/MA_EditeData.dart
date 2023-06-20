@@ -1,36 +1,48 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../utils/MA_CallableWidget.dart';
+import '../utils/MA_TransactionItem.dart';
+import '../utils/MA_TransactionItemDetails.dart';
 import '../utils/MA_Widgets.dart';
-import 'MA_SettingsPage.dart';
-import 'MA_TransactionPage.dart';
 import 'homePage/MA_homePage.dart';
 
-class DevisesPage extends StatefulWidget {
-  static const devisespage = '/DevisesPage';
-  const DevisesPage({super.key});
+class EditeData extends StatefulWidget {
+  List<TransactionItem> transaction;
+  int index;
+  EditeData({super.key, required this.transaction, required this.index});
 
   @override
-  State<DevisesPage> createState() => _DevisesPageState();
+  State<EditeData> createState() =>
+      _EditeDataState(this.transaction, this.index);
 }
 
-class _DevisesPageState extends State<DevisesPage> {
-  TextEditingController banqueNameController = TextEditingController(text: 'UBA');
-  TextEditingController compteNameController = TextEditingController(text: '8475 1523 6589 2547');
-  TextEditingController countryNameController = TextEditingController(text: 'Cameroun');
-  TextEditingController numeroCompteController = TextEditingController(text: '012478635');
-  TextEditingController codeReceptionController = TextEditingController(text: 'trans:062089');
+class _EditeDataState extends State<EditeData> {
+  List<TransactionItem> transaction;
+  int index;
+  _EditeDataState(this.transaction, this.index);
+  TextEditingController banqueNameController =
+      TextEditingController(text: 'UBA');
+  TextEditingController compteNameController =
+      TextEditingController(text: '8475 1523 6589 2547');
+  TextEditingController countryNameController =
+      TextEditingController(text: 'Cameroun');
+  TextEditingController numeroCompteController =
+      TextEditingController(text: '012478635');
+  TextEditingController codeReceptionController =
+      TextEditingController(text: 'trans:062089');
   List listCountry = ['Cameoun', 'USA', 'Angland', 'Italie'];
   var valueChoose;
   int currentIndex = 0;
   void funChange(changetxt) {
     setState(() {
-      // currentIndex = changetxt;
-      // print('currentIndex--> $currentIndex');
-      // txt = changetxt;
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => TransactionScreen(
+                transaction: transaction,
+                index: index,
+              )));
     });
   }
 
@@ -40,7 +52,7 @@ class _DevisesPageState extends State<DevisesPage> {
       body: SingleChildScrollView(
         child: Column(children: [
           Container(
-            margin: EdgeInsets.only(left: 20, top: 55),
+            margin: const EdgeInsets.only(left: 20, top: 55),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -205,51 +217,55 @@ class _DevisesPageState extends State<DevisesPage> {
                                               ),
                                               Container(
                                                 height: 35,
-                                                padding: const EdgeInsets.only(left: 10, right: 5),
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, right: 5),
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(color: const Color.fromRGBO(97, 97, 97, 1)),
-                                                  borderRadius: BorderRadius.circular(5),
+                                                  border: Border.all(
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              97, 97, 97, 1)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
                                                 ),
                                                 child: DropdownButton(
-                                                  hint: Text("Cameroun", style: GoogleFonts.inter(fontWeight: FontWeight.bold,color: const Color(0XFF000000)),),
-                                                  icon: const Icon(Icons.arrow_drop_down, color: Color(0XFFF24E1E),),
-                                                  iconSize: 40,
-                                                  underline: const SizedBox(),
-                                                  style: GoogleFonts.inter(
-                                                    color: const Color(0XFF000000),
-                                                  ),
-                                                  value: valueChoose,
-                                                  onChanged: (newValue) {
-                                                    setState(() {
+                                                    hint: Text(
+                                                      "Cameroun",
+                                                      style: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: const Color(
+                                                              0XFF000000)),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color: Color(0XFFF24E1E),
+                                                    ),
+                                                    iconSize: 40,
+                                                    underline: const SizedBox(),
+                                                    style: GoogleFonts.inter(
+                                                      color: const Color(
+                                                          0XFF000000),
+                                                    ),
+                                                    value: valueChoose,
+                                                    onChanged: (newValue) {
+                                                      setState(() {
                                                         valueChoose = newValue;
                                                       });
-                                                  }, 
-                                                  items: listCountry.map((valueCountry){
-                                                    return DropdownMenuItem(
-                                                      value: valueCountry,
-                                                      child: Text(valueCountry, style: GoogleFonts.inter(fontWeight: FontWeight.bold),));
-                                                  },).toList()
-                                                ),
+                                                    },
+                                                    items: listCountry.map(
+                                                      (valueCountry) {
+                                                        return DropdownMenuItem(
+                                                            value: valueCountry,
+                                                            child: Text(
+                                                              valueCountry,
+                                                              style: GoogleFonts.inter(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ));
+                                                      },
+                                                    ).toList()),
                                               )
-                                              // SizedBox(
-                                              //   height: 35,
-                                              //   width: 140,
-                                              //   child: TextFormField(
-                                              //     controller: userController,
-                                              //     decoration: const InputDecoration(
-                                              //         border: OutlineInputBorder(
-                                              //             borderRadius:
-                                              //                 BorderRadius.all(
-                                              //                     Radius.circular(
-                                              //                         5.0)))),
-                                              //     validator: (value) {
-                                              //       if (value != null) {
-                                              //         return 'Please enter a user';
-                                              //       }
-                                              //       return null;
-                                              //     },
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                         ),
@@ -271,8 +287,11 @@ class _DevisesPageState extends State<DevisesPage> {
                                               height: 35,
                                               width: 140,
                                               child: TextFormField(
-                                                controller: numeroCompteController,
-                                                style: GoogleFonts.inter(fontWeight:FontWeight.bold),
+                                                controller:
+                                                    numeroCompteController,
+                                                style: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                                 decoration: const InputDecoration(
                                                     border: OutlineInputBorder(
                                                         borderRadius:
@@ -340,7 +359,11 @@ class _DevisesPageState extends State<DevisesPage> {
                               backgroundColor: const Color(0XFFF24E1E),
                             ),
                             onPressed: () {
-                              // Navigator.of(ctx).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => TransactionScreen(
+                                        transaction: transaction,
+                                        index: index,
+                                      )));
                             },
                             child: Text(
                               'Annuler',
@@ -359,7 +382,16 @@ class _DevisesPageState extends State<DevisesPage> {
                             style: TextButton.styleFrom(
                               backgroundColor: const Color(0XFFF24E1E),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                print('-------alertDialog-----');
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return showdialog(ctx: ctx);
+                                    });
+                              });
+                            },
                             child: Text(
                               'Confirmer',
                               style: GoogleFonts.inter(
@@ -378,7 +410,8 @@ class _DevisesPageState extends State<DevisesPage> {
         ]),
       ),
       /* Tab Bar */
-      bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex: 2),
+      bottomNavigationBar:
+          getFooter(callBackFunction: funChange, currentIndex: 2),
     );
   }
 }

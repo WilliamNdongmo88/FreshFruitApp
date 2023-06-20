@@ -1,18 +1,14 @@
 // ignore_for_file: sort_child_properties_last, avoid_print
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../views/MA_DevisesPage.dart';
-import '../views/MA_SettingsPage.dart';
-import '../views/MA_TransactionPage.dart';
+import '../views/MA_EditeData.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'MA_CallableWidget.dart';
 import 'MA_TransactionItem.dart';
 import 'MA_Widgets.dart';
 
+// ignore: must_be_immutable
 class TransactionScreen extends StatefulWidget {
   List<TransactionItem> transaction;
   int index;
@@ -43,6 +39,15 @@ class _TransactionScreenState extends State<TransactionScreen>
       } else if (changetxt == 'WithoutLabel') {
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
+      } else if (changetxt == 'Modifier') {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                EditeData(transaction: transaction, index: index)));
+      } else if (changetxt == 'Annuler' || changetxt == 'Supprimer' || changetxt == 'Relancer') {
+        showDialog(
+          context: context,
+          builder: (ctx) => showdialog(ctx: ctx, changetxt: changetxt),
+        );
       }
     });
   }
@@ -141,7 +146,8 @@ class _TransactionScreenState extends State<TransactionScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('$txt ' '$index',
+                          Text(
+                            '$txt ' '$index',
                             style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 15,
@@ -374,7 +380,10 @@ class _TransactionScreenState extends State<TransactionScreen>
               /* Tab Bar */
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(top: transaction[index].status == 'Terminé' ? 230 : 280, left: 18, right: 18),
+                margin: EdgeInsets.only(
+                    top: transaction[index].status == 'Terminé' ? 230 : 280,
+                    left: 18,
+                    right: 18),
                 height: transaction[index].status == 'Terminé' ? 510 : 450,
                 width: double.infinity,
                 decoration: BoxDecoration(

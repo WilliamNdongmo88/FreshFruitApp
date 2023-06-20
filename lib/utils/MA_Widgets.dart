@@ -277,7 +277,7 @@ Widget outputField({
 Widget buildIconButton(
     {Color? iconColor,
     required IconData iconButton,
-    String? buttonText,
+    String? buttonText = '',
     double? fontSizeText,
     double? fontSizeIcon,
     Function? callBackFunction}) {
@@ -319,7 +319,7 @@ Widget buildIconButton(
 /// William Ndongmo
 ///
 /// Call the buildIconButtonSvg widget as following
-/// buildIconButton(
+/// buildIconButtonSvg(
 ///                  iconColor: your_iconColor
 ///                  IconData: your_IconData
 ///                  iconSvg: your_svgPath
@@ -498,7 +498,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                   color: const Color.fromARGB(255, 40, 38, 38),
                                 )),
                           const SizedBox(height: 10),
-                          Text('\$${transaction.amont}',
+                          Text('\$${transaction.amont}.00',
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 30)),
                         ],
