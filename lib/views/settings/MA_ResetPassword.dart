@@ -24,28 +24,28 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              SizedBox(height: 80),
-              Form(
-                key: _formKey,
-                child: Container(
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                //SizedBox(height: 10),
+                Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       Image.asset("assets/images/logo_app.png"),
-                      SizedBox(height: 5),
-                      Text(
+                      const SizedBox(height: 5),
+                      const Text(
                         'Réinitialiser  votre mot de passe',
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(right: 25, left: 25),
                         child: TextFormField(
@@ -53,7 +53,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                               label: RichText(
-                                text: TextSpan(
+                                text: const TextSpan(
                                     text: 'Ancien mot de passe',
                                     style: TextStyle(
                                       color: Color(0xFF6F6F6F),
@@ -66,16 +66,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     ]),
                               ),
                               hintText: '⬮⬮⬮⬮⬮⬮⬮⬮⬮',
-                              hintStyle: TextStyle(
+                              errorBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFF6F6F6F)),
+                              ),
+                              focusedErrorBorder: const OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF6F6F6F))),
+                              errorStyle:
+                                  const TextStyle(color: Color(0xFFF24E1E)),
+                              hintStyle: const TextStyle(
                                 color: Color(0xFF000000),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 fontFamily: 'DM Sans',
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xFFF24E1E))),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                 color: Color(0xFF6F6F6F),
                               )),
@@ -93,8 +102,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           controller: ancienMotDepasse,
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Choisissez un mot de passe sécurisé .',
                         style: TextStyle(
                             color: Colors.black,
@@ -102,7 +111,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w500),
                       ),
-                      Text(
+                      const Text(
                         'Niveau de sécurité du mot de passe :',
                         style: TextStyle(
                             color: Colors.black,
@@ -110,7 +119,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w500),
                       ),
-                      Text(
+                      const Text(
                         'Utilisez au moins 8 caractères.',
                         style: TextStyle(
                             color: Colors.black,
@@ -118,7 +127,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(right: 25, left: 25),
                         child: TextFormField(
@@ -126,7 +135,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                               label: RichText(
-                                text: TextSpan(
+                                text: const TextSpan(
                                     text: 'Nouveau mot de passe',
                                     style: TextStyle(
                                       color: Color(0xFF6F6F6F),
@@ -139,16 +148,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     ]),
                               ),
                               hintText: '⬮⬮⬮⬮⬮⬮⬮⬮⬮',
-                              hintStyle: TextStyle(
+                              errorBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFF6F6F6F)),
+                              ),
+                              focusedErrorBorder: const OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF6F6F6F))),
+                              errorStyle:
+                                  const TextStyle(color: Color(0xFFF24E1E)),
+                              hintStyle: const TextStyle(
                                 color: Color(0xFF000000),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 fontFamily: 'DM Sans',
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xFFF24E1E))),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                 color: Color(0xFF6F6F6F),
                               )),
@@ -166,8 +184,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           controller: nouveauMotDePasse,
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Les deux mots de passe doivent être \n                        identique',
                         style: TextStyle(
                             color: Colors.black,
@@ -175,7 +193,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             fontFamily: 'DM Sans',
                             fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(right: 25, left: 25),
                         child: TextFormField(
@@ -183,7 +201,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                               label: RichText(
-                                text: TextSpan(
+                                text: const TextSpan(
                                     text: 'Confirmer votre mot de passe',
                                     style: TextStyle(
                                       color: Color(0xFF6F6F6F),
@@ -196,16 +214,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     ]),
                               ),
                               hintText: '⬮⬮⬮⬮⬮⬮⬮⬮⬮',
-                              hintStyle: TextStyle(
+                              errorBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFF6F6F6F)),
+                              ),
+                              focusedErrorBorder: const OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF6F6F6F))),
+                              errorStyle:
+                                  const TextStyle(color: Color(0xFFF24E1E)),
+                              hintStyle: const TextStyle(
                                 color: Color(0xFF000000),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 fontFamily: 'DM Sans',
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xFFF24E1E))),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                 color: Color(0xFF6F6F6F),
                               )),
@@ -223,7 +250,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           controller: confirmerMotDePasse,
                         ),
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -237,31 +264,34 @@ class _ResetPasswordState extends State<ResetPassword> {
 
                                   FocusScope.of(context)
                                       .requestFocus(FocusNode());
-
+                                  /*
                                   print(rpAncien +
                                       ' ' +
                                       rpNouveau +
                                       ' ' +
                                       rpConfirmer);
+                                      */
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.fromLTRB(57, 20, 57, 20),
-                                  backgroundColor: Color(0xFFF24E1E)),
-                              child: Text(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(57, 20, 57, 20),
+                                  backgroundColor: const Color(0xFFF24E1E)),
+                              child: const Text(
                                 'Confirmer',
                                 style: TextStyle(
                                     fontFamily: 'Inter',
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600),
                               )),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.fromLTRB(57, 20, 57, 20),
-                                  backgroundColor: Color(0xFFF24E1E)),
-                              child: Text(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(57, 20, 57, 20),
+                                  backgroundColor: const Color(0xFFF24E1E)),
+                              child: const Text(
                                 'Annuler',
                                 style: TextStyle(
                                     fontFamily: 'Inter',
@@ -272,9 +302,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                       )
                     ],
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
