@@ -37,9 +37,7 @@ class _HomeWiewScreensState extends State<HomeWiewScreens> {
 
   final screens = [
     Container(child: TransactionListScreen()),
-    Container(
-      child: TransactionPage(),
-    ),
+    // Container(child: TransactionPage(),),
     Container(child: DevisesPage()),
     Container(
       child: SettingsPage(),

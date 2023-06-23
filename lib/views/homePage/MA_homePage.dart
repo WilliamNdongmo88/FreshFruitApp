@@ -1,11 +1,11 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
-import '../MA_DevisesPage.dart';
-import '../MA_SettingsPage.dart';
 import '../MA_TransactionPage.dart';
 
 class TransactionListScreen extends StatefulWidget {
@@ -17,34 +17,33 @@ class TransactionListScreen extends StatefulWidget {
   TransactionListScreen({super.key});
 
   @override
-  State<TransactionListScreen> createState() =>
-      TransactionListScreenState();
+  State<TransactionListScreen> createState() => TransactionListScreenState();
 }
 
 class TransactionListScreenState extends State<TransactionListScreen> {
   final List<TransactionItem> transactions = [
-    TransactionItem("Terminé", "William Ndongmo", "check", "450",
+    TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
+        "Lundi 06 mai 2023"),
+    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement", "750",
         "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
-        "750", "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
-        "USA", "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "500",
-        "USA", "Lun08 mai2023"),
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350", "USA",
+        "Lundi 06 mai 2023"),
+    TransactionItem(
+        "Terminé", "Ndongmo Thierry", "check", "500", "USA", "Lun08 mai2023"),
     TransactionItem("Annulé", "William Ndongmo", "cancel", "425", "USA",
         "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450",
-        "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement",
-        "750", "USA", "Lun08 mai2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350",
-        "USA", "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "Ndongmo Thierry", "check", "600",
-        "USA", "Lun08 mai2023"),
-    TransactionItem( "Annulé", "William Ndongmo", "cancel", "850", "USA",
+    TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
         "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450",
-        "USA", "Lundi 06 mai 2023"),
+    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement", "750",
+        "USA", "Lun08 mai2023"),
+    TransactionItem("En Attente", "William Ndongmo", "attente", "1350", "USA",
+        "Lundi 06 mai 2023"),
+    TransactionItem(
+        "Terminé", "Ndongmo Thierry", "check", "600", "USA", "Lun08 mai2023"),
+    TransactionItem("Annulé", "William Ndongmo", "cancel", "850", "USA",
+        "Lundi 06 mai 2023"),
+    TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
+        "Lundi 06 mai 2023"),
   ];
   var txt = '';
   int currentIndex = 0;
@@ -118,7 +117,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                   Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top:10,right: 20, left: 20, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            top: 10, right: 20, left: 20, bottom: 10),
                         child: Row(
                           children: [
                             Expanded(
@@ -191,7 +191,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 140),
+                        margin: const EdgeInsets.only(top: 140),
                         width: double.infinity,
                         height: 80,
                         decoration: const BoxDecoration(
@@ -200,9 +200,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                             topLeft: Radius.circular(20),
                           ),
                         ),
-                        padding: EdgeInsets.only(left:15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: Container(
-                          margin: EdgeInsets.only(top: 35),
+                          margin: const EdgeInsets.only(top: 35),
                           child: Row(
                             children: [
                               Expanded(
@@ -220,7 +220,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 20.0),
+                                padding: const EdgeInsets.only(right: 20.0),
                                 child: GestureDetector(
                                     onTap: () {},
                                     child: Column(
@@ -229,20 +229,25 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                       children: [
                                         Container(
                                           margin: const EdgeInsets.only(top: 8),
-                                          child: Text(
-                                            'Tout voir',
-                                            style: GoogleFonts.inter(
-                                              decoration: TextDecoration.underline,
-                                              fontSize: 12,
-                                              fontStyle: FontStyle.normal,
-                                              color: Color.fromARGB(255, 40, 38, 38),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              print('---> tout voir');
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          TransactionPage(isListTransaction:true, currentTransaction: 0)));
+                                              // Navigator.pushNamed(context, TransactionPage.transactionpage);
+                                            },
+                                            child: Text(
+                                              'Tout voir',
+                                              style: GoogleFonts.inter(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                fontSize: 12,
+                                                fontStyle: FontStyle.normal,
+                                                color: const Color.fromARGB(255, 40, 38, 38),
+                                              ),
                                             ),
-                                            // style: TextStyle(
-                                            //   decoration: TextDecoration.underline,
-                                            //   color: Colors.grey,
-                                            //   fontSize: 15,
-                                            //   fontWeight: FontWeight.bold
-                                            // ),
                                           ),
                                         ),
                                       ],
@@ -253,45 +258,48 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 210),
+                        margin: const EdgeInsets.only(top: 210),
                         width: double.infinity,
                         height: 545,
                         decoration: const BoxDecoration(
-                          color: const Color.fromRGBO(255, 255, 255, 1),
-                          // borderRadius: BorderRadius.only(
-                          //   topLeft: Radius.circular(20),
-                          // ),
+                          color: Color.fromRGBO(255, 255, 255, 1),
                         ),
-                        padding: EdgeInsets.only(left:15, right: 15),
+                        padding: const EdgeInsets.only(left: 15, right: 15),
                         child: Row(
                           children: [
                             Expanded(
                               child: ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemCount: transactions.length,
-                                    itemBuilder: (context, index) {
-                                      final transaction = transactions[index];
-                                      return ListTile(
-                                        title: Dismissible(
-                                            key: Key(transaction.user),
-                                            onDismissed: (direction) {
-                                              setState(() {
-                                                transactions.removeAt(index);
-                                              });
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          "${transaction.user} supprimé")));
-                                            },
-                                            child: cardItem(transaction: transaction)),
-                                            onTap: () {
-                                              Navigator.of(context).push( MaterialPageRoute(
-                                                  builder: (context) =>TransactionScreen(transaction:transactions, index: index)));
-                                        },
-                                      );
-                                    }
-                              ),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: transactions.length,
+                                  itemBuilder: (context, index) {
+                                    final transaction = transactions[index];
+                                    return ListTile(
+                                      title: Dismissible(
+                                          key: Key(transaction.user),
+                                          onDismissed: (direction) {
+                                            setState(() {
+                                              transactions.removeAt(index);
+                                            });
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(
+                                                        "${transaction.user} supprimé")));
+                                          },
+                                          child: cardItem(
+                                              transaction: transaction)),
+                                      onTap: () {
+                                        print('----onTap From MA_homePage----');
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TransactionScreen(
+                                                        transaction:
+                                                            transactions,
+                                                        index: index, isListTransaction:true)));
+                                      },
+                                    );
+                                  }),
                             ),
                           ],
                         ),
@@ -302,15 +310,17 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                         child: Column(
                           children: [
                             FloatingActionButton.extended(
-                              foregroundColor: const Color.fromRGBO(255, 255, 255, 1),
+                              foregroundColor:
+                                  const Color.fromRGBO(255, 255, 255, 1),
                               backgroundColor: Color.fromRGBO(11, 47, 125, 1),
                               icon: SvgPicture.asset(
                                 'assets/transaction.svg',
                                 width: 35,
                                 // ignore: deprecated_member_use
-                                color:const Color.fromRGBO(255, 255, 255, 1),
+                                color: const Color.fromRGBO(255, 255, 255, 1),
                               ),
-                              label: const Text('Initier une transaction', style: TextStyle(fontSize: 18)),
+                              label: const Text('Initier une transaction',
+                                  style: TextStyle(fontSize: 18)),
                               elevation: 10,
                               onPressed: () {},
                             ),
@@ -325,7 +335,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:0),
+      bottomNavigationBar:
+          getFooter(callBackFunction: funChange, currentIndex: 0),
     );
   }
 }

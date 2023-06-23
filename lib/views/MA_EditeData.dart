@@ -33,16 +33,18 @@ class _EditeDataState extends State<EditeData> {
       TextEditingController(text: '012478635');
   TextEditingController codeReceptionController =
       TextEditingController(text: 'trans:062089');
+  TextEditingController destinataireNameController = TextEditingController(text: 'Robert Boum');
+  TextEditingController numeroTelephoneController = TextEditingController(text: '+23758697425');
   List listCountry = ['Cameoun', 'USA', 'Angland', 'Italie'];
+  List listCities = ['Bafoussam','Yaoundé', 'Douala', 'Kribi', 'Bamenda'];
   var valueChoose;
+  var valueCountryChoose;
+  var valueCityChoose;
   int currentIndex = 0;
   void funChange(changetxt) {
     setState(() {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TransactionScreen(
-                transaction: transaction,
-                index: index,
-              )));
+          builder: (context) => TransactionScreen(transaction: transaction,index: index, isListTransaction:true)));
     });
   }
 
@@ -137,9 +139,10 @@ class _EditeDataState extends State<EditeData> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                  if (transaction[index].status == 'En Traitement') ...[
                                     Container(
                                       margin: const EdgeInsets.only(top: 10),
-                                      child: const Text("Nom de la banque",
+                                      child: const Text("Nom du destinataire",
                                           style: TextStyle(
                                               color:
                                                   Color.fromRGBO(97, 97, 97, 1),
@@ -152,7 +155,7 @@ class _EditeDataState extends State<EditeData> {
                                     SizedBox(
                                       height: 35,
                                       child: TextFormField(
-                                        controller: banqueNameController,
+                                        controller: destinataireNameController,
                                         style: GoogleFonts.inter(
                                             fontWeight: FontWeight.bold),
                                         decoration: const InputDecoration(
@@ -287,8 +290,7 @@ class _EditeDataState extends State<EditeData> {
                                               height: 35,
                                               width: 140,
                                               child: TextFormField(
-                                                controller:
-                                                    numeroCompteController,
+                                                controller:numeroCompteController,
                                                 style: GoogleFonts.inter(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -310,6 +312,246 @@ class _EditeDataState extends State<EditeData> {
                                         )
                                       ],
                                     ),
+                                    ]else if (transaction[index].status == 'En Attente' || transaction[index].status =='Annulé') ...[
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10),
+                                        child: const Text("Nom de la banque",
+                                            style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    97, 97, 97, 1),
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        height: 35,
+                                        child: TextFormField(
+                                          controller: banqueNameController,
+                                          style: GoogleFonts.inter(
+                                              fontWeight: FontWeight.bold),
+                                          decoration: const InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5.0)))),
+                                          validator: (value) {
+                                            if (value != null) {
+                                              return 'Please enter a user';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      const Text("N° Téléphone",
+                                          style: TextStyle(
+                                              color:
+                                                  Color.fromRGBO(97, 97, 97, 1),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold)),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        height: 35,
+                                        child: TextFormField(
+                                          controller: numeroTelephoneController,
+                                          style: GoogleFonts.inter(
+                                              fontWeight: FontWeight.bold),
+                                          decoration: const InputDecoration(
+                                              border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5.0)))),
+                                          validator: (value) {
+                                            if (value != null) {
+                                              return 'Please enter a user';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text("Pays",
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            97, 97, 97, 1),
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Container(
+                                                  height: 35,
+                                                  padding: const EdgeInsets.only(
+                                                      left: 10, right: 5),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                            const Color.fromRGBO(
+                                                                97, 97, 97, 1)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                  ),
+                                                  child: DropdownButton(
+                                                      hint: Text(
+                                                        "Cameroun",
+                                                        style: GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: const Color(
+                                                                0XFF000000)),
+                                                      ),
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color: Color(0XFFF24E1E),
+                                                      ),
+                                                      iconSize: 40,
+                                                      underline: const SizedBox(),
+                                                      style: GoogleFonts.inter(
+                                                        color: const Color(
+                                                            0XFF000000),
+                                                      ),
+                                                      value: valueCountryChoose,
+                                                      onChanged: (newValue) {
+                                                        setState(() {
+                                                          valueCountryChoose = newValue;
+                                                        });
+                                                      },
+                                                      items: listCountry.map(
+                                                        (valueCountry2) {
+                                                          return DropdownMenuItem(
+                                                              value: valueCountry2,
+                                                              child: Text(
+                                                                valueCountry2,
+                                                                style: GoogleFonts.inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ));
+                                                        },
+                                                      ).toList()),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text("Ville",
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          97, 97, 97, 1),
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                height: 35,
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, right: 5),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: const Color.fromRGBO(
+                                                          97, 97, 97, 1)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: DropdownButton(
+                                                    hint: Text(
+                                                      "Yaoundé",
+                                                      style: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: const Color(
+                                                              0XFF000000)),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color: Color(0XFFF24E1E),
+                                                    ),
+                                                    iconSize: 40,
+                                                    underline: const SizedBox(),
+                                                    style: GoogleFonts.inter(
+                                                      color:
+                                                          const Color(0XFF000000),
+                                                    ),
+                                                    value: valueCityChoose,
+                                                    onChanged: (newValue) {
+                                                      setState(() {
+                                                        valueCityChoose = newValue;
+                                                      });
+                                                    },
+                                                    items: listCities.map(
+                                                      (valueCity) {
+                                                        return DropdownMenuItem(
+                                                            value: valueCity,
+                                                            child: Text(
+                                                              valueCity,
+                                                              style: GoogleFonts.inter(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ));
+                                                      },
+                                                    ).toList()),
+                                              )
+                                            ],
+                                          ),
+                                          // Column(
+                                          //   crossAxisAlignment:
+                                          //       CrossAxisAlignment.start,
+                                          //   children: [
+                                          //     const Text("Ville",
+                                          //         style: TextStyle(
+                                          //             color: Color.fromRGBO(
+                                          //                 97, 97, 97, 1),
+                                          //             fontSize: 17,
+                                          //             fontWeight:
+                                          //                 FontWeight.bold)),
+                                          //     const SizedBox(
+                                          //       height: 10,
+                                          //     ),
+                                          //     SizedBox(
+                                          //       height: 35,
+                                          //       width: 140,
+                                          //       child: TextFormField(
+                                          //         controller:numeroCompteController,
+                                          //         style: GoogleFonts.inter(
+                                          //             fontWeight:
+                                          //                 FontWeight.bold),
+                                          //         decoration: const InputDecoration(
+                                          //             border: OutlineInputBorder(
+                                          //                 borderRadius:
+                                          //                     BorderRadius.all(
+                                          //                         Radius.circular(
+                                          //                             5.0)))),
+                                          //         validator: (value) {
+                                          //           if (value != null) {
+                                          //             return 'Please enter a user';
+                                          //           }
+                                          //           return null;
+                                          //         },
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // )
+                                        ],
+                                      ),
+                                    ],
                                     const SizedBox(height: 10),
                                     const Text("Code de reception",
                                         style: TextStyle(
@@ -363,6 +605,7 @@ class _EditeDataState extends State<EditeData> {
                                   builder: (context) => TransactionScreen(
                                         transaction: transaction,
                                         index: index,
+                                      isListTransaction:false
                                       )));
                             },
                             child: Text(
@@ -411,7 +654,7 @@ class _EditeDataState extends State<EditeData> {
       ),
       /* Tab Bar */
       bottomNavigationBar:
-          getFooter(callBackFunction: funChange, currentIndex: 2),
+          getFooter(callBackFunction: funChange, currentIndex: 1),
     );
   }
 }

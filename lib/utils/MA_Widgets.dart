@@ -330,8 +330,7 @@ Widget buildIconButton(
 /// your_callBackFunction is a function that get the name of the icon that was clicked
 Widget buildIconButtonSvg(
     {Color? iconColor,
-    // required IconData iconButton,
-    String? buttonText,
+    String? buttonText = 'WithoutLabel',
     String? iconSvg,
     double? fontSizeText,
     double? fontSizeIcon,
@@ -596,13 +595,20 @@ class _getFooterState extends State<getFooter> {
         // selectedFontSize: 15,
         // unselectedFontSize: 12,
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/home.svg',
+              width: 25,
+              // ignore: deprecated_member_use
+              color: currentIndex == 0
+                  ? const Color.fromRGBO(242, 78, 30, 1)
+                  : const Color.fromRGBO(97, 97, 97, 1),
+            ),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/transaction.svg',
+              'assets/transactions.svg',
               width: 25,
               // ignore: deprecated_member_use
               color: currentIndex == 1
@@ -613,7 +619,7 @@ class _getFooterState extends State<getFooter> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/devises.svg',
+              'assets/devise.svg',
               width: 25,
               // ignore: deprecated_member_use
               color: currentIndex == 2
@@ -624,14 +630,14 @@ class _getFooterState extends State<getFooter> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/settings.svg',
+              'assets/setting.svg',
               width: 25,
               // ignore: deprecated_member_use
               color: currentIndex == 3
                   ? const Color.fromRGBO(246, 60, 3, 1)
                   : const Color.fromRGBO(97, 97, 97, 1),
             ),
-            label: 'Sttings',
+            label: 'Settings',
           ),
         ],
         onTap: (index) {
@@ -644,7 +650,7 @@ class _getFooterState extends State<getFooter> {
                   builder: (context) => TransactionListScreen()));
             } else if (currentIndex == 1) {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionPage()));
+                  builder: (context) => TransactionPage(isListTransaction:true, currentTransaction:0)));
             } else if (currentIndex == 2) {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const DevisesPage()));

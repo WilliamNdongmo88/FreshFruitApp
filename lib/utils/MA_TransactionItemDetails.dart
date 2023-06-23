@@ -1,8 +1,9 @@
-// ignore_for_file: sort_child_properties_last, avoid_print
+// ignore_for_file: sort_child_properties_last, avoid_print, unnecessary_this, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../views/MA_EditeData.dart';
+import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'MA_CallableWidget.dart';
 import 'MA_TransactionItem.dart';
@@ -12,20 +13,25 @@ import 'MA_Widgets.dart';
 class TransactionScreen extends StatefulWidget {
   List<TransactionItem> transaction;
   int index;
+  bool isListTransaction;
   static const transactionScreenPage = '/TransactionScreen';
   TransactionScreen(
-      {super.key, required this.transaction, required this.index});
+      {super.key,
+      required this.transaction,
+      required this.index,
+      required this.isListTransaction});
 
   @override
-  State<TransactionScreen> createState() =>
-      _TransactionScreenState(this.transaction, this.index);
+  State<TransactionScreen> createState() => _TransactionScreenState(
+      this.transaction, this.index, this.isListTransaction);
 }
 
 class _TransactionScreenState extends State<TransactionScreen>
     with TickerProviderStateMixin {
   List<TransactionItem> transaction;
   int index;
-  _TransactionScreenState(this.transaction, this.index);
+  bool isListTransaction;
+  _TransactionScreenState(this.transaction, this.index, this.isListTransaction);
   var txt = 'Nom du bénéficiaire';
   void funChange(changetxt) {
     setState(() {
@@ -36,14 +42,31 @@ class _TransactionScreenState extends State<TransactionScreen>
           builder: (ctx) => Center(
               child: GetDataForm(ctx: ctx, callBackFunction: funInputChange)),
         );
-      } else if (changetxt == 'WithoutLabel') {
+      } else if (changetxt == 'WithoutLabel' && isListTransaction == false) {
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
+      } else if (changetxt == 'WithoutLabel' && isListTransaction == true) {
+        print('----back with true---- ${transaction[index].status}');
+        if (transaction[index].status == 'En Traitement' || transaction[index].status == 'En Attente') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  TransactionPage(isListTransaction: isListTransaction, currentTransaction: 1)));
+        } else if (transaction[index].status == 'Terminé') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => TransactionPage(
+                  isListTransaction: isListTransaction, currentTransaction: 2)));
+        }else {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => TransactionPage(
+                  isListTransaction: isListTransaction, currentTransaction: 3)));
+        }
       } else if (changetxt == 'Modifier') {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 EditeData(transaction: transaction, index: index)));
-      } else if (changetxt == 'Annuler' || changetxt == 'Supprimer' || changetxt == 'Relancer') {
+      } else if (changetxt == 'Annuler' ||
+          changetxt == 'Supprimer' ||
+          changetxt == 'Relancer') {
         showDialog(
           context: context,
           builder: (ctx) => showdialog(ctx: ctx, changetxt: changetxt),
@@ -54,9 +77,6 @@ class _TransactionScreenState extends State<TransactionScreen>
 
   void funChange2(changetxt) {
     setState(() {
-      // currentIndex = changetxt;
-      // print('currentIndex--> $currentIndex');
-      // txt = changetxt;
       if (changetxt == 0) {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => TransactionListScreen()));
@@ -107,12 +127,12 @@ class _TransactionScreenState extends State<TransactionScreen>
           child: Stack(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 20, top: 20),
+                margin: const EdgeInsets.only(left: 20, top: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     buildIconButton(
-                        iconColor: Color.fromRGBO(17, 16, 15, 1),
+                        iconColor: const Color.fromRGBO(17, 16, 15, 1),
                         iconButton: Icons.arrow_back_ios,
                         buttonText: '',
                         fontSizeIcon: 35,
@@ -137,7 +157,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                     top: Radius.circular(20),
                   ),
                 ),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -147,7 +167,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '$txt ' '$index',
+                            '$txt ' '$index ' '$isListTransaction',
                             style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 15,
@@ -156,7 +176,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                           const SizedBox(
                             height: 10,
                           ),
-                          Text(
+                          const Text(
                             'James Kora',
                             style: TextStyle(
                                 color: Colors.white,
@@ -176,29 +196,26 @@ class _TransactionScreenState extends State<TransactionScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            Container(
-                                child: MaterialButton(
-                              onPressed: () {},
-                              color: Colors.white,
-                              textColor: Colors.white,
-                              child: buildIconButtonSvg(
-                                  iconColor:
-                                      const Color.fromRGBO(17, 16, 15, 1),
-                                  iconSvg: 'assets/cancel2.svg',
-                                  buttonText: 'Annuler',
-                                  fontSizeIcon: 35,
-                                  callBackFunction: funChange),
-                              padding: const EdgeInsets.all(13),
-                              shape: const CircleBorder(),
-                            )),
-                            const SizedBox(height: 8),
-                            const Text('Annuler',
-                                style: TextStyle(fontSize: 16)),
-                          ],
-                        ),
+                      Column(
+                        children: [
+                          MaterialButton(
+                            onPressed: () {},
+                            color: Colors.white,
+                            textColor: Colors.white,
+                            child: buildIconButtonSvg(
+                            iconColor:
+                                const Color.fromRGBO(17, 16, 15, 1),
+                            iconSvg: 'assets/cancel2.svg',
+                            buttonText: 'Annuler',
+                            fontSizeIcon: 35,
+                            callBackFunction: funChange),
+                            padding: const EdgeInsets.all(13),
+                            shape: const CircleBorder(),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text('Annuler',
+                              style: TextStyle(fontSize: 16)),
+                        ],
                       ),
                       const SizedBox(width: 5),
                       Column(
