@@ -3,12 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../controller/MA_DataController.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
 import '../MA_TransactionPage.dart';
 
 class TransactionListScreen extends StatefulWidget {
+  bool? check;
   static const transactionListScreen = '/';
   static const settingspage = '/SettingsPage';
   static const devisespage = '/DevisesPage';
@@ -45,6 +47,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
         "Lundi 06 mai 2023"),
   ];
+
   var txt = '';
   int currentIndex = 0;
   void funChange(changetxt) {
@@ -55,9 +58,21 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     });
   }
 
+  List<TransactionItemToFireBase> alltransferts = [];
+  Future<void> getDataTransferts() async {
+    DataController dataController = DataController();
+    alltransferts = await dataController.retrieveTransferts();
+    print('transfert---> $alltransferts');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataTransferts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<TransactionItemToFireBase> alltransactions = [];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(
@@ -235,7 +250,11 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          TransactionPage(isListTransaction:true, currentTransaction: 0)));
+                                                          TransactionPage(
+                                                              isListTransaction:
+                                                                  true,
+                                                              currentTransaction:
+                                                                  0)));
                                               // Navigator.pushNamed(context, TransactionPage.transactionpage);
                                             },
                                             child: Text(
@@ -245,7 +264,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                                     TextDecoration.underline,
                                                 fontSize: 12,
                                                 fontStyle: FontStyle.normal,
-                                                color: const Color.fromARGB(255, 40, 38, 38),
+                                                color: const Color.fromARGB(
+                                                    255, 40, 38, 38),
                                               ),
                                             ),
                                           ),
@@ -296,7 +316,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                                     TransactionScreen(
                                                         transaction:
                                                             transactions,
-                                                        index: index, isListTransaction:true)));
+                                                        index: index,
+                                                        isListTransaction:
+                                                            true)));
                                       },
                                     );
                                   }),

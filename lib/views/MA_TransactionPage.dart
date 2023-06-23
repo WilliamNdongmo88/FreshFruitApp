@@ -55,7 +55,9 @@ class TransactionPageState extends State<TransactionPage> {
   int currentTransaction;
   TransactionPageState(this.isListTransaction, this.currentTransaction);
   void funChange(changetxt) {
+    print('22changetxt22 --> $changetxt');
     setState(() {
+      print('changetxt --> $changetxt');
       if (changetxt == 'WithoutLabel' && currentTransaction == 0) {
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
@@ -71,13 +73,19 @@ class TransactionPageState extends State<TransactionPage> {
         showDialog(
             context: context,
             builder: (BuildContext ctx) {
-              return showDialogFilterSort(changetxt: changetxt, ctx:ctx, currentTransaction: currentTransaction);
+              return showDialogFilterSort(
+                  changetxt: changetxt,
+                  ctx: ctx,
+                  currentTransaction: currentTransaction);
             });
       } else if (changetxt == 'Trier') {
         showDialog(
             context: context,
             builder: (BuildContext ctx) {
-              return showDialogFilterSort(changetxt: changetxt, ctx: ctx, currentTransaction: currentTransaction);
+              return showDialogFilterSort(
+                  changetxt: changetxt,
+                  ctx: ctx,
+                  currentTransaction: currentTransaction);
             });
       }
     });

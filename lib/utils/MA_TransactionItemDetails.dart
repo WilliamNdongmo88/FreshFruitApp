@@ -78,8 +78,9 @@ class _TransactionScreenState extends State<TransactionScreen>
   void funChange2(changetxt) {
     setState(() {
       if (changetxt == 0) {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => TransactionListScreen()));
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
+        Navigator.pushNamed(context, TransactionListScreen.transactionListScreen);
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
       }
     });
   }
