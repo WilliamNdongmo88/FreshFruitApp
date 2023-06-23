@@ -314,7 +314,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                   const Color.fromRGBO(255, 255, 255, 1),
                               backgroundColor: Color.fromRGBO(11, 47, 125, 1),
                               icon: SvgPicture.asset(
-                                'assets/transaction.svg',
+                                'assets/transactions.svg',
                                 width: 35,
                                 // ignore: deprecated_member_use
                                 color: const Color.fromRGBO(255, 255, 255, 1),

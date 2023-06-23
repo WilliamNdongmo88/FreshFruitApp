@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,91 +84,103 @@ class _DevisesPageState extends State<DevisesPage> {
                   ),
                 ],
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: Text("Vos dévises en temps réel",
-                        style: GoogleFonts.inter(
-                        fontSize: 23, 
-                        fontWeight: FontWeight.bold, 
-                        color: Colors.black
-                      ),
-                    )
-                  ),
-                  Container(
-                      alignment: Alignment.center,
-                      margin:
-                          const EdgeInsets.only(top: 30, left: 18, right: 18),
-                      height: 250,
-                      width: 350,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(25), //border corner radius
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(1), //color of shadow
-                            spreadRadius: 3, //spread radius
-                            blurRadius: 3, // blur radius
-                            offset: const Offset(
-                                -3, 3), // changes position of shadow
-                            //first paramerter of offset is left-right
-                            //second parameter is top to down
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: Text(
-                                "USD",
-                                style: GoogleFonts.inter(
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              )),
-                        ],
+                  Column(
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Text("Vos dévises en temps réel",
+                          style: GoogleFonts.inter(
+                          fontSize: 23, 
+                          fontWeight: FontWeight.bold, 
+                          color: Colors.black
+                        ),
                       )
-                  ),
-                  const SizedBox(height: 30,),
-                  Container(
-                      alignment: Alignment.center,
-                      margin:
-                          const EdgeInsets.only(top: 30, left: 18, right: 18),
-                      height: 250,
-                      width: 350,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(25), //border corner radius
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(1), //color of shadow
-                            spreadRadius: 3, //spread radius
-                            blurRadius: 3, // blur radius
-                            offset: const Offset(
-                                -3, 3), // changes position of shadow
-                            //first paramerter of offset is left-right
-                            //second parameter is top to down
-                          ),
-                        ],
+                    ),
+                    Container(
+                        alignment: Alignment.center,
+                        margin:
+                            const EdgeInsets.only(top: 30, left: 18, right: 18),
+                        height: 250,
+                        width: 350,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(25), //border corner radius
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(1), //color of shadow
+                              spreadRadius: 3, //spread radius
+                              blurRadius: 3, // blur radius
+                              offset: const Offset(
+                                  -3, 3), // changes position of shadow
+                              //first paramerter of offset is left-right
+                              //second parameter is top to down
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: Text(
+                                  "USD",
+                                  style: GoogleFonts.inter(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                )),
+                          ],
+                        )
+                    ),
+                    const SizedBox(height: 20,),
+                    Container(
+                        alignment: Alignment.center,
+                        margin:
+                            const EdgeInsets.only(top: 30, left: 18, right: 18),
+                        height: 250,
+                        width: 350,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(25), //border corner radius
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(1), //color of shadow
+                              spreadRadius: 3, //spread radius
+                              blurRadius: 3, // blur radius
+                              offset: const Offset(
+                                  -3, 3), // changes position of shadow
+                              //first paramerter of offset is left-right
+                              //second parameter is top to down
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: Text(
+                                  "EUR",
+                                  style: GoogleFonts.inter(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                )),
+                          ],
+                        )),                   
+                  ],),
+                  Positioned(
+                  top: 320,
+                  right: 50,
+                  child: SvgPicture.asset(
+                        'assets/exchange.svg',
+                        width: 65,
+                        height: 65,
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: Text(
-                                "EUR",
-                                style: GoogleFonts.inter(
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              )),
-                        ],
-                      )),
-                ],
+                ),
+                ]
               )
           ),
         ]),
