@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -77,21 +78,17 @@ class AuthController extends GetxController{
     isLoading(true);
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
     await googleUser?.authentication;
-
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-
     // Once signed in, return the UserCredential
     FirebaseAuth.instance.signInWithCredential(credential).then((value) {
       isLoading(false);
-
       ///SuccessFull loged in
       //Get.to(() => BottomBarView());
       Get.to(()=> AppContent());
@@ -101,6 +98,45 @@ class AuthController extends GetxController{
       print("Error is $e");
     });
   }
+
+   signInWithFacebook() async {
+     isLoading(true);
+     try{
+       final facebookLoginResult = await FacebookAuth.instance.login();
+       final userData = await FacebookAuth.instance.getUserData();
+
+       final facebookAuthCredential = FacebookAuthProvider.credential(facebookLoginResult.accessToken!.token);
+       FirebaseAuth.instance.signInWithCredential(facebookAuthCredential).then((value) {
+         isLoading(false);
+         Get.to(()=> AppContent());
+       }).catchError((e){
+         isLoading(false);
+         print("Error in the Facebook_signInWithCredential:  $e");
+       });
+
+     } on FirebaseAuthException catch (e) {
+       print("Error when try to login with facebook is $e");
+       var title = '';
+          switch(e.code){
+            case 'account-exists-with-different-credential':
+              title = 'this account exists with a different sign in provider';
+              break;
+            case 'invalid-credential':
+              title = 'Unknown error has occured';
+              break;
+            case 'operation-not-allowed':
+              title = 'This operation is not allowed';
+              break;
+            case 'user-disabled':
+              title = 'The user you tried to log into is disabed';
+              break;
+            case 'user-not-found':
+              title = 'The user you tried to log into was not found';
+              break;
+          }
+       print("Error Title is $title");
+     }
+   }
 
    Future<void> retrieveCountry() async  {
     await  dataController.retrieveCountry();

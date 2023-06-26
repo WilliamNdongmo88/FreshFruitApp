@@ -14,9 +14,14 @@ import 'package:money_app/views/homePage/MA_homePage.dart';
 import 'controller/MA_DataController.dart';
 import 'firebase_options.dart';
 
+//librairies notifications
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //Notification();
   runApp(MyApp());
 }
 
@@ -25,6 +30,7 @@ class MyApp extends StatelessWidget {
   final DataController dataController = Get.put(DataController());
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -39,6 +45,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class AppWrapper extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DataController dataController = Get.find<DataController>();
@@ -61,8 +68,8 @@ class AppWrapper extends StatelessWidget {
           print(snapshot.data);
           //send him to dashboard
           //return Center(child: Text("*******send him to dashboard************"));
-          return TransactionListScreen();
-          //return LoginView();
+          //return TransactionListScreen();
+          return LoginView();
         } else {
           return LoginView();
         }
@@ -88,3 +95,7 @@ class AppWrapper extends StatelessWidget {
   }
 
 }
+
+
+
+
