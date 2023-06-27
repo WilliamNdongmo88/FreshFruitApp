@@ -55,7 +55,6 @@ class TransactionPageState extends State<TransactionPage> {
   int currentTransaction;
   TransactionPageState(this.isListTransaction, this.currentTransaction);
   void funChange(changetxt) {
-    print('22changetxt22 --> $changetxt');
     setState(() {
       print('changetxt --> $changetxt');
       if (changetxt == 'WithoutLabel' && currentTransaction == 0) {
