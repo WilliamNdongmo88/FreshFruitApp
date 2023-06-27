@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../MA_TransactionStepper.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
@@ -311,7 +312,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                               ),
                               label: const Text('Initier une transaction', style: TextStyle(fontSize: 18)),
                               elevation: 10,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => transfertForm()));
+                              },
                             ),
                           ],
                         ),
