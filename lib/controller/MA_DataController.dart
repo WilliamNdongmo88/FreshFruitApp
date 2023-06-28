@@ -111,6 +111,30 @@ class DataController extends GetxController{
       return CountryList;
    }
 
+   Future<String> sendToken(String token) async {
+    String msg;
+     dynamic result = await callCloudFunction('nl_manage_users', {"action": "UPDATE", "user":{"fcmToken":token}});
+     if(result['ErrorCode'] ==null){
+       if(result['message'] !=null){
+         //empty result
+         print('*** sendToken function: enter In empty response scope ***');
+         print(result['message']);
+         msg = "K.O.1";
+       }else{
+         print('*** enter In good response scope: sendToken function ***');
+         print(result['body'].runtimeType);
+         msg = result['body'];
+         //Get.to(()=> TransactionListScreen());
+       }
+     }else{
+       //an error occur
+       print('enter In error response scope: sendToken function');
+       print(result['ErrorCode']);
+       print(result['message']);
+       msg = "K.O";
+     }
+     return msg;
+   }
 
    Future<String> createUser(MA_Helper_User user) async{
      isLoading(true);

@@ -68,8 +68,8 @@ class AppWrapper extends StatelessWidget {
           print(snapshot.data);
           //send him to dashboard
           //return Center(child: Text("*******send him to dashboard************"));
-          //return TransactionListScreen();
-          return LoginView();
+          return TransactionListScreen();
+          //return LoginView();
         } else {
           return LoginView();
         }
@@ -88,10 +88,20 @@ class AppWrapper extends StatelessWidget {
         if (user != null) {
           print(user.uid);
           res=true;
+          String token = dataController.token.value;
+          print("***----*** token recieved : $token ******");
+          callsendToken(token);
         }
       });
     print("**************result of auth status change before retrun: $res ******");
     return res;
+  }
+
+  String? val;
+  Future<void> callsendToken(String tok) async{
+    print("*********** in the callsendToken ***********");
+    val = await dataController.sendToken(tok);
+    print("**** in callsendToken function the token valeur  ist : $val");
   }
 
 }
