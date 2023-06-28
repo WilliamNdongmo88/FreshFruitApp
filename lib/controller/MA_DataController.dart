@@ -14,6 +14,7 @@ class DataController extends GetxController{
 
   List<MA_Helper_Country> CountryList = <MA_Helper_Country>[].obs;
   RxList<MA_Helper_Country> CountryListToDispatch = <MA_Helper_Country>[].obs;
+  RxString token = ''.obs;
 /*
   author: Franc TOUTCHA
   * This is a function which help you to call cloud functions
@@ -156,6 +157,10 @@ class DataController extends GetxController{
 
   void updateCountryList(List<MA_Helper_Country> listC){
     CountryListToDispatch.value =listC;
+  }
+
+  void setToken(String toknC){
+    token.value = toknC;
   }
 
 

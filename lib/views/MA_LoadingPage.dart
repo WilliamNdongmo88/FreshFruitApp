@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../utils/MA_Styles.dart';
 import '../../utils/MA_Widgets.dart';
+import '../controller/MA_DataController.dart';
 
 class LoadingView extends StatefulWidget {
   const LoadingView({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class _LoadingViewState extends State<LoadingView>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  final DataController dataController = Get.find<DataController>();
 
   String notificationMsg = "Waiting for notifications";
   String typeNotif = "";
@@ -38,9 +40,9 @@ class _LoadingViewState extends State<LoadingView>
       if (kDebugMode) {
         print('device token');
         print(value);
+        dataController.setToken(value);
       }
     });
-
 
     // Terminated State
     FirebaseMessaging.instance.getInitialMessage().then((message) {

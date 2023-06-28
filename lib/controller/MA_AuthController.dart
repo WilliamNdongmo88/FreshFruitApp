@@ -100,6 +100,7 @@ class AuthController extends GetxController{
   }
 
    signInWithFacebook() async {
+     Get.snackbar('Facebook ---> ', 'Content Facebook');
      isLoading(true);
      try{
        final facebookLoginResult = await FacebookAuth.instance.login();
@@ -135,6 +136,7 @@ class AuthController extends GetxController{
               break;
           }
        print("Error Title is $title");
+       Get.snackbar('Eroor : This error occur ---> ', '$title');
      }
    }
 
