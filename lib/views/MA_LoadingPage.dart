@@ -91,10 +91,15 @@ class _LoadingViewState extends State<LoadingView>
 
   Future getDeviceToken() async {
     //request user permission for push notification
-    FirebaseMessaging.instance.requestPermission();
-    FirebaseMessaging _firebaseMessage = FirebaseMessaging.instance;
-    String? deviceToken = await _firebaseMessage.getToken();
-    return (deviceToken == null) ? "" : deviceToken;
+    try{
+      FirebaseMessaging.instance.requestPermission();
+      FirebaseMessaging _firebaseMessage = FirebaseMessaging.instance;
+      String? deviceToken = await _firebaseMessage.getToken();
+      return (deviceToken == null) ? "no connected" : deviceToken;
+
+    }catch(e) {
+      return "Error retrieving FCM token: $e";
+    }
   }
 
   @override
