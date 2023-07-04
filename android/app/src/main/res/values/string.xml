@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">money App</string>
+    <string name="facebook_app_id">977342516631929</string>
+    <string name="fb_login_protocol_scheme">fb977342516631929</string>
+    <string name="facebook_client_token">398078902715283193d62519109f9696</string>
+</resources>
+

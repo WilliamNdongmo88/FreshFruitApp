@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../MA_TransactionStepper.dart';
 import '../../controller/MA_DataController.dart';
+import '../../notification/MA_Notification.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
+import '../MA_DevisesPage.dart';
+import '../MA_SettingsPage.dart';
 import '../MA_TransactionPage.dart';
+import '../app content/MA_Provider_CheckUser.dart';
 
 class TransactionListScreen extends StatefulWidget {
   bool? check;
@@ -18,7 +24,8 @@ class TransactionListScreen extends StatefulWidget {
   TransactionListScreen({super.key});
 
   @override
-  State<TransactionListScreen> createState() => TransactionListScreenState();
+  State<TransactionListScreen> createState() =>
+      TransactionListScreenState();
 }
 
 class TransactionListScreenState extends State<TransactionListScreen> {
@@ -72,6 +79,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<TransactionItemToFireBase> alltransactions = [];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(
@@ -173,7 +181,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                   Padding(
                                       padding: EdgeInsets.only(right: 20.0),
                                       child: GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.to(()=> NotificationScreen());
+                                        },
                                         child: const Icon(
                                           Icons.notifications,
                                           size: 40,
@@ -267,6 +277,12 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                                     255, 40, 38, 38),
                                               ),
                                             ),
+                                            // style: TextStyle(
+                                            //   decoration: TextDecoration.underline,
+                                            //   color: Colors.grey,
+                                            //   fontSize: 15,
+                                            //   fontWeight: FontWeight.bold
+                                            // ),
                                           ),
                                         ),
                                       ],

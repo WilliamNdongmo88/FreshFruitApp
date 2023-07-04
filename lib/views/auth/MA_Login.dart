@@ -176,6 +176,7 @@ class _LoginViewState extends State<LoginView> {
                             myTextField(
                                 bool: false,
                                 icon: 'assets/pass_icon.png',
+                                label:  'Email',
                                 text: 'enter your email...',
                                 controller: forgetEmailController
                             ),
@@ -247,6 +248,7 @@ class _LoginViewState extends State<LoginView> {
                         text: 'assets/fb.png',
                         onPressed: () {
                           //  Get.to(()=> ProfileScreen());
+                          authController.signInWithFacebook();
                         }),
                     socialAppsIcons(
                         text: 'assets/google.png',
