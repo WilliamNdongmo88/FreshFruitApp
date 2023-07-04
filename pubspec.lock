@@ -356,10 +356,10 @@ packages:
     dependency: "direct main"
     description:
       name: google_fonts
-      sha256: "6b6f10f0ce3c42f6552d1c70d2c28d764cf22bb487f50f66cca31dcd5194f4d6"
+      sha256: "8f099045e2f2a30e4d4d0a35f40c6bc941a8f2ca0e10ad9d214ee9edd3f37483"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.4"
+    version: "3.0.1"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -372,18 +372,18 @@ packages:
     dependency: "direct main"
     description:
       name: google_sign_in
-      sha256: bb882facf7efa69b825cb536cb395acc2b22702cca59597b4e928b23f5ef37c3
+      sha256: aab6fdc41374014494f9e9026b9859e7309639d50a0bf4a2a412467a5ae4abc6
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   google_sign_in_android:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: "2a8b90b766ce00b03e7543f4ffeec97b6eb51fb6c3f31ce2a364bd1f1b9dd7fc"
+      sha256: f58a17ac07d783d000786a6c313fa4a0d2ee599a346d69b24fc48fb378d5d150
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.14"
+    version: "6.1.16"
   google_sign_in_ios:
     dependency: transitive
     description:
@@ -396,18 +396,18 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_platform_interface
-      sha256: "95a9e0a8701b5485f2ca330fd1fc6f918f5ce088042ce1019c5e389d8574ae4c"
+      sha256: e69553c0fc6a76216e9d06a8c3767e291ad9be42171f879aab7ab708569d4393
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   google_sign_in_web:
     dependency: transitive
     description:
       name: google_sign_in_web
-      sha256: "7b154bc84da4c6a578072fc53c0a68ce3168beb39fab8235657d17c18ea12924"
+      sha256: "69b9ce0e760945ff52337921a8b5871592b74c92f85e7632293310701eea68cc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.0+1"
+    version: "0.12.0+2"
   http:
     dependency: transitive
     description:
@@ -424,6 +424,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   js:
     dependency: transitive
     description:

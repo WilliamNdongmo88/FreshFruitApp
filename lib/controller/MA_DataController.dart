@@ -6,8 +6,10 @@ import 'package:money_app/controller/Helper classes/MA_Helper_City.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Country.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 
+import '../utils/MA_TransactionItem.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'Helper classes/MA_Helper_User.dart';
+import 'package:money_app/controller/Helper classes/MA_Helper_TransfertInformation.dart';
 
 class DataController extends GetxController{
   var isLoading = false.obs;
@@ -15,6 +17,10 @@ class DataController extends GetxController{
   List<MA_Helper_Country> CountryList = <MA_Helper_Country>[].obs;
   RxList<MA_Helper_Country> CountryListToDispatch = <MA_Helper_Country>[].obs;
   RxString token = ''.obs;
+
+  List<TransactionItemToFireBase> transfertList =
+      <TransactionItemToFireBase>[].obs;
+
 /*
   author: Franc TOUTCHA
   * This is a function which help you to call cloud functions
@@ -23,7 +29,9 @@ class DataController extends GetxController{
   * data :an object which is the param of the cloud function... exp:{"action": "GET-ALL-WITH-CITIES"}
 */
   Future<dynamic> callCloudFunction(String functionName,data) async{
+    print('***** before specify the Could Function name *********');
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(functionName);
+    print('***** after specify the Could Funct name *********');
     try {
       HttpsCallableResult result = await callable.call(data); // Make the callable cloud function call
 
@@ -187,5 +195,163 @@ class DataController extends GetxController{
     token.value = toknC;
   }
 
+
+  Future<String> createTransfert (MA_Helper_Transfert transfert)async {
+print('***** Enter in createTransfert *********');
+    String msg='';
+    String date = getDate(DateTime.now());
+    if(transfert.ManualInfo !=null){
+      print('***** Enter in if ManualInfo *********');
+      dynamic result = await callCloudFunction('nl_manage_request', {"action": "SAVE",
+        "transfert": {
+          "amount": transfert.Amount,
+          "status": "OPEN",
+          "createdDate":date,
+          "receiver": {
+            "nom" :transfert.ManualInfo?.Name,
+            "telephone" :transfert.ManualInfo?.phoneNumber
+          },
+          "inZoneCity": transfert.SenderCity,
+          "outZoneCity": transfert.ReceiverCity,
+          "codeReception": transfert.ReceptionCode,
+        }});
+      if(result['ErrorCode'] ==null){
+        if(result['message'] !=null){
+          //empty result
+          print('enter In empty response scope');
+          print(result['message']);
+          msg = "K.O.1";
+        }else{
+          print('enter In good response scope');
+          print(result['body'].runtimeType);
+          msg = result['body'];
+        }
+      }else{
+        //an error occur
+        print('enter In error response scope');
+        print(result['ErrorCode']);
+        print(result['message']);
+        msg = "K.O";
+      }
+
+    } else if (transfert.BankInfo !=null){
+      print('***** Enter in else if BankInfo *********');
+      dynamic result = await callCloudFunction('nl_manage_request', {"action": "SAVE",
+        "transfert": {
+          "amount": transfert.Amount,
+          "status": "OPEN",
+          "createdDate":date,
+          "bank":{
+            "nom" :transfert.BankInfo?.Name,
+            "intitule":transfert.BankInfo?.Intitule,
+          },
+          "inZoneCity": transfert.SenderCity,
+          "outZoneCity": transfert.ReceiverCity,
+          "codeReception": transfert.ReceptionCode,
+        }});
+      if(result['ErrorCode'] ==null){
+        if(result['message'] !=null){
+          //empty result
+          print('enter In empty response scope');
+          print(result['message']);
+          msg = "K.O.1";
+        }else{
+          print('enter In good response scope');
+          print(result['body'].runtimeType);
+          msg = result['body'];
+        }
+      }else{
+        //an error occur
+        print('enter In error response scope');
+        print(result['ErrorCode']);
+        print(result['message']);
+        msg = "K.O";
+      }
+    }
+    return msg;
+  }
+
+  String getDate(DateTime data){
+    DateTime today =data;
+    String month = getMonthByNumber(today.month);
+    String dateStr ="$month ${today.day}, ${today.year}";
+    return dateStr;
+  }
+
+  String getMonthByNumber(int numb){
+
+    var data = numb;
+
+    switch(data) {
+      case 1:  {return "January";}
+
+      case 2: {  return "February"; }
+
+      case 3: {  return "March"; }
+
+      case 4: {  return "April"; }
+
+      case 5: {  return "May"; }
+
+      case 6: {  return "June"; }
+
+      case 7: {  return "July"; }
+
+      case 8:{  return "August"; }
+
+      case 9: {  return "September"; }
+
+      case 10: {  return "October"; }
+
+      case 11: {  return "November"; }
+
+      case 12: {  return "December"; }
+
+      default: {  return "";}
+
+
+    }
+  }
+
+  Future<List<TransactionItemToFireBase>> retrieveTransferts() async {
+    print(FirebaseAuth.instance.currentUser);
+    print("enter in nl_manage_request");
+    dynamic result =
+    await callCloudFunction('nl_manage_request', {"action": "GET-ALL"});
+    if (result['ErrorCode'] == null) {
+      if (result['message'] != null) {
+        //empty result
+        print('enter In empty response scope');
+        print(result['message']);
+      } else {
+        print('enter In good response scope');
+        print(result['body']);
+        transfertList = List<TransactionItemToFireBase>.from(result['body'].map(
+              (json) => TransactionItemToFireBase(
+            lastTimeInPending: json['lastTimeInPending'],
+            amont: json['amont'],
+            bank: json['bank'],
+            codeReception: json['codeReception'],
+            createdDate: json['createdDate'],
+            deposit: json['deposit'],
+            description: json['description'],
+            inZone: json['inZone'],
+            outZone: json['outZone'],
+            owner: json['owner'],
+            ownerId: json['ownerId'],
+            receiver: json['receiver'],
+            status: json['status'],
+            to_bank: json['to_bank'],
+          ),
+        ));
+      }
+    } else {
+      //an error occur
+      print('enter In error response scope');
+      print(result['ErrorCode']);
+      print(result['message']);
+    }
+    return transfertList;
+  }
 
 }
