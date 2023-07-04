@@ -37,13 +37,17 @@ class _LoadingViewState extends State<LoadingView>
     _animationController.repeat();
 
     getDeviceToken().then((value){
-      if (kDebugMode) {
+      /*if (kDebugMode) {
         print('device token');
         print(value);
         dataController.setToken(value);
-      }
+      }*/
+      print('device token');
+      print(value);
+      dataController.setToken(value);
+    }).catchError( (error){
+      print(error);
     });
-
     // Terminated State
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
@@ -92,8 +96,26 @@ class _LoadingViewState extends State<LoadingView>
   Future getDeviceToken() async {
     //request user permission for push notification
     try{
-      FirebaseMessaging.instance.requestPermission();
+      //FirebaseMessaging.instance.requestPermission();
       FirebaseMessaging _firebaseMessage = FirebaseMessaging.instance;
+      NotificationSettings settings = await _firebaseMessage.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        print('User granted permission');
+      } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+        print('User granted provisional permission');
+        return 'User granted provisional permission'; 
+      } else {
+        print('User declined or has not accepted permission');
+        return 'User declined or has not accepted permission';
+      }
       String? deviceToken = await _firebaseMessage.getToken();
       return (deviceToken == null) ? "no connected" : deviceToken;
 
