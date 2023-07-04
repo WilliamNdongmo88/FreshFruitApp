@@ -11,6 +11,7 @@ import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 import 'package:money_app/views/homePage/MA_homePage.dart';
 
+import 'MA_TransactionStepper.dart';
 import 'controller/MA_DataController.dart';
 import 'firebase_options.dart';
 
@@ -29,8 +30,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: AppColors.mainAppColor),
-      home: AppWrapper(),
+     /* theme: ThemeData(primarySwatch: AppColors.mainAppColor),
+      initialRoute: '/',
+      routes: {
+        TransactionListScreen.transactionListScreen: (context) => const TransactionListScreen(),
+        TransactionScreen.transactionScreenPage: (context) => TransactionScreen(),
+      },*/
+      home: AppWrapper(),//transfertForm(),
     );
   }
 }
