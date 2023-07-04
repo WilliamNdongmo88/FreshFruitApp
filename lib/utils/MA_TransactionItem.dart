@@ -1,5 +1,5 @@
 class TransactionItem {
-  int id;
+  // int id;
   String status;
   String user;
   String? icon;
@@ -7,7 +7,7 @@ class TransactionItem {
   String city;
   String date;
   TransactionItem(
-      this.id,
+      // this.id,
       this.status, this.user, this.icon, this.amont, this.city, this.date);
 }
 

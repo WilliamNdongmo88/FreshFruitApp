@@ -6,6 +6,7 @@ import 'package:money_app/controller/Helper classes/MA_Helper_City.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Country.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 
+import '../utils/MA_TransactionItem.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'Helper classes/MA_Helper_User.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_TransfertInformation.dart';
@@ -15,6 +16,10 @@ class DataController extends GetxController{
 
   List<MA_Helper_Country> CountryList = <MA_Helper_Country>[].obs;
   RxList<MA_Helper_Country> CountryListToDispatch = <MA_Helper_Country>[].obs;
+
+  List<TransactionItemToFireBase> transfertList =
+      <TransactionItemToFireBase>[].obs;
+
 /*
   author: Franc TOUTCHA
   * This is a function which help you to call cloud functions
@@ -162,6 +167,7 @@ class DataController extends GetxController{
     CountryListToDispatch.value =listC;
   }
 
+
   Future<String> createTransfert (MA_Helper_Transfert transfert)async {
 print('***** Enter in createTransfert *********');
     String msg='';
@@ -279,5 +285,45 @@ print('***** Enter in createTransfert *********');
     }
   }
 
+  Future<List<TransactionItemToFireBase>> retrieveTransferts() async {
+    print(FirebaseAuth.instance.currentUser);
+    print("enter in nl_manage_request");
+    dynamic result =
+    await callCloudFunction('nl_manage_request', {"action": "GET-ALL"});
+    if (result['ErrorCode'] == null) {
+      if (result['message'] != null) {
+        //empty result
+        print('enter In empty response scope');
+        print(result['message']);
+      } else {
+        print('enter In good response scope');
+        print(result['body']);
+        transfertList = List<TransactionItemToFireBase>.from(result['body'].map(
+              (json) => TransactionItemToFireBase(
+            lastTimeInPending: json['lastTimeInPending'],
+            amont: json['amont'],
+            bank: json['bank'],
+            codeReception: json['codeReception'],
+            createdDate: json['createdDate'],
+            deposit: json['deposit'],
+            description: json['description'],
+            inZone: json['inZone'],
+            outZone: json['outZone'],
+            owner: json['owner'],
+            ownerId: json['ownerId'],
+            receiver: json['receiver'],
+            status: json['status'],
+            to_bank: json['to_bank'],
+          ),
+        ));
+      }
+    } else {
+      //an error occur
+      print('enter In error response scope');
+      print(result['ErrorCode']);
+      print(result['message']);
+    }
+    return transfertList;
+  }
 
 }
