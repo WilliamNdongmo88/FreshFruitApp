@@ -11,12 +11,18 @@ import 'package:money_app/views/auth/MA_Login.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 import 'package:money_app/views/homePage/MA_homePage.dart';
 
+import 'MA_TransactionStepper.dart';
 import 'controller/MA_DataController.dart';
 import 'firebase_options.dart';
+
+//librairies notifications
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //Notification();
   runApp(MyApp());
 }
 
@@ -25,15 +31,22 @@ class MyApp extends StatelessWidget {
   final DataController dataController = Get.put(DataController());
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: AppColors.mainAppColor),
-      home: AppWrapper(),
+     /* theme: ThemeData(primarySwatch: AppColors.mainAppColor),
+      initialRoute: '/',
+      routes: {
+        TransactionListScreen.transactionListScreen: (context) => const TransactionListScreen(),
+        TransactionScreen.transactionScreenPage: (context) => TransactionScreen(),
+      },*/
+      home: AppWrapper(),//transfertForm(),
     );
   }
 }
+
 class AppWrapper extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DataController dataController = Get.find<DataController>();
@@ -76,10 +89,24 @@ class AppWrapper extends StatelessWidget {
         if (user != null) {
           print(user.uid);
           res=true;
+          String token = dataController.token.value;
+          print("***----*** token recieved : $token ******");
+          callsendToken(token);
         }
       });
     print("**************result of auth status change before retrun: $res ******");
     return res;
   }
 
+  String? val;
+  Future<void> callsendToken(String tok) async{
+    print("*********** in the callsendToken ***********");
+    val = await dataController.sendToken(tok);
+    print("**** in callsendToken function the token valeur  ist : $val");
+  }
+
 }
+
+
+
+

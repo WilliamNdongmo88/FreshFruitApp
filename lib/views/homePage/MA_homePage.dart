@@ -1,15 +1,20 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../MA_TransactionStepper.dart';
 import '../../controller/MA_DataController.dart';
+import '../../notification/MA_Notification.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
+import '../MA_DevisesPage.dart';
+import '../MA_SettingsPage.dart';
 import '../MA_TransactionPage.dart';
+import '../app content/MA_Provider_CheckUser.dart';
 
 class TransactionListScreen extends StatefulWidget {
   bool? check;
@@ -21,7 +26,8 @@ class TransactionListScreen extends StatefulWidget {
   TransactionListScreen({super.key});
 
   @override
-  State<TransactionListScreen> createState() => TransactionListScreenState();
+  State<TransactionListScreen> createState() =>
+      TransactionListScreenState();
 }
 
 class TransactionListScreenState extends State<TransactionListScreen> {
@@ -75,6 +81,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<TransactionItemToFireBase> alltransactions = [];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(
@@ -348,7 +355,10 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                 label: const Text('Initier une transaction',
                                     style: TextStyle(fontSize: 18)),
                                 elevation: 10,
-                                onPressed: () {},
+                                onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => transfertForm()));
+                                },
                               ),
                             ],
                           ),

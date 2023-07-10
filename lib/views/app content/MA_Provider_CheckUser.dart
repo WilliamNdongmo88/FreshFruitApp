@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:money_app/controller/MA_DataController.dart';
 import 'package:money_app/views/auth/MA_Signup.dart';
 
+import '../homePage/MA_homePage.dart';
+
 class AppContent extends StatefulWidget {
   @override
   State<AppContent> createState() => _AppContentState();
@@ -48,7 +50,7 @@ late bool isNewUser;
             return SignupView();
           } else {
             //dashboard with all transactions
-            return Text('Bienvenue utilisateur existant!');
+            return TransactionListScreen();
           }
         },
       ),
