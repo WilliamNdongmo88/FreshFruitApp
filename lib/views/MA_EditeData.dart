@@ -63,7 +63,7 @@ class _EditeDataState extends State<EditeData> {
         builder: () => SingleChildScrollView(
           child: Column(children: [
             Container(
-              margin: EdgeInsets.only(left: 20.r, top: 50.r),
+              margin: EdgeInsets.only(left: 20.r, top: 60.r),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -87,13 +87,13 @@ class _EditeDataState extends State<EditeData> {
             ),
             Container(
                 alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 30, left: 18, right: 18),
+                margin: EdgeInsets.only(top: 20.r, left: 18.r, right: 18.r),
                 // height: 690,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius:
-                      BorderRadius.circular(25), //border corner radius
+                      BorderRadius.circular(25.nsp), //border corner radius
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(1), //color of shadow
@@ -108,41 +108,41 @@ class _EditeDataState extends State<EditeData> {
                 child: Column(
                   children: [
                     Container(
-                        margin: const EdgeInsets.only(top: 20),
+                        margin: EdgeInsets.only(top: 20.r),
                         child: Text("Les informations de l'expéditeur",
                             style: GoogleFonts.inter(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
+                                fontSize: 22.sp, fontWeight: FontWeight.bold))),
                     SizedBox(
-                      height: 10.h,
+                      height: 15.h,
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 25),
+                        padding: EdgeInsets.only(left: 25.r, right: 25.r),
                         child: Column(
                           children: [
                             outputField(
                               topTextLeft: "Nom de l'expéditeur",
                               bottomTextLeft: 'James Kora',
                             ),
-                            const SizedBox(
-                              height: 15,
+                            SizedBox(
+                              height: 15.h,
                             ),
                             outputField(
                               topTextLeft: "Pays d'envoi",
                               bottomTextLeft: 'USA',
                             ),
-                            const SizedBox(
-                              height: 15,
+                            SizedBox(
+                              height: 15.h,
                             ),
                             outputField(
                               topTextLeft: 'N° Téléphone',
                               bottomTextLeft: '+23765214789471',
                             ),
                             Container(
-                              margin: const EdgeInsets.only(top: 18, right: 14),
+                              margin: EdgeInsets.only(top: 18.r, right: 14.r),
                               child: Text(
                                   "Les informations sur le destinataire",
                                   style: GoogleFonts.inter(
-                                      fontSize: 18,
+                                      fontSize: 20.sp,
                                       fontWeight: FontWeight.bold)),
                             ),
                             Form(
@@ -155,21 +155,19 @@ class _EditeDataState extends State<EditeData> {
                                       if (transaction[index].status ==
                                           'OPEN') ...[
                                         Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          child: const Text(
-                                              "Nom du destinataire",
+                                          margin: EdgeInsets.only(top: 10.r),
+                                          child: Text("Nom du destinataire",
                                               style: TextStyle(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       97, 97, 97, 1),
-                                                  fontSize: 17,
+                                                  fontSize: 17.sp,
                                                   fontWeight: FontWeight.bold)),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
                                         SizedBox(
-                                          height: 35,
+                                          height: 35.h,
                                           child: TextFormField(
                                             controller:
                                                 destinataireNameController,
@@ -189,20 +187,20 @@ class _EditeDataState extends State<EditeData> {
                                             },
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
-                                        const Text("Intitulé du compte",
+                                        Text("Intitulé du compte",
                                             style: TextStyle(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     97, 97, 97, 1),
-                                                fontSize: 17,
+                                                fontSize: 17.sp,
                                                 fontWeight: FontWeight.bold)),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
                                         SizedBox(
-                                          height: 35,
+                                          height: 35.h,
                                           child: TextFormField(
                                             controller: compteNameController,
                                             style: GoogleFonts.inter(
@@ -221,7 +219,7 @@ class _EditeDataState extends State<EditeData> {
                                             },
                                           ),
                                         ),
-                                        const SizedBox(height: 15),
+                                        SizedBox(height: 10.h),
                                         Row(
                                           children: [
                                             Expanded(
@@ -229,21 +227,21 @@ class _EditeDataState extends State<EditeData> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  const Text("Pays",
+                                                  Text("Pays",
                                                       style: TextStyle(
-                                                          color: Color.fromRGBO(
+                                                          color: const Color
+                                                                  .fromRGBO(
                                                               97, 97, 97, 1),
-                                                          fontSize: 17,
+                                                          fontSize: 17.sp,
                                                           fontWeight:
                                                               FontWeight.bold)),
-                                                  const SizedBox(
-                                                    height: 10,
+                                                  SizedBox(
+                                                    height: 10.h,
                                                   ),
                                                   Container(
-                                                    height: 35,
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10, right: 5),
+                                                    height: 35.h,
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.r, right: 5.r),
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
                                                           color: const Color
@@ -268,7 +266,7 @@ class _EditeDataState extends State<EditeData> {
                                                           color:
                                                               Color(0XFFF24E1E),
                                                         ),
-                                                        iconSize: 40,
+                                                        iconSize: 40.w,
                                                         underline:
                                                             const SizedBox(),
                                                         style:
@@ -305,19 +303,20 @@ class _EditeDataState extends State<EditeData> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                const Text("N° Compte",
+                                                Text("N° Compte",
                                                     style: TextStyle(
-                                                        color: Color.fromRGBO(
+                                                        color: const Color
+                                                                .fromRGBO(
                                                             97, 97, 97, 1),
-                                                        fontSize: 17,
+                                                        fontSize: 17.sp,
                                                         fontWeight:
                                                             FontWeight.bold)),
-                                                const SizedBox(
-                                                  height: 10,
+                                                SizedBox(
+                                                  height: 10.h,
                                                 ),
                                                 SizedBox(
-                                                  height: 35,
-                                                  width: 140,
+                                                  height: 35.h,
+                                                  width: 140.w,
                                                   child: TextFormField(
                                                     controller:
                                                         numeroCompteController,
@@ -347,20 +346,19 @@ class _EditeDataState extends State<EditeData> {
                                           transaction[index].status ==
                                               'Annulé') ...[
                                         Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          child: const Text("Nom de la banque",
+                                          margin: EdgeInsets.only(top: 10.r),
+                                          child: Text("Nom de la banque",
                                               style: TextStyle(
-                                                  color: Color.fromRGBO(
+                                                  color: const Color.fromRGBO(
                                                       97, 97, 97, 1),
-                                                  fontSize: 17,
+                                                  fontSize: 17.sp,
                                                   fontWeight: FontWeight.bold)),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
                                         SizedBox(
-                                          height: 35,
+                                          height: 35.h,
                                           child: TextFormField(
                                             controller: banqueNameController,
                                             style: GoogleFonts.inter(
@@ -379,20 +377,20 @@ class _EditeDataState extends State<EditeData> {
                                             },
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
-                                        const Text("N° Téléphone",
+                                        Text("N° Téléphone",
                                             style: TextStyle(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     97, 97, 97, 1),
-                                                fontSize: 17,
+                                                fontSize: 17.sp,
                                                 fontWeight: FontWeight.bold)),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: 10.sp,
                                         ),
                                         SizedBox(
-                                          height: 35,
+                                          height: 35.h,
                                           child: TextFormField(
                                             controller:
                                                 numeroTelephoneController,
@@ -412,7 +410,7 @@ class _EditeDataState extends State<EditeData> {
                                             },
                                           ),
                                         ),
-                                        const SizedBox(height: 15),
+                                        SizedBox(height: 15.h),
                                         Row(
                                           children: [
                                             Expanded(
@@ -420,21 +418,21 @@ class _EditeDataState extends State<EditeData> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  const Text("Pays",
+                                                  Text("Pays",
                                                       style: TextStyle(
-                                                          color: Color.fromRGBO(
+                                                          color: const Color
+                                                                  .fromRGBO(
                                                               97, 97, 97, 1),
-                                                          fontSize: 17,
+                                                          fontSize: 17.sp,
                                                           fontWeight:
                                                               FontWeight.bold)),
-                                                  const SizedBox(
-                                                    height: 10,
+                                                  SizedBox(
+                                                    height: 10.h,
                                                   ),
                                                   Container(
-                                                    height: 35,
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10, right: 5),
+                                                    height: 35.h,
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.r, right: 5.r),
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
                                                           color: const Color
@@ -459,7 +457,7 @@ class _EditeDataState extends State<EditeData> {
                                                           color:
                                                               Color(0XFFF24E1E),
                                                         ),
-                                                        iconSize: 40,
+                                                        iconSize: 40.w,
                                                         underline:
                                                             const SizedBox(),
                                                         style:
@@ -497,21 +495,21 @@ class _EditeDataState extends State<EditeData> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                const Text("Ville",
+                                                Text("Ville",
                                                     style: TextStyle(
-                                                        color: Color.fromRGBO(
+                                                        color: const Color
+                                                                .fromRGBO(
                                                             97, 97, 97, 1),
-                                                        fontSize: 17,
+                                                        fontSize: 17.sp,
                                                         fontWeight:
                                                             FontWeight.bold)),
-                                                const SizedBox(
-                                                  height: 10,
+                                                SizedBox(
+                                                  height: 10.h,
                                                 ),
                                                 Container(
-                                                  height: 35,
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10, right: 5),
+                                                  height: 35.h,
+                                                  padding: EdgeInsets.only(
+                                                      left: 10.r, right: 5.r),
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
                                                         color: const Color
@@ -535,7 +533,7 @@ class _EditeDataState extends State<EditeData> {
                                                         color:
                                                             Color(0XFFF24E1E),
                                                       ),
-                                                      iconSize: 40,
+                                                      iconSize: 40.w,
                                                       underline:
                                                           const SizedBox(),
                                                       style: GoogleFonts.inter(
@@ -565,59 +563,21 @@ class _EditeDataState extends State<EditeData> {
                                                 )
                                               ],
                                             ),
-                                            // Column(
-                                            //   crossAxisAlignment:
-                                            //       CrossAxisAlignment.start,
-                                            //   children: [
-                                            //     const Text("Ville",
-                                            //         style: TextStyle(
-                                            //             color: Color.fromRGBO(
-                                            //                 97, 97, 97, 1),
-                                            //             fontSize: 17,
-                                            //             fontWeight:
-                                            //                 FontWeight.bold)),
-                                            //     const SizedBox(
-                                            //       height: 10,
-                                            //     ),
-                                            //     SizedBox(
-                                            //       height: 35,
-                                            //       width: 140,
-                                            //       child: TextFormField(
-                                            //         controller:numeroCompteController,
-                                            //         style: GoogleFonts.inter(
-                                            //             fontWeight:
-                                            //                 FontWeight.bold),
-                                            //         decoration: const InputDecoration(
-                                            //             border: OutlineInputBorder(
-                                            //                 borderRadius:
-                                            //                     BorderRadius.all(
-                                            //                         Radius.circular(
-                                            //                             5.0)))),
-                                            //         validator: (value) {
-                                            //           if (value != null) {
-                                            //             return 'Please enter a user';
-                                            //           }
-                                            //           return null;
-                                            //         },
-                                            //       ),
-                                            //     ),
-                                            //   ],
-                                            // )
                                           ],
                                         ),
                                       ],
-                                      const SizedBox(height: 10),
-                                      const Text("Code de reception",
+                                      SizedBox(height: 10.h),
+                                      Text("Code de reception",
                                           style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(97, 97, 97, 1),
-                                              fontSize: 17,
+                                              color: const Color.fromRGBO(
+                                                  97, 97, 97, 1),
+                                              fontSize: 17.sp,
                                               fontWeight: FontWeight.bold)),
-                                      const SizedBox(
-                                        height: 10,
+                                      SizedBox(
+                                        height: 10.h,
                                       ),
                                       SizedBox(
-                                        height: 35,
+                                        height: 35.h,
                                         child: TextFormField(
                                           controller: codeReceptionController,
                                           style: GoogleFonts.inter(
@@ -643,15 +603,15 @@ class _EditeDataState extends State<EditeData> {
                             ),
                           ],
                         )),
-                    const SizedBox(height: 15),
+                    SizedBox(height: 15.h),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 30),
+                      margin: EdgeInsets.only(bottom: 30.r),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SizedBox(
-                            width: 180,
-                            height: 45,
+                            width: 170.w,
+                            height: 45.h,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: const Color(0XFFF24E1E),
@@ -667,15 +627,15 @@ class _EditeDataState extends State<EditeData> {
                                 'Annuler',
                                 style: GoogleFonts.inter(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: const Color(0xfffffffff),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 180,
-                            height: 45,
+                            width: 170.w,
+                            height: 45.h,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: const Color(0XFFF24E1E),
@@ -694,7 +654,7 @@ class _EditeDataState extends State<EditeData> {
                                 'Confirmer',
                                 style: GoogleFonts.inter(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: const Color(0xfffffffff),
                                 ),
                               ),

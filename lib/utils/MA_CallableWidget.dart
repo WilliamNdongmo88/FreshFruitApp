@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, no_logic_in_create_state, unnecessary_this, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,22 +34,22 @@ Widget tabDetails(
 Widget tabTransaction(transaction, index) {
   int frais = 20;
   return Padding(
-    padding: const EdgeInsets.only(left: 30, right: 30),
+    padding: EdgeInsets.only(left: 30.r, right: 30.r),
     child: Column(
       children: [
         outputField(
           topTextLeft: 'N° Transaction',
           bottomTextLeft: '65214789471',
         ),
-        const SizedBox(
-          height: 15,
+        SizedBox(
+          height: 15.h,
         ),
         outputField(
           topTextLeft: 'Date',
           bottomTextLeft: '26/06/2023',
         ),
-        const SizedBox(
-          height: 15,
+        SizedBox(
+          height: 15.h,
         ),
         if (transaction[index].status == 'Terminé') ...[
           outputField(
@@ -74,8 +75,8 @@ Widget tabTransaction(transaction, index) {
               bottomTextLeft: transaction[index].status,
               svgLink: 'assets/cancel.svg',
               color: const Color(0xFFFFF0000)),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: 15.h,
         ),
         outputField(
             topTextLeft: 'Montant',
@@ -86,31 +87,31 @@ Widget tabTransaction(transaction, index) {
           width: double.infinity,
           child: Container(
             margin: EdgeInsets.only(
-                top: transaction[index].status == 'Terminé' ? 35 : 15),
+                top: transaction[index].status == 'Terminé' ? 35.r : 15.r),
             child: Padding(
-              padding: const EdgeInsets.all(15),
+              padding: EdgeInsets.all(15.r),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
                       // margin: const EdgeInsets.only(left: 25),
-                      child: const Text(
+                      child: Text(
                         "Montant total:",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 16,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 15,
+                  SizedBox(
+                    width: 10.w,
                   ),
                   Text(
                     '\$${int.parse(transaction[index].amont) + frais}.00',
-                    style: const TextStyle(
-                        color: Color.fromRGBO(246, 60, 3, 1),
-                        fontSize: 30,
+                    style: TextStyle(
+                        color: const Color.fromRGBO(246, 60, 3, 1),
+                        fontSize: 30.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -126,52 +127,54 @@ Widget tabTransaction(transaction, index) {
 Widget tabDestinataire(transaction, index, Function? callBackFunction,
     bool valueOfBool, String codeReception) {
   return Padding(
-    padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
+    padding: EdgeInsets.only(left: 30.r, right: 30.r, top: 10.r),
     child: Container(
       child: Column(
         children: [
           if (transaction[index].status == 'OPEN') ...[
             outputField(topTextLeft: 'Nom de la banque', bottomTextLeft: 'UBA'),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 15.h,
             ),
             outputField(
               topTextLeft: 'Intitulé du compte',
               bottomTextLeft: '9874 5247 6582 1458',
             ),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 15.h,
             ),
             outputField(topTextLeft: 'N° Compte', bottomTextLeft: '012458479'),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 15.h,
             ),
             outputField(topTextLeft: 'Pays', bottomTextLeft: 'Cameroun'),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 15.h,
             ),
             if (valueOfBool == false && codeReception == 'null') ...[
               Container(
-                margin: const EdgeInsets.only(top: 25),
-                decoration: const BoxDecoration(
+                margin: EdgeInsets.only(top: 25.r),
+                decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                        width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
                   ),
                 ),
                 width: double.infinity,
                 child: Container(
-                  margin: const EdgeInsets.only(top: 15),
+                  margin: EdgeInsets.only(top: 15.r, left: 30.r),
                   child: Container(
-                    margin: const EdgeInsets.only(left: 55),
+                    margin: EdgeInsets.only(left: 55.r),
                     child: GestureDetector(
                       onTap: () {
                         callBackFunction!('Open_pop_up');
                       },
-                      child: const Text(
+                      child: Text(
                         "voir code de reception",
                         style: TextStyle(
-                            color: Color.fromRGBO(79, 79, 78, 1), fontSize: 18),
+                            color: const Color.fromRGBO(79, 79, 78, 1),
+                            fontSize: 18.sp),
                       ),
                     ),
                   ),
@@ -180,30 +183,32 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
             ] else
               Container(
                 width: double.infinity,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                        width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
                   ),
                 ),
                 child: Container(
-                  margin: const EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 10.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "Code de reception",
                         style: TextStyle(
-                            color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                            color: const Color.fromRGBO(79, 79, 79, 1),
+                            fontSize: 15.sp),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 10.h,
                       ),
                       Text(
                         'trans: $codeReception',
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -216,45 +221,46 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
             outputField(
                 topTextLeft: 'Nom du destinataire',
                 bottomTextLeft: 'Robert Boum'),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 15.h,
             ),
             outputField(
                 topTextLeft: 'Pays',
                 bottomTextLeft: 'Cameroon',
                 topTextRight: 'Vile',
                 bottomTextRight_String: 'Yaoundé'),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 15.h,
             ),
             outputField(
                 topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
-            const SizedBox(
-              height: 25,
+            SizedBox(
+              height: 25.h,
             ),
             if (valueOfBool == false && codeReception == 'null') ...[
               Container(
-                margin: const EdgeInsets.only(top: 35),
-                decoration: const BoxDecoration(
+                margin: EdgeInsets.only(top: 35.r),
+                decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                        width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
                   ),
                 ),
                 width: double.infinity,
                 child: Container(
-                  margin: const EdgeInsets.only(top: 15),
+                  margin: EdgeInsets.only(top: 15.r),
                   child: Container(
                     child: GestureDetector(
                       onTap: () {
                         callBackFunction!('Open_pop_up');
                       },
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           "voir code de reception",
                           style: TextStyle(
-                              color: Color.fromRGBO(79, 79, 78, 1),
-                              fontSize: 15),
+                              color: const Color.fromRGBO(79, 79, 78, 1),
+                              fontSize: 15.sp),
                         ),
                       ),
                     ),
@@ -264,30 +270,32 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
             ] else
               Container(
                 width: double.infinity,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                        width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
                   ),
                 ),
                 child: Container(
-                  margin: const EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 10.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "Code de reception",
                         style: TextStyle(
-                            color: Color.fromRGBO(79, 79, 79, 1), fontSize: 14),
+                            color: const Color.fromRGBO(79, 79, 79, 1),
+                            fontSize: 14.sp),
                       ),
-                      const SizedBox(
-                        height: 10,
+                      SizedBox(
+                        height: 10.h,
                       ),
                       Text(
                         'trans: $codeReception',
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -304,53 +312,54 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
 Widget tabExpediteur(transaction, index, Function? callBackFunction,
     bool valueOfBool, String codeReception) {
   return Padding(
-    padding: const EdgeInsets.only(left: 30, right: 30),
+    padding: EdgeInsets.only(left: 30.r, right: 30.r),
     child: Column(
       children: [
         if (transaction[index].status == 'Terminé' ||
             transaction[index].status == 'OPEN') ...[
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: 20.h,
           ),
           outputField(
               topTextLeft: 'Nom de léexpéditeur',
               bottomTextLeft: 'Robert Boum'),
-          const SizedBox(
-            height: 35,
+          SizedBox(
+            height: 35.h,
           ),
           outputField(
               topTextLeft: 'Pays',
               bottomTextLeft: 'USA',
               topTextRight: 'Vile',
               bottomTextRight_String: 'New York'),
-          const SizedBox(
-            height: 35,
+          SizedBox(
+            height: 35.h,
           ),
           outputField(
               topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
-          const SizedBox(
-            height: 35,
+          SizedBox(
+            height: 45.h,
           ),
           if (valueOfBool == false && codeReception == 'null') ...[
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                      width: 0.5.w,
+                      color: const Color.fromARGB(255, 128, 130, 132)),
                 ),
               ),
               width: double.infinity,
               child: Container(
-                margin: const EdgeInsets.only(top: 15),
                 child: GestureDetector(
                   onTap: () {
                     callBackFunction!('Open_pop_up');
                   },
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "voir photo CNI",
                       style: TextStyle(
-                          color: Color.fromRGBO(79, 79, 78, 1), fontSize: 13),
+                          color: const Color.fromRGBO(79, 79, 78, 1),
+                          fontSize: 16.sp),
                     ),
                   ),
                 ),
@@ -359,30 +368,32 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
           ] else
             Container(
               width: double.infinity,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+                      width: 0.5.w,
+                      color: const Color.fromARGB(255, 128, 130, 132)),
                 ),
               ),
               child: Container(
-                margin: const EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 10.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Code de reception",
                       style: TextStyle(
-                          color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                          color: const Color.fromRGBO(79, 79, 79, 1),
+                          fontSize: 15.r),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Text(
                       'trans: $codeReception',
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Colors.black,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -395,30 +406,30 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
           outputField(
               topTextLeft: 'Nom de léexpéditeur',
               bottomTextLeft: 'Robert Boum'),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.h,
           ),
           outputField(
               topTextLeft: 'Pays',
               bottomTextLeft: 'USA',
               topTextRight: 'Vile',
               bottomTextRight_String: 'New York'),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.h,
           ),
           outputField(
               topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.h,
           ),
           outputField(topTextLeft: 'N° Passport', bottomTextLeft: '06548578'),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.h,
           ),
           outputField(
               topTextLeft: 'Date de délivrance', bottomTextLeft: '13/12/2023'),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.h,
           ),
           outputField(
               topTextLeft: "Date d'expiration", bottomTextLeft: '13/12/2028'),
@@ -803,7 +814,7 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
   final montantMinController = TextEditingController();
   final montantMaxController = TextEditingController();
 
-  final dateControllerMin  = TextEditingController();
+  final dateControllerMin = TextEditingController();
   final dateControllerMax = TextEditingController();
   @override
   void dispose() {
@@ -979,7 +990,7 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Row(
-                      children: const [ 
+                      children: const [
                         Text("Status",
                             style: TextStyle(
                                 color: Color(0XFF000000),
@@ -1284,50 +1295,50 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left:16.0, right: 16.0),
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
                       child: Text("MIN",
                           style: TextStyle(
                               color: Color.fromARGB(255, 75, 71, 71),
                               fontSize: 17,
                               fontWeight: FontWeight.bold)),
                     ),
-                SizedBox(
-                  height: 75,
-                  child: Padding(
-                      padding: const EdgeInsets.only(left:16.0, right: 16.0, bottom:16.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: const Color.fromRGBO(97, 97, 97, 1)),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: TextField(
-                            readOnly: true,
-                            controller: dateControllerMin,
-                            decoration: InputDecoration(
-                              hintText: '22/05/2023',
-                              border: const OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                onPressed: () async {
-                                  var date = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime(2100));
-                                  if (date != null) {
-                                    dateControllerMin.text =
-                                        DateFormat('MM/dd/yyyy').format(date);
-                                  }
-                                },
-                                icon: const Icon(Icons.arrow_drop_down),
-                                iconSize: 40,
-                                color: const Color(0XFFF24E1E),
+                    SizedBox(
+                      height: 75,
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, bottom: 16.0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromRGBO(97, 97, 97, 1)),
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            ),
-                        )
-                      )
-                  ),
-                ),
+                              child: TextField(
+                                readOnly: true,
+                                controller: dateControllerMin,
+                                decoration: InputDecoration(
+                                  hintText: '22/05/2023',
+                                  border: const OutlineInputBorder(),
+                                  suffixIcon: IconButton(
+                                    onPressed: () async {
+                                      var date = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1900),
+                                          lastDate: DateTime(2100));
+                                      if (date != null) {
+                                        dateControllerMin.text =
+                                            DateFormat('MM/dd/yyyy')
+                                                .format(date);
+                                      }
+                                    },
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    iconSize: 40,
+                                    color: const Color(0XFFF24E1E),
+                                  ),
+                                ),
+                              ))),
+                    ),
                   ],
                 ),
                 Column(
@@ -1344,7 +1355,8 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                     SizedBox(
                       height: 75,
                       child: Padding(
-                          padding: const EdgeInsets.only(left:16.0, right: 16.0, bottom:16.0),
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, bottom: 16.0),
                           child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -1795,4 +1807,3 @@ Widget tansactionAnnuler(transactions, isListTransaction) {
     ),
   );
 }
-
