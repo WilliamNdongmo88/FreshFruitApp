@@ -56,7 +56,7 @@ Widget tabTransaction(transaction, index) {
               bottomTextLeft: transaction[index].status,
               svgLink: 'assets/termine.svg',
               color: Color(0xFF2ADFB6)),
-        ] else if (transaction[index].status == 'En Traitement') ...[
+        ] else if (transaction[index].status == 'OPEN') ...[
           outputField(
               topTextLeft: 'Status',
               bottomTextLeft: 'En cours de Traitement',
@@ -130,7 +130,7 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
     child: Container(
       child: Column(
         children: [
-          if (transaction[index].status == 'En Traitement') ...[
+          if (transaction[index].status == 'OPEN') ...[
             outputField(topTextLeft: 'Nom de la banque', bottomTextLeft: 'UBA'),
             const SizedBox(
               height: 15,
@@ -308,7 +308,7 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
     child: Column(
       children: [
         if (transaction[index].status == 'Terminé' ||
-            transaction[index].status == 'En Traitement') ...[
+            transaction[index].status == 'OPEN') ...[
           const SizedBox(
             height: 20,
           ),
@@ -389,7 +389,7 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
                 ),
               ),
             ),
-        ] else if (transaction[index].status == 'En Traitement' ||
+        ] else if (transaction[index].status == 'OPEN' ||
             transaction[index].status == 'En Attente' ||
             transaction[index].status == 'Annulé') ...[
           outputField(
@@ -796,7 +796,7 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
   bool isFirstDialog = true;
   _showDialogFilterSortState(this.changetxt, this.ctx, this.currentTransaction);
 
-  List listCountry = ['En Attente', 'En Traitement'];
+  List listCountry = ['En Attente', 'OPEN'];
   var valueChoose;
   Map inputData = {};
   final formKey = GlobalKey<FormState>();
@@ -1626,7 +1626,7 @@ Widget TansactionsTab(List<TransactionItem> transactions, String valueTab,
       map = transactions.map((e) => e.status == 'Terminé' ? e : null);
       print('all---> ${map}');
       for (var i = 0; i < transactions.length; i++) {
-        if (transactions[i].status == 'En Traitement' ||
+        if (transactions[i].status == 'OPEN' ||
             transactions[i].status == 'En Attente') {
           print('all---> ${transactions[i].status}');
           transaction.add(transactions[i]);

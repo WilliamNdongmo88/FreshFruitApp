@@ -47,7 +47,7 @@ class _TransactionScreenState extends State<TransactionScreen>
             context, TransactionListScreen.transactionListScreen);
       } else if (changetxt == 'WithoutLabel' && isListTransaction == true) {
         print('----back with true---- ${transaction[index].status}');
-        if (transaction[index].status == 'En Traitement' || transaction[index].status == 'En Attente') {
+        if (transaction[index].status == 'OPEN' || transaction[index].status == 'En Attente') {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   TransactionPage(isListTransaction: isListTransaction, currentTransaction: 1)));
@@ -263,7 +263,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                     ],
                   ),
                 ),
-              ] else if (transaction[index].status == 'En Traitement') ...[
+              ] else if (transaction[index].status == 'OPEN') ...[
                 Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 175, left: 5, right: 5),

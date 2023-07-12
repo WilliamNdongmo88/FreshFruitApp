@@ -60,7 +60,7 @@ class _transfertFormState extends State<transfertForm> {
       currentStep = arguments;
     }
 
-    return Scaffold(bottomNavigationBar: getFooter(callBackFunction: funChange),
+    return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Flutter Stepper Demo'),
@@ -215,6 +215,7 @@ class _transfertFormState extends State<transfertForm> {
           )),
         ),
       ),
+      //bottomNavigationBar:getFooter(callBackFunction: funChange, currentIndex: 1),
     );
   }
 
@@ -1018,86 +1019,4 @@ class _DropDownwithOutlineState extends State<DropDownwithOutline> {
             )));
   }
 }
-
-class getFooter extends StatefulWidget {
-  final Function callBackFunction;
-  const getFooter({super.key, required this.callBackFunction});
-
-  @override
-  State<getFooter> createState() => _getFooterState(this.callBackFunction);
-}
-
-class _getFooterState extends State<getFooter> {
-  Function callBackFunction;
-
-  _getFooterState(this.callBackFunction);
-
-  int _currentIndex = 0;
-  final tabs = ['Home', 'Transaction', 'Devises', 'Settings'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 1, color: Color.fromARGB(255, 128, 130, 132)),
-        ),
-        // color: Colors.white,
-      ),
-      child: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        // selectedFontSize: 15,
-        // unselectedFontSize: 12,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Acceuil',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/transaction.svg',
-              width: 25,
-              // ignore: deprecated_member_use
-              color: _currentIndex == 1
-                  ? Color.fromRGBO(242, 78, 30, 1)
-                  : Color.fromRGBO(97, 97, 97, 1),
-            ),
-            label: 'Transaction',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/devises.svg',
-              width: 25,
-              // ignore: deprecated_member_use
-              color: _currentIndex == 2
-                  ? Color.fromRGBO(246, 60, 3, 1)
-                  : Color.fromRGBO(97, 97, 97, 1),
-            ),
-            label: 'Devises',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/settings.svg',
-              width: 25,
-              // ignore: deprecated_member_use
-              color: _currentIndex == 3
-                  ? Color.fromRGBO(246, 60, 3, 1)
-                  : Color.fromRGBO(97, 97, 97, 1),
-            ),
-            label: 'Paramètre',
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-            callBackFunction(tabs[_currentIndex]);
-          });
-        },
-      ),
-    );
-  }
-}
-
-
 

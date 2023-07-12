@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../controller/MA_DataController.dart';
 import '../utils/MA_CallableWidget.dart';
 import '../utils/MA_TransactionItem.dart';
 import '../utils/MA_TransactionItemDetails.dart';
@@ -29,29 +30,77 @@ class TransactionPage extends StatefulWidget {
 
 class TransactionPageState extends State<TransactionPage> {
   final List<TransactionItem> transactions = [
-    TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
-        "Lundi 06 mai 2023"),
-    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement", "750",
-        "USA", "Lundi 06 mai 2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350", "USA",
-        "Lundi 06 mai 2023"),
-    TransactionItem(
-        "Terminé", "Ndongmo Thierry", "check", "500", "USA", "Lun08 mai2023"),
-    TransactionItem("Annulé", "William Ndongmo", "cancel", "425", "USA",
-        "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
-        "Lundi 06 mai 2023"),
-    TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement", "750",
-        "USA", "Lun08 mai2023"),
-    TransactionItem("En Attente", "William Ndongmo", "attente", "1350", "USA",
-        "Lundi 06 mai 2023"),
-    TransactionItem(
-        "Terminé", "Ndongmo Thierry", "check", "600", "USA", "Lun08 mai2023"),
-    TransactionItem("Annulé", "William Ndongmo", "cancel", "850", "USA",
-        "Lundi 06 mai 2023"),
-    TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
-        "Lundi 06 mai 2023"),
+    // TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
+    //     "Lundi 06 mai 2023"),
+    // TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement", "750",
+    //     "USA", "Lundi 06 mai 2023"),
+    // TransactionItem("En Attente", "William Ndongmo", "attente", "1350", "USA",
+    //     "Lundi 06 mai 2023"),
+    // TransactionItem(
+    //     "Terminé", "Ndongmo Thierry", "check", "500", "USA", "Lun08 mai2023"),
+    // TransactionItem("Annulé", "William Ndongmo", "cancel", "425", "USA",
+    //     "Lundi 06 mai 2023"),
+    // TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
+    //     "Lundi 06 mai 2023"),
+    // TransactionItem("En Traitement", "Tcheuffa Evariste", "traitement", "750",
+    //     "USA", "Lun08 mai2023"),
+    // TransactionItem("En Attente", "William Ndongmo", "attente", "1350", "USA",
+    //     "Lundi 06 mai 2023"),
+    // TransactionItem(
+    //     "Terminé", "Ndongmo Thierry", "check", "600", "USA", "Lun08 mai2023"),
+    // TransactionItem("Annulé", "William Ndongmo", "cancel", "850", "USA",
+    //     "Lundi 06 mai 2023"),
+    // TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
+    //     "Lundi 06 mai 2023"),
   ];
+    List alldata = [];
+  Future<void> getDataTransferts() async {
+    DataController dataController = DataController();
+    alldata = await dataController.retrieveTransferts();
+    getAllTransfert(alldata);
+
+    // alltransferts.add(TransactionItemToFireBase(
+    //     lastTimeInPending: alldata[0].lastTimeInPending,
+    //     amount: alldata[0].amount,
+    //     bank: alldata[0].bank,
+    //     codeReception: alldata[0].codeReception,
+    //     createdDate: alldata[0].createdDate,
+    //     deposit: alldata[0].deposit,
+    //     description: alldata[0].description,
+    //     inZone: alldata[0].inZone,
+    //     outZone: alldata[0].outZone,
+    //     owner: alldata[0].owner,
+    //     ownerId: alldata[0].ownerId,
+    //     receiver: alldata[0].receiver,
+    //     status: alldata[0].status,
+    //     to_bank: alldata[0].to_bank));
+    print('transfert---> ${transactions}');
+  }
+
+  void getAllTransfert(data) {
+    setState(() {
+      for (var i = 0; i < data.length; i++) {
+        transactions.add(TransactionItem(
+          data[i].status,
+          data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
+          "traitement",
+          data[i].amount.toString(),
+          data[i].inZone['name'],
+          "Lundi 06 mai 2023",
+          alldata[i].codeReception,
+          // alldata[i].receiver['nom'],
+          // alldata[i].receiver['telephone'],
+        ));
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataTransferts();
+  }
+
   bool isListTransaction;
   int currentTransaction;
   TransactionPageState(this.isListTransaction, this.currentTransaction);
