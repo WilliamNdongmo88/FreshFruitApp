@@ -6,9 +6,14 @@ class TransactionItem {
   String amont;
   String city;
   String date;
+  String codeReception;
+  // String receiverName;
+  // String receiverTel;
   TransactionItem(
       // this.id,
-      this.status, this.user, this.icon, this.amont, this.city, this.date);
+      this.status, this.user, this.icon, this.amont, this.city, this.date, this.codeReception,
+      //this.receiverName, this.receiverTel
+      ); 
 }
 
 class TransactionItemToFireBase {

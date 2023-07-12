@@ -419,7 +419,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                 ],
                               ),
                             ),
-                            if (transaction.status == 'En Traitement' ||
+                            if (transaction.status == 'OPEN' ||
                                 transaction.status == 'En Attente') ...[
                               Text(
                                 'En cours',
@@ -430,7 +430,8 @@ Widget cardItem({required TransactionItem transaction}) {
                                       const Color.fromARGB(255, 136, 134, 134),
                                 ),
                               ),
-                            ] else
+                            ] 
+                            else
                               Text(
                                 transaction.status,
                                 style: GoogleFonts.inter(
@@ -452,7 +453,7 @@ Widget cardItem({required TransactionItem transaction}) {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (transaction.status == 'En Traitement') ...[
+                          if (transaction.status == 'OPEN') ...[
                             Text(transaction.user,
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
@@ -466,7 +467,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14)),
-                                Text(transaction.status,
+                                Text('En Traitement',
                                     style: GoogleFonts.inter(
                                       fontSize: 14,
                                       fontStyle: FontStyle.normal,
