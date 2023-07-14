@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -97,7 +96,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
       resizeToAvoidBottomInset: false,
       body: ScreenUtilInit(
         designSize: const Size(390, 844),
-        builder: () => SingleChildScrollView(
+        builder: (contex, child) => SingleChildScrollView(
           child: Column(
             children: [
               SafeArea(

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/MA_CallableWidget.dart';
@@ -60,7 +59,7 @@ class _EditeDataState extends State<EditeData> {
     return Scaffold(
       body: ScreenUtilInit(
         designSize: const Size(390, 844),
-        builder: () => SingleChildScrollView(
+        builder: (contex, child) => SingleChildScrollView(
           child: Column(children: [
             Container(
               margin: EdgeInsets.only(left: 20.r, top: 60.r),
@@ -93,7 +92,7 @@ class _EditeDataState extends State<EditeData> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius:
-                      BorderRadius.circular(25.nsp), //border corner radius
+                      BorderRadius.circular(25), //border corner radius
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(1), //color of shadow

@@ -115,7 +115,7 @@ class _TransactionScreenState extends State<TransactionScreen>
       resizeToAvoidBottomInset: false,
       body: ScreenUtilInit(
         designSize: const Size(390, 844),
-        builder: () => SingleChildScrollView(
+        builder: (contex, child) => SingleChildScrollView(
           child: SafeArea(
             child: Stack(
               children: [

@@ -60,7 +60,7 @@ class _DevisesPageState extends State<DevisesPage> {
     return Scaffold(
       body: ScreenUtilInit(
         designSize: const Size(390, 844),
-        builder: () =>  SingleChildScrollView(
+        builder: (contex, child) =>  SingleChildScrollView(
           child: Column(children: [
             Container(
               margin: EdgeInsets.only(top: 60.r),

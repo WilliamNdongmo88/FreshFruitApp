@@ -148,7 +148,7 @@ class TransactionPageState extends State<TransactionPage> {
     return Scaffold(
       body: ScreenUtilInit(
         designSize: const Size(360, 690),
-        builder: () => Stack(children: [
+        builder: (contex, child) => Stack(children: [
           Container(
             margin: const EdgeInsets.only(left: 20, top: 65),
             child: Row(
