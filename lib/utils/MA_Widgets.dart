@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,29 +10,36 @@ import '../views/homePage/MA_homePage.dart';
 import 'MA_Styles.dart';
 import 'MA_TransactionItem.dart';
 
-Widget myTextField({label, text, String? icon, bool, TextEditingController? controller,Function? validator}) {
+Widget myTextField(
+    {label,
+    text,
+    String? icon,
+    bool,
+    TextEditingController? controller,
+    Function? validator}) {
   return Container(
     height: 50,
     child: TextFormField(
-
-      validator: (input)=> validator!(input),
+      validator: (input) => validator!(input),
       obscureText: bool,
       controller: controller,
       decoration: InputDecoration(
-          contentPadding:EdgeInsets.only(top: 5, bottom: 0),
+        contentPadding: EdgeInsets.only(top: 5, bottom: 0),
         //  errorStyle: TextStyle(fontSize: 14),
-          hintStyle: TextStyle(
-            fontSize: 18, color: AppColors.genderTextColor,
-          ),
-          labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
-          hintText: text,
-          labelText: label,
-          prefixIcon: Image.asset(
-            icon!,
-            cacheHeight: 20,
-          ),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        hintStyle: TextStyle(
+          fontSize: 18,
+          color: AppColors.genderTextColor,
+        ),
+        labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
+        hintText: text,
+        labelText: label,
+        prefixIcon: Image.asset(
+          icon!,
+          cacheHeight: 20,
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        focusedBorder:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
     ),
   );
@@ -56,8 +64,9 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
   );
 }
 
-Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
-  return ElevatedButton.icon(   // <-- ElevatedButton
+Widget elevatedButtonright({text, Function? onpress, width, height, icon}) {
+  return ElevatedButton.icon(
+    // <-- ElevatedButton
     style: ElevatedButton.styleFrom(
       minimumSize: Size(width, height),
       backgroundColor: AppColors.orange,
@@ -75,13 +84,16 @@ Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
   );
 }
 
-Widget textButton({text, Function? onpress, fontSize, Color? color}){
-    return TextButton(
-      onPressed: (){
-        onpress!();
-      },
-      child: Text(text, style: GoogleFonts.dmSans(color: color, fontSize: fontSize),),
-      );
+Widget textButton({text, Function? onpress, fontSize, Color? color}) {
+  return TextButton(
+    onPressed: () {
+      onpress!();
+    },
+    child: Text(
+      text,
+      style: GoogleFonts.dmSans(color: color, fontSize: fontSize),
+    ),
+  );
 }
 
 Widget myText({text, style, textAlign}) {
@@ -93,15 +105,14 @@ Widget myText({text, style, textAlign}) {
   );
 }
 
-Widget socialAppsIcons({text,Function? onPressed}) {
+Widget socialAppsIcons({text, Function? onPressed}) {
   return InkWell(
-    onTap: ()=> onPressed!(),
+    onTap: () => onPressed!(),
     child: Container(
       margin: const EdgeInsets.all(10),
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-
         image: DecorationImage(
           image: AssetImage(text),
         ),
@@ -157,15 +168,15 @@ Widget outputField({
                 const SizedBox(
                   height: 10,
                 ),
-                if(bottomTextRight_Int != null) ...[
+                if (bottomTextRight_Int != null) ...[
                   Text(
-                  '\$$bottomTextLeft.00',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                ]else if (bottomTextLeft != '') ...[
+                    '\$$bottomTextLeft.00',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ] else if (bottomTextLeft != '') ...[
                   Text(
                     bottomTextLeft,
                     style: const TextStyle(
@@ -174,7 +185,6 @@ Widget outputField({
                         fontWeight: FontWeight.bold),
                   ),
                 ]
-                
               ],
             ),
           ),
@@ -377,10 +387,10 @@ Widget cardItem({required TransactionItem transaction}) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
     ),
-    margin: const EdgeInsets.all(8),
-    elevation: 8,
+    margin: EdgeInsets.all(8.r),
+    elevation: 8.h,
     child: Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.only(left: 12.r, right: 12.r, top: 5.r, bottom: 5.r),
       child: Row(
         children: [
           Expanded(
@@ -388,7 +398,7 @@ Widget cardItem({required TransactionItem transaction}) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.only(bottom: 2),
+                  padding: EdgeInsets.only(bottom: 2.r),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -430,8 +440,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                       const Color.fromARGB(255, 136, 134, 134),
                                 ),
                               ),
-                            ] 
-                            else
+                            ] else
                               Text(
                                 transaction.status,
                                 style: GoogleFonts.inter(
@@ -545,8 +554,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                     // ignore: deprecated_member_use
                                     color: const Color(0xFFF24E1E),
                                   );
-                                }
-                                else {
+                                } else {
                                   return SvgPicture.asset(
                                     'assets/cancel.svg',
                                     width: 30,
@@ -664,7 +672,8 @@ class _getFooterState extends State<getFooter> {
                   builder: (context) => TransactionListScreen()));
             } else if (currentIndex == 1) {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionPage(isListTransaction:true, currentTransaction:0)));
+                  builder: (context) => TransactionPage(
+                      isListTransaction: true, currentTransaction: 0)));
             } else if (currentIndex == 2) {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const DevisesPage()));
