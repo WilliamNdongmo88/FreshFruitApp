@@ -11,6 +11,7 @@ import 'package:money_app/views/homePage/MA_homePage.dart';
 
 import 'controller/Helper classes/MA_Helper_City.dart';
 import 'controller/Helper classes/MA_Helper_Country.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class transfertForm extends StatefulWidget {
   const transfertForm({Key? key}) : super(key: key);
@@ -80,6 +81,9 @@ class _transfertFormState extends State<transfertForm> {
 
   void funcBack() {
     if (currentStep == 0) {
+      setState(() {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionListScreen()));
+      });
       print('go back');
     } else if (currentStep == 1) {
       setState(() {
@@ -676,6 +680,7 @@ class _transfertFormState extends State<transfertForm> {
                                 border: OutlineInputBorder(),
                                 hintText: 'Entrer un  montant',
                               ),
+
                             ),
                           ),
                         )
