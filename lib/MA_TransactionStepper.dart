@@ -95,10 +95,8 @@ class _transfertFormState extends State<transfertForm> {
   void funChange(changetxt) {
     setState(() {
       if (changetxt == 0) {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
       }
     });
   }

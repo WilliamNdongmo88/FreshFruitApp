@@ -10,16 +10,22 @@ class TransactionItem {
   // String receiverName;
   // String receiverTel;
   TransactionItem(
-      // this.id,
-      this.status, this.user, this.icon, this.amont, this.city, this.date, this.codeReception,
-      //this.receiverName, this.receiverTel
-      ); 
+    // this.id,
+    this.status,
+    this.user,
+    this.icon,
+    this.amont,
+    this.city,
+    this.date,
+    this.codeReception,
+    //this.receiverName, this.receiverTel
+  );
 }
 
 class TransactionItemToFireBase {
-  String lastTimeInPending;
+  String? lastTimeInPending;
   int amount;
-  Map bank;
+  Map? bank;
   String codeReception;
   Map deposit;
   String description;
@@ -28,7 +34,7 @@ class TransactionItemToFireBase {
   Map outZone;
   Map owner;
   String ownerId;
-  Map receiver;
+  Map? receiver;
   String status;
   bool to_bank;
   String? icon;

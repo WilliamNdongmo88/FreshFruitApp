@@ -165,7 +165,7 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
                 child: Container(
                   margin: EdgeInsets.only(top: 15.r, left: 30.r),
                   child: Container(
-                    margin: EdgeInsets.only(left: 55.r),
+                    margin: EdgeInsets.only(left: 30.r),
                     child: GestureDetector(
                       onTap: () {
                         callBackFunction!('Open_pop_up');
@@ -837,8 +837,8 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                 ),
                 child: AlertDialog(
                   title: SizedBox(
-                    height: 200,
-                    width: 250,
+                    height: 200.h,
+                    width: 250.w,
                     child: Column(
                       children: [
                         Row(children: [
@@ -846,30 +846,30 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                             buildIconButtonSvg(
                               iconColor: const Color(0XFFF24E1E),
                               iconSvg: 'assets/filter.svg',
-                              fontSizeIcon: 45,
+                              fontSizeIcon: 45.sp,
                             ),
-                            const SizedBox(
-                              width: 180,
+                            SizedBox(
+                              width: 170.w,
                             ),
                             GestureDetector(
                               onTap: () => Navigator.of(ctx).pop(),
                               child: SvgPicture.asset(
                                 'assets/close.svg',
-                                width: 15,
+                                width: 15.w,
                                 // ignore: deprecated_member_use
                                 color: const Color(0XFFF24E1E),
                               ),
                             ),
                           ]),
                         ]),
-                        const SizedBox(height: 15),
+                        SizedBox(height: 15.h),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.only(left: 20.r, right: 20.r),
                           child: Row(
                             children: [
                               const Text('Date'),
-                              const SizedBox(
-                                width: 100,
+                              SizedBox(
+                                width: 100.w,
                               ),
                               Radio(
                                   value: 1,
@@ -884,14 +884,14 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 15),
+                        SizedBox(height: 15.h),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.only(left: 20.r, right: 20.r),
                           child: Row(
                             children: [
                               const Text('Montant'),
-                              const SizedBox(
-                                width: 70,
+                              SizedBox(
+                                width: 68.w,
                               ),
                               Radio(
                                   value: 2,
@@ -1121,8 +1121,8 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
         ),
         child: AlertDialog(
           title: SizedBox(
-            height: 150,
-            width: 250,
+            height: 160.h,
+            width: 250.w,
             child: Column(
               children: [
                 Row(children: [
@@ -1130,30 +1130,30 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                     buildIconButtonSvg(
                       iconColor: const Color(0XFFF24E1E),
                       iconSvg: 'assets/trier.svg',
-                      fontSizeIcon: 45,
+                      fontSizeIcon: 45.sp,
                     ),
-                    const SizedBox(
-                      width: 180,
+                    SizedBox(
+                      width: 170.w,
                     ),
                     GestureDetector(
                       onTap: () => Navigator.of(ctx).pop(),
                       child: SvgPicture.asset(
                         'assets/close.svg',
-                        width: 15,
+                        width: 15.w,
                         // ignore: deprecated_member_use
                         color: const Color(0XFFF24E1E),
                       ),
                     ),
                   ]),
                 ]),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(left: 20.r, right: 20.r),
                   child: Row(
                     children: [
                       const Text('Ascendant'),
-                      const SizedBox(
-                        width: 60,
+                      SizedBox(
+                        width: 40.w,
                       ),
                       Radio(
                           value: 1,
@@ -1167,14 +1167,14 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(left: 20.r, right: 20.r),
                   child: Row(
                     children: [
                       const Text('Descendant'),
-                      const SizedBox(
-                        width: 50,
+                      SizedBox(
+                        width: 30.w,
                       ),
                       Radio(
                           value: 2,
@@ -1193,13 +1193,13 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
           ),
           actions: [
             Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 10.r),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    width: 100,
-                    height: 45,
+                    width: 100.h,
+                    height: 45.w,
                     child: TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(229, 225, 225, 1),
@@ -1207,29 +1207,29 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: const Text(
+                      child: Text(
                         'Annuler',
                         style: TextStyle(
-                            color: Color.fromARGB(255, 106, 99, 99),
+                            color: const Color.fromARGB(255, 106, 99, 99),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                            fontSize: 16.sp),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 100,
-                    height: 45,
+                    width: 100.h,
+                    height: 45.w,
                     child: TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                       ),
                       onPressed: () {},
-                      child: const Text(
+                      child: Text(
                         'Ok',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                            fontSize: 16.sp),
                       ),
                     ),
                   ),
@@ -1667,143 +1667,155 @@ Widget TansactionsTab(List<TransactionItem> transactions, String valueTab,
 }
 
 Widget allTansactions(transactions, isListTransaction) {
-  return Container(
-    // color: const Color.fromARGB(255, 242, 236, 224),
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          onTap: () {
-            print(
-                'allTansactions---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      // color: Color.fromARGB(255, 47, 45, 41),
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            onTap: () {
+              print(
+                  'allTansactions---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransactionScreen(
+                      transaction: transactions,
+                      index: index,
+                      isListTransaction: isListTransaction)));
+            },
+          );
+        },
+      ),
     ),
   );
 }
 
 Widget tansactionReussies(transactions, isListTransaction) {
-  return Container(
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          // Dismissible(
-          //     key: Key(transaction.user),
-          //     onDismissed: (direction) {
-          //       // setState(() {
-          //       //   transactions.removeAt(index);
-          //       // });
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //           SnackBar(content: Text("${transaction.user} supprimé")));
-          //     },
-          //     child: cardItem(transaction: transaction)
-          //     ),
-          onTap: () {
-            print(
-                'tansactionReussies---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            // Dismissible(
+            //     key: Key(transaction.user),
+            //     onDismissed: (direction) {
+            //       // setState(() {
+            //       //   transactions.removeAt(index);
+            //       // });
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text("${transaction.user} supprimé")));
+            //     },
+            //     child: cardItem(transaction: transaction)
+            //     ),
+            onTap: () {
+              print(
+                  'tansactionReussies---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransactionScreen(
+                      transaction: transactions,
+                      index: index,
+                      isListTransaction: isListTransaction)));
+            },
+          );
+        },
+      ),
     ),
   );
 }
 
 Widget tansactionsEnCours(transactions, isListTransaction) {
-  return Container(
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          // Dismissible(
-          //     key: Key(transaction.user),
-          //     onDismissed: (direction) {
-          //       // setState(() {
-          //       //   transactions.removeAt(index);
-          //       // });
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //           SnackBar(content: Text("${transaction.user} supprimé")));
-          //     },
-          //     child: cardItem(transaction: transaction)
-          //     ),
-          onTap: () {
-            print(
-                'tansactionsEnCours---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            // Dismissible(
+            //     key: Key(transaction.user),
+            //     onDismissed: (direction) {
+            //       // setState(() {
+            //       //   transactions.removeAt(index);
+            //       // });
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text("${transaction.user} supprimé")));
+            //     },
+            //     child: cardItem(transaction: transaction)
+            //     ),
+            onTap: () {
+              print(
+                  'tansactionsEnCours---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransactionScreen(
+                      transaction: transactions,
+                      index: index,
+                      isListTransaction: isListTransaction)));
+            },
+          );
+        },
+      ),
     ),
   );
 }
 
 Widget tansactionAnnuler(transactions, isListTransaction) {
-  return Container(
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          // Dismissible(
-          //     key: Key(transaction.user),
-          //     onDismissed: (direction) {
-          //       // setState(() {
-          //       //   transactions.removeAt(index);
-          //       // });
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //           SnackBar(content: Text("${transaction.user} supprimé")));
-          //     },
-          //     child: cardItem(transaction: transaction)
-          //     ),
-          onTap: () {
-            print(
-                'tansactionAnnuler---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            // Dismissible(
+            //     key: Key(transaction.user),
+            //     onDismissed: (direction) {
+            //       // setState(() {
+            //       //   transactions.removeAt(index);
+            //       // });
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text("${transaction.user} supprimé")));
+            //     },
+            //     child: cardItem(transaction: transaction)
+            //     ),
+            onTap: () {
+              print(
+                  'tansactionAnnuler---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TransactionScreen(
+                      transaction: transactions,
+                      index: index,
+                      isListTransaction: isListTransaction)));
+            },
+          );
+        },
+      ),
     ),
   );
 }

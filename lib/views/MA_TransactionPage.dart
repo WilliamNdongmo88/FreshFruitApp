@@ -53,7 +53,7 @@ class TransactionPageState extends State<TransactionPage> {
     // TransactionItem("Terminé", "William Ndongmo", "check", "450", "USA",
     //     "Lundi 06 mai 2023"),
   ];
-    List alldata = [];
+  List alldata = [];
   Future<void> getDataTransferts() async {
     DataController dataController = DataController();
     alldata = await dataController.retrieveTransferts();
@@ -145,172 +145,174 @@ class TransactionPageState extends State<TransactionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ScreenUtilInit(
-        designSize: const Size(360, 690),
-        builder: (contex, child) => Stack(children: [
-          Container(
-            margin: const EdgeInsets.only(left: 20, top: 65),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: buildIconButtonSvg(
-                      iconSvg: 'assets/back.svg',
-                      iconColor: const Color(0XFF000000),
-                      fontSizeIcon: 35,
-                      callBackFunction: funChange),
-                ),
-                const SizedBox(
-                  width: 25,
-                ),
-                const Text(
-                  'Liste des transactions',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        body: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          builder: (context, child) => Stack(children: [
+            Container(
+              margin: EdgeInsets.only(left: 20.r, top: 65.r),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: buildIconButtonSvg(
+                        iconSvg: 'assets/back.svg',
+                        iconColor: const Color(0XFF000000),
+                        fontSizeIcon: 35.sp,
+                        callBackFunction: funChange),
+                  ),
+                  SizedBox(
+                    width: 25.w,
+                  ),
+                  const Text(
+                    'Liste des transactions',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
-          ),
-      
-          /* Start Tab Bar */
-          TansactionsTab(
-              transactions, tabs[currentTransaction], isListTransaction),
-          Container(
-            color: const Color(0XFFF0F0F0),
-            margin: const EdgeInsets.only(top: 100),
-            padding: const EdgeInsets.all(5),
-            width: double.infinity,
-            height: 80,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 60,
-                  width: double.infinity,
-                  child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: tabs.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (ctx, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              currentTransaction = index;
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                  top: 13, left: 5, right: 5),
-                              width: 95,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: currentTransaction == index
-                                    ? const Color(0xFFF24E1E)
-                                    : const Color(0xFFF0F0F0),
-                                borderRadius: currentTransaction == index
-                                    ? BorderRadius.circular(25)
-                                    : BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  tabs[index],
-                                  style: GoogleFonts.inter(
-                                    color: currentTransaction == index
-                                        ? Colors.white
-                                        : null,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+
+            /* Start Tab Bar */
+            TansactionsTab(
+                transactions, tabs[currentTransaction], isListTransaction),
+            Container(
+              color: const Color(0XFFF0F0F0),
+              margin: EdgeInsets.only(top: 100.r),
+              padding: EdgeInsets.all(5.r),
+              width: double.infinity,
+              height: 80.r,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: tabs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (ctx, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                currentTransaction = index;
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    top: 13, left: 5, right: 5),
+                                width: 95,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: currentTransaction == index
+                                      ? const Color(0xFFF24E1E)
+                                      : const Color(0xFFF0F0F0),
+                                  borderRadius: currentTransaction == index
+                                      ? BorderRadius.circular(25)
+                                      : BorderRadius.circular(20),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    tabs[index],
+                                    style: GoogleFonts.inter(
+                                      color: currentTransaction == index
+                                          ? Colors.white
+                                          : null,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
-                ),
-              ],
+                          );
+                        }),
+                  ),
+                ],
+              ),
             ),
-          ),
-          /* End Tab Bar */
-      
-          /**Start filter */
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 600.r),
-              width: 220.w,
-              height: 80.h,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                color: const Color(0XFFF0F0F0),
-                elevation: 8,
-                child: Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Row(
+            /* End Tab Bar */
+
+            /**Start filter */
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 590.r),
+                width: 225.w,
+                height: 80.h,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r),
+                  ),
+                  color: const Color(0XFFF0F0F0),
+                  elevation: 8.h,
+                  child: Padding(
+                    padding: EdgeInsets.all(25.r),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                'Filtrer',
+                                style: GoogleFonts.inter(fontSize: 15.sp),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10.r, left: 8.r),
+                                child: buildIconButtonSvg(
+                                  iconSvg: 'assets/filtre.svg',
+                                  iconColor: Colors.black,
+                                  fontSizeIcon: 20.sp,
+                                  buttonText: 'Filtrer',
+                                  callBackFunction: funChange,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 7.r),
+                          child: SvgPicture.asset(
+                            'assets/line.svg',
+                            width: 25.w,
+                            // ignore: deprecated_member_use
+                            color: Colors.black,
+                          ),
+                        ),
+                        Row(
                           children: [
                             Text(
-                              'Filtrer',
-                              style: GoogleFonts.inter(fontSize: 15),
+                              'Trier',
+                              style: GoogleFonts.inter(fontSize: 15.sp),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(top: 5, left: 8),
+                              margin: EdgeInsets.only(top: 10.r, left: 8.r),
                               child: buildIconButtonSvg(
-                                iconSvg: 'assets/filtre.svg',
+                                iconSvg: 'assets/trier.svg',
                                 iconColor: Colors.black,
-                                fontSizeIcon: 25,
-                                buttonText: 'Filtrer',
+                                fontSizeIcon: 20.sp,
+                                buttonText: 'Trier',
                                 callBackFunction: funChange,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 7.r),
-                        child: SvgPicture.asset(
-                          'assets/line.svg',
-                          width: 25.w,
-                          // ignore: deprecated_member_use
-                          color: Colors.black,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Trier',
-                            style: GoogleFonts.inter(fontSize: 15.sp),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5.r, left: 8.r),
-                            child: buildIconButtonSvg(
-                              iconSvg: 'assets/trier.svg',
-                              iconColor: Colors.black,
-                              fontSizeIcon: 25,
-                              buttonText: 'Trier',
-                              callBackFunction: funChange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          /**End filter */
-        ]),
+            /**End filter */
+          ]),
+        ),
+        bottomNavigationBar:
+            getFooter(callBackFunction: funChange, currentIndex: 1),
       ),
-      bottomNavigationBar:
-          getFooter(callBackFunction: funChange, currentIndex: 1),
     );
   }
 }

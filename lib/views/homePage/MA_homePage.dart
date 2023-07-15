@@ -92,278 +92,289 @@ class TransactionListScreenState extends State<TransactionListScreen> {
   @override
   Widget build(BuildContext context) {
     List<TransactionItemToFireBase> alltransactions = [];
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: ScreenUtilInit(
-        designSize: const Size(390, 844),
-        builder: (contex, child) => SingleChildScrollView(
-          child: Column(
-            children: [
-              SafeArea(
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, right: 20, left: 20, bottom: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      "Bonjour,",
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 75, 67, 67),
-                                          fontSize: 16),
-                                    ),
-                                    Text(
-                                      "Lisa Camilla ",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 18),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 20.0),
-                                      child: GestureDetector(
-                                        // onTap: () {
-                                        //   Navigator.push(context,
-                                        //       MaterialPageRoute(builder: (context) => ProfileScreen()));
-                                        // },
-                                        child: const Icon(
-                                          Icons.account_circle,
-                                          size: 40,
-                                          color: Color.fromRGBO(242, 78, 30, 1),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(right: 20.0),
-                                        child: GestureDetector(
-                                          onTap: () {},
-                                          child: const Icon(
-                                            Icons.notifications,
-                                            size: 40,
-                                            color:
-                                                Color.fromRGBO(242, 78, 30, 1),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 60),
-                          width: double.infinity,
-                          height: 130,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(242, 78, 30, 1),
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Text(alltransferts[0].owner['firstname']),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 140),
-                          width: double.infinity,
-                          height: 80,
-                          decoration: const BoxDecoration(
-                            color: const Color.fromRGBO(255, 255, 255, 1),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                            ),
-                          ),
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 35),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: ScreenUtilInit(
+          designSize: const Size(390, 844),
+          builder: (context, child) => SingleChildScrollView(
+            child: Column(
+              children: [
+                SafeArea(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.r,
+                                right: 20.r,
+                                left: 20.r,
+                                bottom: 10.r),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        'Mes transactions',
+                                        "Bonjour,",
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                255, 75, 67, 67),
+                                            fontSize: 16.sp),
+                                      ),
+                                      Text(
+                                        "Lisa Camilla ",
                                         style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
+                                            fontSize: 18.sp),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 20.0),
-                                  child: GestureDetector(
-                                      onTap: () {},
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 8),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                print('---> tout voir');
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            TransactionPage(
-                                                                isListTransaction:
-                                                                    true,
-                                                                currentTransaction:
-                                                                    0)));
-                                                // Navigator.pushNamed(context, TransactionPage.transactionpage);
-                                              },
-                                              child: Text(
-                                                'Tout voir',
-                                                style: GoogleFonts.inter(
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  fontSize: 12,
-                                                  fontStyle: FontStyle.normal,
-                                                  color: const Color.fromARGB(
-                                                      255, 40, 38, 38),
-                                                ),
-                                              ),
-                                            ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 20.r),
+                                        child: GestureDetector(
+                                          // onTap: () {
+                                          //   Navigator.push(context,
+                                          //       MaterialPageRoute(builder: (context) => ProfileScreen()));
+                                          // },
+                                          child: Icon(
+                                            Icons.account_circle,
+                                            size: 40.h,
+                                            color: const Color.fromRGBO(
+                                                242, 78, 30, 1),
                                           ),
-                                        ],
-                                      )),
-                                )
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 20.0),
+                                          child: GestureDetector(
+                                            onTap: () {},
+                                            child: Icon(
+                                              Icons.notifications,
+                                              size: 40.h,
+                                              color: const Color.fromRGBO(
+                                                  242, 78, 30, 1),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 210),
-                          width: double.infinity,
-                          height: 690.h,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                          ),
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (transactions.isEmpty) ...[
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 95.r, bottom: 145.r),
-                                  child: const Center(
-                                    child:
-                                        Text('Aucun transfert pour le moment'),
-                                  ),
-                                ),
-                              ] else
-                                Expanded(
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      itemCount: transactions.length,
-                                      itemBuilder: (context, index) {
-                                        final transaction = transactions[index];
-                                        if (transactions.length > 0) {
-                                          return ListTile(
-                                            title: cardItem(
-                                                transaction: transaction),
-                                            // Dismissible(
-                                            //     key: Key(transaction.user),
-                                            //     onDismissed: (direction) {
-                                            //       setState(() {
-                                            //         transactions.removeAt(index);
-                                            //       });
-                                            //       ScaffoldMessenger.of(context)
-                                            //           .showSnackBar(SnackBar(
-                                            //               content: Text(
-                                            //                   "${transaction.user} supprimé")));
-                                            //     },
-                                            //     child: Text(' --card-- ${transaction}'),
-                                            //     cardItem(transaction: transaction)
-                                            //     ),
-                                            onTap: () {
-                                              print(
-                                                  '----onTap From MA_homePage----');
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          TransactionScreen(
-                                                              transaction:
-                                                                  transactions,
-                                                              index: index,
-                                                              isListTransaction:
-                                                                  true)));
-                                            },
-                                          );
-                                        } else {
-                                          return const Center(
-                                              child:
-                                                  CircularProgressIndicator());
-                                        }
-                                      }),
-                                ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 120,
-                          right: 10,
-                          child: Column(
-                            children: [
-                              FloatingActionButton.extended(
-                                foregroundColor:
-                                    const Color.fromRGBO(255, 255, 255, 1),
-                                backgroundColor: Color.fromRGBO(11, 47, 125, 1),
-                                icon: SvgPicture.asset(
-                                  'assets/transactions.svg',
-                                  width: 35,
-                                  // ignore: deprecated_member_use
-                                  color: const Color.fromRGBO(255, 255, 255, 1),
-                                ),
-                                label: const Text('Initier une transaction',
-                                    style: TextStyle(fontSize: 18)),
-                                elevation: 10,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              transfertForm()));
-                                },
+                          Container(
+                            margin: EdgeInsets.only(top: 60.r),
+                            width: double.infinity,
+                            height: 130.h,
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(242, 78, 30, 1),
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20.r),
                               ),
-                            ],
+                            ),
+                            padding: EdgeInsets.all(20.r),
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Text(alltransferts[0].owner['firstname']),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Container(
+                            margin: EdgeInsets.only(top: 140.r),
+                            width: double.infinity,
+                            height: 80.h,
+                            decoration: const BoxDecoration(
+                              color: const Color.fromRGBO(255, 255, 255, 1),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                              ),
+                            ),
+                            padding: EdgeInsets.only(left: 15.r, right: 15.r),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 35.r),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Mes transactions',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25.sp,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 20.r),
+                                    child: GestureDetector(
+                                        onTap: () {},
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(top: 8.r),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  print('---> tout voir');
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              TransactionPage(
+                                                                  isListTransaction:
+                                                                      true,
+                                                                  currentTransaction:
+                                                                      0)));
+                                                  // Navigator.pushNamed(context, TransactionPage.transactionpage);
+                                                },
+                                                child: Text(
+                                                  'Tout voir',
+                                                  style: GoogleFonts.inter(
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    fontSize: 12.sp,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: const Color.fromARGB(
+                                                        255, 40, 38, 38),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 210.r),
+                            width: double.infinity,
+                            height: 530.h,
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                            ),
+                            padding: EdgeInsets.only(
+                                left: 15.r, right: 15.r, top: 15.r),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (transactions.isEmpty) ...[
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 95.r, bottom: 145.r),
+                                    child: const Center(
+                                      child: Text(
+                                          'Aucun transfert pour le moment'),
+                                    ),
+                                  ),
+                                ] else
+                                  Expanded(
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        itemCount: transactions.length,
+                                        itemBuilder: (context, index) {
+                                          final transaction =
+                                              transactions[index];
+                                          if (transactions.isNotEmpty) {
+                                            return ListTile(
+                                              title: cardItem(
+                                                  transaction: transaction),
+                                              // Dismissible(
+                                              //     key: Key(transaction.user),
+                                              //     onDismissed: (direction) {
+                                              //       setState(() {
+                                              //         transactions.removeAt(index);
+                                              //       });
+                                              //       ScaffoldMessenger.of(context)
+                                              //           .showSnackBar(SnackBar(
+                                              //               content: Text(
+                                              //                   "${transaction.user} supprimé")));
+                                              //     },
+                                              //     child: Text(' --card-- ${transaction}'),
+                                              //     cardItem(transaction: transaction)
+                                              //     ),
+                                              onTap: () {
+                                                print(
+                                                    '----onTap From MA_homePage----');
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TransactionScreen(
+                                                                transaction:
+                                                                    transactions,
+                                                                index: index,
+                                                                isListTransaction:
+                                                                    true)));
+                                              },
+                                            );
+                                          } else {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+                                        }),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 110.r,
+                            right: 10.r,
+                            child: Column(
+                              children: [
+                                FloatingActionButton.extended(
+                                  foregroundColor:
+                                      const Color.fromRGBO(255, 255, 255, 1),
+                                  backgroundColor:
+                                      Color.fromRGBO(11, 47, 125, 1),
+                                  icon: SvgPicture.asset(
+                                    'assets/transactions.svg',
+                                    width: 35.w,
+                                    // ignore: deprecated_member_use
+                                    color:
+                                        const Color.fromRGBO(255, 255, 255, 1),
+                                  ),
+                                  label: Text('Initier une transaction',
+                                      style: TextStyle(fontSize: 18.sp)),
+                                  elevation: 10.h,
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                transfertForm()));
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar:
+            getFooter(callBackFunction: funChange, currentIndex: 0),
       ),
-      bottomNavigationBar:
-          getFooter(callBackFunction: funChange, currentIndex: 0),
     );
   }
 }
