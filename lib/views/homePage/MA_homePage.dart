@@ -359,7 +359,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                               label: const Text('Initier une transaction',
                                   style: TextStyle(fontSize: 18)),
                               elevation: 10,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => transfertForm()));
+                              },
                             ),
                           ],
                         ),
