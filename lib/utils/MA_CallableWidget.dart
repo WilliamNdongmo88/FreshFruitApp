@@ -703,29 +703,29 @@ Widget showdialog({ctx, changetxt}) {
       ),
       child: AlertDialog(
         title: SizedBox(
-          height: 120,
-          width: 250,
+          height: 120.h,
+          width: 250.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildIconButtonSvg(
                 iconColor: const Color(0XFFF24E1E),
                 iconSvg: 'assets/termine.svg',
-                fontSizeIcon: 35,
+                fontSizeIcon: 35.h,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.r),
               Text(
                 "Confirmer les modifications",
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.r),
               Text(
                 "Les changement seront Sauvegardés",
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: const Color.fromARGB(255, 129, 123, 123),
                 ),
@@ -735,13 +735,13 @@ Widget showdialog({ctx, changetxt}) {
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: EdgeInsets.only(bottom: 20.r),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  width: 100,
-                  height: 50,
+                  width: 100.w,
+                  height: 50.h,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(229, 225, 225, 1),
@@ -759,19 +759,19 @@ Widget showdialog({ctx, changetxt}) {
                   ),
                 ),
                 SizedBox(
-                  width: 100,
-                  height: 50,
+                  width: 100.w,
+                  height: 50.h,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                     ),
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       'Oui',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 16.sp),
                     ),
                   ),
                 ),
