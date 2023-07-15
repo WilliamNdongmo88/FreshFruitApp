@@ -42,7 +42,6 @@ dependencies:
   flutter_svg: ^2.0.5
   # google_fonts: ^3.0.1
   intl: ^0.18.1
-
   get:
   google_fonts:
   firebase_core:

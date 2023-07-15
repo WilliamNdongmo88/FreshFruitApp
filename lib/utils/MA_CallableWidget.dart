@@ -111,7 +111,7 @@ Widget tabTransaction(transaction, index) {
                     '\$${int.parse(transaction[index].amont) + frais}.00',
                     style: TextStyle(
                         color: const Color.fromRGBO(246, 60, 3, 1),
-                        fontSize: 30.sp,
+                        fontSize: 25.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
