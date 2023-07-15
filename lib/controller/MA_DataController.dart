@@ -6,6 +6,7 @@ import 'package:money_app/controller/Helper classes/MA_Helper_City.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Country.dart';
 import 'package:money_app/utils/MA_Constant.dart';
 
+import '../utils/MA_TransactionItem.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'Helper classes/MA_Helper_User.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_TransfertInformation.dart';
@@ -15,6 +16,11 @@ class DataController extends GetxController{
 
   List<MA_Helper_Country> CountryList = <MA_Helper_Country>[].obs;
   RxList<MA_Helper_Country> CountryListToDispatch = <MA_Helper_Country>[].obs;
+  RxString token = ''.obs;
+
+  List<TransactionItemToFireBase> transfertList =
+      <TransactionItemToFireBase>[].obs;
+
 /*
   author: Franc TOUTCHA
   * This is a function which help you to call cloud functions
@@ -23,11 +29,10 @@ class DataController extends GetxController{
   * data :an object which is the param of the cloud function... exp:{"action": "GET-ALL-WITH-CITIES"}
 */
   Future<dynamic> callCloudFunction(String functionName,data) async{
-    print('***** before specify the CF name *********');
+    print('***** before specify the Could Function name *********');
     HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(functionName);
-    print('***** after specify the CF name *********');
+    print('***** after specify the Could Funct name *********');
     try {
-      print('***** in the try *********');
       HttpsCallableResult result = await callable.call(data); // Make the callable cloud function call
 
       // Check the status code
@@ -114,6 +119,30 @@ class DataController extends GetxController{
       return CountryList;
    }
 
+   Future<String> sendToken(String token) async {
+    String msg;
+     dynamic result = await callCloudFunction('nl_manage_users', {"action": "UPDATE", "user":{"fcmToken":token}});
+     if(result['ErrorCode'] ==null){
+       if(result['message'] !=null){
+         //empty result
+         print('*** sendToken function: enter In empty response scope ***');
+         print(result['message']);
+         msg = "K.O.1";
+       }else{
+         print('*** enter In good response scope: sendToken function ***');
+         print(result['body'].runtimeType);
+         msg = result['body'];
+         //Get.to(()=> TransactionListScreen());
+       }
+     }else{
+       //an error occur
+       print('enter In error response scope: sendToken function');
+       print(result['ErrorCode']);
+       print(result['message']);
+       msg = "K.O";
+     }
+     return msg;
+   }
 
    Future<String> createUser(MA_Helper_User user) async{
      isLoading(true);
@@ -161,6 +190,11 @@ class DataController extends GetxController{
   void updateCountryList(List<MA_Helper_Country> listC){
     CountryListToDispatch.value =listC;
   }
+
+  void setToken(String toknC){
+    token.value = toknC;
+  }
+
 
   Future<String> createTransfert (MA_Helper_Transfert transfert)async {
 print('***** Enter in createTransfert *********');
@@ -279,5 +313,45 @@ print('***** Enter in createTransfert *********');
     }
   }
 
+  Future<List<TransactionItemToFireBase>> retrieveTransferts() async {
+    print(FirebaseAuth.instance.currentUser);
+    print("enter in nl_manage_request");
+    dynamic result =
+    await callCloudFunction('nl_manage_request', {"action": "GET-ALL"});
+    if (result['ErrorCode'] == null) {
+      if (result['message'] != null) {
+        //empty result
+        print('enter In empty response scope');
+        print(result['message']);
+      } else {
+        print('enter In good response scope');
+        print(result['body']);
+        transfertList = List<TransactionItemToFireBase>.from(result['body'].map(
+              (json) => TransactionItemToFireBase(
+            lastTimeInPending: json['lastTimeInPending'],
+            amont: json['amont'],
+            bank: json['bank'],
+            codeReception: json['codeReception'],
+            createdDate: json['createdDate'],
+            deposit: json['deposit'],
+            description: json['description'],
+            inZone: json['inZone'],
+            outZone: json['outZone'],
+            owner: json['owner'],
+            ownerId: json['ownerId'],
+            receiver: json['receiver'],
+            status: json['status'],
+            to_bank: json['to_bank'],
+          ),
+        ));
+      }
+    } else {
+      //an error occur
+      print('enter In error response scope');
+      print(result['ErrorCode']);
+      print(result['message']);
+    }
+    return transfertList;
+  }
 
 }
