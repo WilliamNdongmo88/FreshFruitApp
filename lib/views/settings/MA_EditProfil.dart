@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:money_app/utils/MA_Styles.dart';
 import 'package:money_app/views/settings/MA_UserProfil.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../component/MA_BottomNavigationBar.dart';
+import '../../utils/MA_Widgets.dart';
 
 class EditProfil extends StatefulWidget {
   const EditProfil({super.key, required this.title});
@@ -13,6 +18,7 @@ class EditProfil extends StatefulWidget {
 
 class _EditProfilState extends State<EditProfil> {
   final _formKey = GlobalKey<FormState>();
+  bool onError = false;
 
   final nomController = TextEditingController();
   final prenomController = TextEditingController();
@@ -20,6 +26,10 @@ class _EditProfilState extends State<EditProfil> {
   final paysController = TextEditingController();
   final villeController = TextEditingController();
   final telephoneController = TextEditingController();
+
+  String nn = 'Text';
+  //Sttt = 'TextInputType.Text';
+  //String testinputtype = "$tt.$nn";
 
   @override
   void dispose() {
@@ -37,420 +47,283 @@ class _EditProfilState extends State<EditProfil> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          /*appBar: AppBar(
+        /*appBar: AppBar(
             title: Text(widget.title),
             centerTitle: true,
           ),*/
-          body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Padding(
-                padding: EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 30, left: 0, right: 0, bottom: 20),
-                  child: IconButton(
-                      iconSize: 70,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                                pageBuilder: (_, __, ___) =>
-                                    const UserProfil()));
-                      },
-                      icon: SvgPicture.asset("assets/icons/icon_back.svg")),
-                ),
-                const Padding(
-                  padding:
-                      EdgeInsets.only(top: 30, left: 0, right: 60, bottom: 20),
-                  child: Text(
-                    "Modifier profil",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily: 'DM Sans',
-                      fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 20.h, left: 10.w, right: 80.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        iconSize: 70.sp,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  pageBuilder: (_, __, ___) =>
+                                      const UserProfil()));
+                        },
+                        icon: SvgPicture.asset("assets/icons/icon_back.svg")),
+                    Text(
+                      "Modifier profil",
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-            Form(
-              key: _formKey,
-              child: Container(
-                margin: const EdgeInsets.only(
-                    top: 1, bottom: 40, right: 10, left: 10),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 35, left: 35),
-                      child: TextFormField(
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'DM Sans'),
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                                text: 'Nom',
-                                style: TextStyle(
-                                  color: Color(0xFF6F6F6F),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style:
-                                          TextStyle(color: Color(0xFFF24E1E)))
-                                ]),
-                          ),
-                          hintText: 'lisa balae',
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6F6F6F)),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          errorStyle: const TextStyle(color: Color(0xFFF24E1E)),
-                          labelStyle: const TextStyle(color: Color(0xFF6F6F6F)),
-                          hintStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: 'DM Sans',
-                          ),
-                          //focusedErrorBorder: OutlineInputBorder(borderSide: Color(0xFFF24E1E),),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF6F6F6F),
-                          )),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child:
-                                SvgPicture.asset("assets/icons/icon_name.svg"),
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 46.w),
+                      child: Container(
+                        height: 70.h,
+                        child: myTextFormField2(
+                          keyboadtypeinput: TextInputType.text,
+                          textLabel: 'Nom',
+                          textHint: 'lisa balae',
+                          icon: "assets/icons/icon_name.svg",
+                          textObscure: false,
+                          controller: nomController,
+                          validator: (value) {
+                            setState(() {
+                              onError = false;
+                            });
+                            if (value!.isEmpty) {
+                              setState(() {
+                                onError = true;
+                              });
+                              return null;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer votre Nom";
-                          }
-                          return null;
-                        },
-                        controller: nomController,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    onError
+                        ? Positioned(
+                            bottom: 0.h,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 153.w),
+                              child: Text('Veuillez entrer votre Nom',
+                                  style: TextStyle(
+                                      color: AppColors.orange,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'DM Sans',
+                                      letterSpacing: 0.1.sp)),
+                            ))
+                        : Container(),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 35, left: 35),
-                      child: TextFormField(
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'DM Sans'),
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                                text: 'Prénom',
-                                style: TextStyle(
-                                  color: Color(0xFF6F6F6F),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style:
-                                          TextStyle(color: Color(0xFFF24E1E)))
-                                ]),
-                          ),
-                          hintText: 'Camilla',
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6F6F6F)),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          errorStyle: const TextStyle(color: Color(0xFFF24E1E)),
-                          labelStyle: const TextStyle(color: Color(0xFF6F6F6F)),
-                          hintStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: 'DM Sans',
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF6F6F6F),
-                          )),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child:
-                                SvgPicture.asset("assets/icons/icon_name.svg"),
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 46.w),
+                      child: Container(
+                        height: 70.h,
+                        child: myTextFormField2(
+                          keyboadtypeinput: TextInputType.text,
+                          textLabel: 'Prenom',
+                          textHint: 'Camilla',
+                          icon: "assets/icons/icon_name.svg",
+                          textObscure: false,
+                          controller: prenomController,
+                          validator: (value) {
+                            setState(() {
+                              onError = false;
+                            });
+                            if (value!.isEmpty) {
+                              setState(() {
+                                onError = true;
+                              });
+                              return null;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer votre Prénom";
-                          }
-                          return null;
-                        },
-                        controller: prenomController,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    onError
+                        ? myerrorMessage(
+                            text: 'Veuillez entrer votre Prénom',
+                            paddingerror: 130.w)
+                        : Container(),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 35, left: 35),
-                      child: TextFormField(
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'DM Sans'),
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                                text: 'Email',
-                                style: TextStyle(
-                                  color: Color(0xFF6F6F6F),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style:
-                                          TextStyle(color: Color(0xFFF24E1E)))
-                                ]),
-                          ),
-                          hintText: 'lisaCamila@gmail.com',
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6F6F6F)),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          errorStyle: const TextStyle(color: Color(0xFFF24E1E)),
-                          labelStyle: const TextStyle(color: Color(0xFF6F6F6F)),
-                          hintStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: 'DM Sans',
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF6F6F6F),
-                          )),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child:
-                                SvgPicture.asset("assets/icons/icon_email.svg"),
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 46.w),
+                      child: Container(
+                        height: 70.h,
+                        child: myTextFormField2(
+                          keyboadtypeinput: TextInputType.emailAddress,
+                          textLabel: 'Email',
+                          textHint: 'lisaCamila@gmail.com',
+                          icon: "assets/icons/icon_email.svg",
+                          textObscure: false,
+                          controller: emailController,
+                          validator: (value) {
+                            setState(() {
+                              onError = false;
+                            });
+                            if (value!.isEmpty) {
+                              setState(() {
+                                onError = true;
+                              });
+                              return null;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer votre Email";
-                          }
-                          return null;
-                        },
-                        controller: emailController,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    onError
+                        ? myerrorMessage(
+                            text: 'Veuillez entrer votre Email',
+                            paddingerror: 147.w)
+                        : Container(),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 35, left: 35),
-                      child: TextFormField(
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'DM Sans'),
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                                text: 'Pays',
-                                style: TextStyle(
-                                  color: Color(0xFF6F6F6F),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style:
-                                          TextStyle(color: Color(0xFFF24E1E)))
-                                ]),
-                          ),
-                          hintText: 'Cameroun',
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6F6F6F)),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          errorStyle: const TextStyle(color: Color(0xFFF24E1E)),
-                          labelStyle: const TextStyle(color: Color(0xFF6F6F6F)),
-                          hintStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: 'DM Sans',
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF6F6F6F),
-                          )),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: SvgPicture.asset(
-                                "assets/icons/icon_country.svg"),
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 46.w),
+                      child: Container(
+                        height: 70.h,
+                        child: myTextFormField2(
+                          keyboadtypeinput: TextInputType.text,
+                          textLabel: 'Pays',
+                          textHint: 'Cameroun',
+                          icon: "assets/icons/icon_country.svg",
+                          textObscure: false,
+                          controller: paysController,
+                          validator: (value) {
+                            setState(() {
+                              onError = false;
+                            });
+                            if (value!.isEmpty) {
+                              setState(() {
+                                onError = true;
+                              });
+                              return null;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer votre Pays";
-                          }
-                          return null;
-                        },
-                        controller: paysController,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    onError
+                        ? myerrorMessage(
+                            text: 'Veuillez entrer votre Pays',
+                            paddingerror: 149.w)
+                        : Container(),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 35, left: 35),
-                      child: TextFormField(
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'DM Sans'),
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                                text: 'Ville',
-                                style: TextStyle(
-                                  color: Color(0xFF6F6F6F),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style:
-                                          TextStyle(color: Color(0xFFF24E1E)))
-                                ]),
-                          ),
-                          hintText: 'Yaounde',
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6F6F6F)),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          errorStyle: const TextStyle(color: Color(0xFFF24E1E)),
-                          labelStyle: const TextStyle(color: Color(0xFF6F6F6F)),
-                          hintStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: 'DM Sans',
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF6F6F6F),
-                          )),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, bottom: 10, left: 10),
-                            child: SvgPicture.asset(
-                                "assets/icons/icon_locationcity.svg"),
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 46.w),
+                      child: Container(
+                        height: 70.h,
+                        child: myTextFormField2(
+                          keyboadtypeinput: TextInputType.text,
+                          textLabel: 'Ville',
+                          textHint: 'Yaounde',
+                          icon: "assets/icons/icon_locationcity.svg",
+                          textObscure: false,
+                          controller: villeController,
+                          validator: (value) {
+                            setState(() {
+                              onError = false;
+                            });
+                            if (value!.isEmpty) {
+                              setState(() {
+                                onError = true;
+                              });
+                              return null;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer votre Ville";
-                          }
-                          return null;
-                        },
-                        controller: villeController,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    onError
+                        ? myerrorMessage(
+                            text: 'Veuillez entrer votre Ville',
+                            paddingerror: 154.w)
+                        : Container(),
+                    SizedBox(
+                      height: 15.h,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 35, left: 35),
-                      child: TextFormField(
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'DM Sans'),
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          label: RichText(
-                            text: const TextSpan(
-                                text: 'Téléphone',
-                                style: TextStyle(
-                                  color: Color(0xFF6F6F6F),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: '*',
-                                      style:
-                                          TextStyle(color: Color(0xFFF24E1E)))
-                                ]),
-                          ),
-                          hintText: '+237 691 886 084',
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF6F6F6F)),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          errorStyle: const TextStyle(color: Color(0xFFF24E1E)),
-                          labelStyle: const TextStyle(color: Color(0xFF6F6F6F)),
-                          hintStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontFamily: 'DM Sans',
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFF6F6F6F))),
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                            color: Color(0xFF6F6F6F),
-                          )),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child:
-                                SvgPicture.asset("assets/icons/icon_phone.svg"),
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 46.w),
+                      child: Container(
+                        height: 70.h,
+                        child: myTextFormField2(
+                          keyboadtypeinput: TextInputType.phone,
+                          textLabel: 'Téléphone',
+                          textHint: '+237 691 886 084',
+                          icon: "assets/icons/icon_phone.svg",
+                          textObscure: false,
+                          controller: telephoneController,
+                          validator: (value) {
+                            setState(() {
+                              onError = false;
+                            });
+                            if (value!.isEmpty) {
+                              setState(() {
+                                onError = true;
+                              });
+                              return null;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer votre numéro deTéléphone";
-                          }
-                          return null;
-                        },
-                        controller: telephoneController,
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                print('formulaire envoye');
-                                final pName = nomController.text;
-                                final pPrenom = prenomController.text;
-                                final pEmail = emailController.text;
-                                final pPays = paysController.text;
-                                final pVille = villeController.text;
-                                final pTelephone = telephoneController.text;
+                    onError
+                        ? myerrorMessage(
+                            text: 'Veuillez entrer votre numéro de Téléphone',
+                            paddingerror: 40.w)
+                        : Container(),
+                    SizedBox(
+                      height: 47.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 28.w, right: 20.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                              height: 50.h,
+                              width: 161.w,
+                              child: elevatedButton3(
+                                  text: 'Modifier',
+                                  onpress: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      print('formulaire envoye');
+                                      final pName = nomController.text;
+                                      final pPrenom = prenomController.text;
+                                      final pEmail = emailController.text;
+                                      final pPays = paysController.text;
+                                      final pVille = villeController.text;
+                                      final pTelephone =
+                                          telephoneController.text;
 
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                /*print(pName +
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      /*print(pName +
                                     ' ' +
                                     pPrenom +
                                     ' ' +
@@ -461,46 +334,37 @@ class _EditProfilState extends State<EditProfil> {
                                     pVille +
                                     ' ' +
                                     pTelephone);*/
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.fromLTRB(57, 20, 57, 20),
-                                backgroundColor: const Color(0xFFF24E1E)),
-                            child: const Text(
-                              'Modifier',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Inter',
-                                //color: Color(0XFF24E1E),
-                              ),
-                            )),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.fromLTRB(57, 20, 57, 20),
-                                backgroundColor: const Color(0xFFF24E1E)),
-                            child: const Text(
-                              'Annuler',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Inter',
-                                //color: Color(0XFF24E1E),
-                              ),
-                            )),
-                      ],
-                    )
+                                    }
+                                  })),
+                          SizedBox(
+                            width: 14.w,
+                          ),
+                          SizedBox(
+                              height: 50.h,
+                              width: 161.w,
+                              child: elevatedButton3(
+                                  text: 'Annuler',
+                                  onpress: () {
+                                    Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                            pageBuilder: (_, __, ___) =>
+                                                const UserProfil()));
+                                  }))
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
                   ],
                 ),
-              ),
-            ),
-          ],
+              )
+            ],
+          ),
         ),
-      )),
+        bottomNavigationBar: const bottom_navigation_bar(currentIndex: 3),
+      ),
     );
   }
 }
