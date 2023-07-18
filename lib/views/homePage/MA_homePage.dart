@@ -148,7 +148,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                     Padding(
                                         padding: EdgeInsets.only(right: 20.0),
                                         child: GestureDetector(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Get.to(NotificationScreen());
+                                          },
                                           child: const Icon(
                                             Icons.notifications,
                                             size: 40,
