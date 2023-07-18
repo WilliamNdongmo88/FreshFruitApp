@@ -325,11 +325,11 @@ print('***** Enter in createTransfert *********');
         print(result['message']);
       } else {
         print('enter In good response scope');
-        print(result['body']);
+        print("---> $result['body']");
         transfertList = List<TransactionItemToFireBase>.from(result['body'].map(
               (json) => TransactionItemToFireBase(
             lastTimeInPending: json['lastTimeInPending'],
-            amont: json['amont'],
+            amount: json['amount'],
             bank: json['bank'],
             codeReception: json['codeReception'],
             createdDate: json['createdDate'],

@@ -5,6 +5,7 @@ import 'package:money_app/controller/MA_DataController.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_TransfertInformation.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Bank.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Manual.dart';
+import 'package:money_app/utils/MA_TransactionItemDetails.dart';
 import 'package:money_app/utils/MA_Widgets.dart';
 import 'package:money_app/views/homePage/MA_homePage.dart';
 

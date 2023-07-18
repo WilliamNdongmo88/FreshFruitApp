@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, sort_child_properties_last, unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -57,371 +58,377 @@ class _DevisesPageState extends State<DevisesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            margin: const EdgeInsets.only(top: 65),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 10),
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  buildIconButtonSvg(
-                    iconSvg: 'assets/back.svg',
-                    iconColor: const Color(0XFF000000),
-                    fontSizeIcon: 40,
-                    callBackFunction: funChange,
-                  ),
-                  const SizedBox(
-                    width: 120,
-                  ),
-                  const Text(
-                    'Dévise',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(top: 30, left: 18, right: 18),
-              height: 670,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25), //border corner radius
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(1), //color of shadow
-                    spreadRadius: 3, //spread radius
-                    blurRadius: 3, // blur radius
-                    offset: const Offset(-3, 3), // changes position of shadow
-                    //first paramerter of offset is left-right
-                    //second parameter is top to down
-                  ),
-                ],
-              ),
-              child: Stack(children: [
-                Column(
+      body: ScreenUtilInit(
+        designSize: const Size(390, 844),
+        builder: (contex, child) =>  SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              margin: EdgeInsets.only(top: 60.r),
+              child: Padding(
+                padding: EdgeInsets.only(left: 20.r, right: 10.r),
+                child: Row(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        child: Text(
-                          "Vos dévises en temps réel",
-                          style: GoogleFonts.inter(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
-                        )),
-                    Container(
-                        alignment: Alignment.center,
-                        margin:
-                            const EdgeInsets.only(top: 30, left: 18, right: 18),
-                        height: 250,
-                        width: 350,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(25), //border corner radius
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  Colors.grey.withOpacity(1), //color of shadow
-                              spreadRadius: 3, //spread radius
-                              blurRadius: 3, // blur radius
-                              offset: const Offset(
-                                  -3, 3), // changes position of shadow
-                              //first paramerter of offset is left-right
-                              //second parameter is top to down
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(3)),
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                      style: BorderStyle.solid),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 5),
-                                      child: SvgPicture.asset(
-                                        'assets/$flagDevisesTop.svg',
-                                        placeholderBuilder: (context) =>
-                                            const CircularProgressIndicator(),
-                                        height: 45,
-                                        width: 45,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 5, 120, 0),
-                                          child: Text(nameDeviseTop,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14,
-                                                  color: Color.fromARGB(
-                                                      255, 176, 171, 171))),
-                                        ),
-                                        DropdownButton(
-                                            hint: Container(
-                                              margin: const EdgeInsets.only(
-                                                  right: 0),
-                                              child: const Text(
-                                                "USD",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0XFF000000)),
-                                              ),
-                                            ),
-                                            icon: const Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 160),
-                                              child: Icon(
-                                                Icons.arrow_drop_down,
-                                                color: Color(0XFFF24E1E),
-                                              ),
-                                            ),
-                                            iconSize: 40,
-                                            underline: const SizedBox(),
-                                            style: const TextStyle(
-                                              color: Color(0XFF000000),
-                                            ),
-                                            value: valueTopChoose,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                valueTopChoose = newValue;
-                                                print('devise--> $valueTopChoose');
-                                                changeDevise(valueTopChoose);
-                                              });
-                                            },
-                                            items: listDevises.map(
-                                              (valueCountry) {
-                                                return DropdownMenuItem(
-                                                    value: valueCountry,
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 0),
-                                                      child: Text(
-                                                        valueCountry,
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ));
-                                              },
-                                            ).toList()),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 25,),
-                            Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Container(
-                                    height: 60,
-                                    width: 350,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: const Color.fromRGBO(
-                                              97, 97, 97, 1)),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: Text(
-                                          '3313.44',
-                                          style: GoogleFonts.inter(fontSize: 25, fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    )
-                                )
-                            ),
-                          ],
-                        )),
-                    const SizedBox(
-                      height: 20,
+                    buildIconButtonSvg(
+                      iconSvg: 'assets/back.svg',
+                      iconColor: const Color(0XFF000000),
+                      fontSizeIcon: 40.sp,
+                      callBackFunction: funChange,
                     ),
-                    Container(
-                        alignment: Alignment.center,
-                        margin:
-                            const EdgeInsets.only(top: 30, left: 18, right: 18),
-                        height: 250,
-                        width: 350,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(25), //border corner radius
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  Colors.grey.withOpacity(1), //color of shadow
-                              spreadRadius: 3, //spread radius
-                              blurRadius: 3, // blur radius
-                              offset: const Offset(
-                                  -3, 3), // changes position of shadow
-                              //first paramerter of offset is left-right
-                              //second parameter is top to down
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(3)),
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                      style: BorderStyle.solid),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 5),
-                                      child: SvgPicture.asset(
-                                        'assets/$flagDevisesBottom.svg',
-                                        placeholderBuilder: (context) =>
-                                            const CircularProgressIndicator(),
-                                        height: 45,
-                                        width: 45,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 5, 120, 0),
-                                          child: Text(nameDeviseBottom,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14,
-                                                  color: Color.fromARGB(
-                                                      255, 176, 171, 171))),
-                                        ),
-                                        DropdownButton(
-                                            hint: Container(
-                                              margin: const EdgeInsets.only(
-                                                  right: 0),
-                                              child: const Text(
-                                                "USD",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0XFF000000)),
-                                              ),
-                                            ),
-                                            icon: const Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 160),
-                                              child: Icon(
-                                                Icons.arrow_drop_down,
-                                                color: Color(0XFFF24E1E),
-                                              ),
-                                            ),
-                                            iconSize: 40,
-                                            underline: const SizedBox(),
-                                            style: const TextStyle(
-                                              color: Color(0XFF000000),
-                                            ),
-                                            value: valueBottomChoose,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                valueBottomChoose = newValue;
-                                                print('devise--> $valueBottomChoose');
-                                                changeDeviseBottom(valueBottomChoose);
-                                              });
-                                            },
-                                            items: listDevises.map(
-                                              (valueCountry) {
-                                                return DropdownMenuItem(
-                                                    value: valueCountry,
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 0),
-                                                      child: Text(
-                                                        valueCountry,
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ));
-                                              },
-                                            ).toList()),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 25,),
-                            Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Container(
-                                    height: 60,
-                                    width: 350,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: const Color.fromRGBO(
-                                              97, 97, 97, 1)),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: Text(
-                                          '3000',
-                                          style: GoogleFonts.inter(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    )
-                                )
-                            ),
-                          ],
-                        )),
+                   SizedBox(
+                      width: 100.w,
+                    ),
+                    Text(
+                      'Dévises',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 35.sp,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
-                Positioned(
-                  top: 320,
-                  right: 50,
-                  child: SvgPicture.asset(
-                    'assets/exchange.svg',
-                    width: 65,
-                    height: 65,
-                  ),
+              ),
+            ),
+            Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 20.r, left: 18.r, right: 18.r),
+                height: 710.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25), //border corner radius
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(1), //color of shadow
+                      spreadRadius: 3, //spread radius
+                      blurRadius: 3, // blur radius
+                      offset: const Offset(-3, 3), // changes position of shadow
+                      //first paramerter of offset is left-right
+                      //second parameter is top to down
+                    ),
+                  ],
                 ),
-              ])),
-        ]),
+                child: Stack(children: [
+                  Column(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(top: 20.r),
+                          child: Text(
+                            "Vos dévises en temps réel",
+                            style: GoogleFonts.inter(
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 20.r, left: 18.r, right: 18.r),
+                          height: 260.h,
+                          width: 350.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(25.w), //border corner radius
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    Colors.grey.withOpacity(1), //color of shadow
+                                spreadRadius: 3, //spread radius
+                                blurRadius: 3, // blur radius
+                                offset: const Offset(
+                                    -3, 3), // changes position of shadow
+                                //first paramerter of offset is left-right
+                                //second parameter is top to down
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(3)),
+                                    border: Border.all(
+                                        color: Colors.grey,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 5.r),
+                                        child: SvgPicture.asset(
+                                          'assets/$flagDevisesTop.svg',
+                                          placeholderBuilder: (context) =>
+                                              const CircularProgressIndicator(),
+                                          height: 45,
+                                          width: 45,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                0, 5.r, 120.r, 0),
+                                            child: Text(nameDeviseTop,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14.sp,
+                                                    color: const Color.fromARGB(
+                                                        255, 176, 171, 171))),
+                                          ),
+                                          DropdownButton(
+                                              hint: Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: 0),
+                                                child: const Text(
+                                                  "USD",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Color(0XFF000000)),
+                                                ),
+                                              ),
+                                              icon: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 160.r),
+                                                child: const Icon(
+                                                  Icons.arrow_drop_down,
+                                                  color: Color(0XFFF24E1E),
+                                                ),
+                                              ),
+                                              iconSize: 40,
+                                              underline: const SizedBox(),
+                                              style: const TextStyle(
+                                                color: Color(0XFF000000),
+                                              ),
+                                              value: valueTopChoose,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  valueTopChoose = newValue;
+                                                  print('devise--> $valueTopChoose');
+                                                  changeDevise(valueTopChoose);
+                                                });
+                                              },
+                                              items: listDevises.map(
+                                                (valueCountry) {
+                                                  return DropdownMenuItem(
+                                                      value: valueCountry,
+                                                      child: Container(
+                                                        margin:
+                                                            const EdgeInsets.only(
+                                                                left: 0),
+                                                        child: Text(
+                                                          valueCountry,
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ));
+                                                },
+                                              ).toList()),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 25.h),
+                              Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Container(
+                                      height: 60.h,
+                                      width: 350.w,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: const Color.fromRGBO(
+                                                97, 97, 97, 1)),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Text(
+                                            '3313.44',
+                                            style: GoogleFonts.inter(fontSize: 25, fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      )
+                                  )
+                              ),
+                            ],
+                          )
+                        ),
+                      SizedBox(
+                        height: 50.h,
+                      ),
+                      Container(
+                          alignment: Alignment.center,
+                          margin:
+                              const EdgeInsets.only(left: 18, right: 18),
+                          height: 260.h,
+                          width: 350.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(25), //border corner radius
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    Colors.grey.withOpacity(1), //color of shadow
+                                spreadRadius: 3, //spread radius
+                                blurRadius: 3, // blur radius
+                                offset: const Offset(
+                                    -3, 3), // changes position of shadow
+                                //first paramerter of offset is left-right
+                                //second parameter is top to down
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(3)),
+                                    border: Border.all(
+                                        color: Colors.grey,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 5),
+                                        child: SvgPicture.asset(
+                                          'assets/$flagDevisesBottom.svg',
+                                          placeholderBuilder: (context) =>
+                                              const CircularProgressIndicator(),
+                                          height: 45,
+                                          width: 45,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 5, 120, 0),
+                                            child: Text(nameDeviseBottom,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14.sp,
+                                                    color: const Color.fromARGB(
+                                                        255, 176, 171, 171))),
+                                          ),
+                                          DropdownButton(
+                                              hint: Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: 0),
+                                                child: const Text(
+                                                  "EUR",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Color(0XFF000000)),
+                                                ),
+                                              ),
+                                              icon: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 160.r),
+                                                child: const Icon(
+                                                  Icons.arrow_drop_down,
+                                                  color: Color(0XFFF24E1E),
+                                                ),
+                                              ),
+                                              iconSize: 40,
+                                              underline: const SizedBox(),
+                                              style: const TextStyle(
+                                                color: Color(0XFF000000),
+                                              ),
+                                              value: valueBottomChoose,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  valueBottomChoose = newValue;
+                                                  print('devise--> $valueBottomChoose');
+                                                  changeDeviseBottom(valueBottomChoose);
+                                                });
+                                              },
+                                              items: listDevises.map(
+                                                (valueCountry) {
+                                                  return DropdownMenuItem(
+                                                      value: valueCountry,
+                                                      child: Container(
+                                                        margin:
+                                                            const EdgeInsets.only(
+                                                                left: 0),
+                                                        child: Text(
+                                                          valueCountry,
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ));
+                                                },
+                                              ).toList()),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 25.h),
+                              Padding(
+                                  padding: EdgeInsets.all(16.r),
+                                  child: Container(
+                                      height: 60.h,
+                                      width: 350.w,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: const Color.fromRGBO(
+                                                97, 97, 97, 1)),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Text(
+                                            '3000',
+                                            style: GoogleFonts.inter(
+                                                fontSize: 25.sp,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      )
+                                  )
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+                  Positioned(
+                    top: 347.r,
+                    right: 50.r,
+                    child: SvgPicture.asset(
+                      'assets/exchange.svg',
+                      width: 65.w,
+                      height: 65.h,
+                    ),
+                  ),
+                ])),
+          ]),
+        ),
       ),
       /* Tab Bar */
       bottomNavigationBar:
