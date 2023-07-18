@@ -145,13 +145,13 @@ Widget outputField({
   Color? color,
 }) {
   return Container(
-    margin: const EdgeInsets.only(top: 5),
+    margin: EdgeInsets.only(top: 5.r),
     child: Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
-          bottom:
-              BorderSide(width: 0.5, color: Color.fromARGB(255, 128, 130, 132)),
+          bottom: BorderSide(
+              width: 0.5.w, color: const Color.fromARGB(255, 128, 130, 132)),
         ),
       ),
       child: Row(
@@ -162,26 +162,27 @@ Widget outputField({
               children: [
                 Text(
                   topTextLeft,
-                  style: const TextStyle(
-                      color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                  style: TextStyle(
+                      color: const Color.fromRGBO(79, 79, 79, 1),
+                      fontSize: 15.sp),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.h,
                 ),
                 if (bottomTextRight_Int != null) ...[
                   Text(
                     '\$$bottomTextLeft.00',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ] else if (bottomTextLeft != '') ...[
                   Text(
                     bottomTextLeft,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ]
@@ -189,15 +190,15 @@ Widget outputField({
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(right: 25),
+            margin: EdgeInsets.only(right: 25.r),
             child: SvgPicture.asset(svgLink,
-                width: 30,
+                width: 30.w,
                 // ignore: deprecated_member_use
                 color: color),
           ),
           if (bottomTextRight_Int != null) ...[
             Container(
-              margin: const EdgeInsets.only(right: 75),
+              margin: EdgeInsets.only(right: 75.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -206,14 +207,14 @@ Widget outputField({
                     style: const TextStyle(
                         color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.r,
                   ),
                   Text(
                     '\$$bottomTextRight_Int.00',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -221,23 +222,24 @@ Widget outputField({
             ),
           ] else if (bottomTextRight_String != '') ...[
             Container(
-              margin: const EdgeInsets.only(right: 75),
+              margin: EdgeInsets.only(right: 75.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     topTextRight,
-                    style: const TextStyle(
-                        color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15),
+                    style: TextStyle(
+                        color: const Color.fromRGBO(79, 79, 79, 1),
+                        fontSize: 15.sp),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   Text(
                     bottomTextRight_String,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -420,7 +422,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                   Text(
                                     '${transaction.city}, ${transaction.date}',
                                     style: GoogleFonts.inter(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontStyle: FontStyle.normal,
                                       color: const Color.fromARGB(
                                           255, 136, 134, 134),
@@ -434,7 +436,7 @@ Widget cardItem({required TransactionItem transaction}) {
                               Text(
                                 'En cours',
                                 style: GoogleFonts.inter(
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   fontStyle: FontStyle.normal,
                                   color:
                                       const Color.fromARGB(255, 136, 134, 134),
@@ -469,16 +471,16 @@ Widget cardItem({required TransactionItem transaction}) {
                                   fontStyle: FontStyle.normal,
                                   color: const Color.fromARGB(255, 40, 38, 38),
                                 )),
-                            const SizedBox(height: 7),
+                            SizedBox(height: 7.h),
                             Row(
                               children: [
-                                const Text('Status: ',
+                                Text('Status: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14)),
+                                        fontSize: 14.sp)),
                                 Text('En Traitement',
                                     style: GoogleFonts.inter(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontStyle: FontStyle.normal,
                                       color:
                                           const Color.fromARGB(255, 40, 38, 38),
@@ -498,7 +500,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                 Text(
                                   'Status: ',
                                   style: GoogleFonts.inter(
-                                    fontSize: 14,
+                                    fontSize: 14.sp,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -605,9 +607,10 @@ class _getFooterState extends State<getFooter> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(width: 1, color: Color.fromARGB(255, 128, 130, 132)),
+          top:
+              BorderSide(width: 1.w, color: const Color.fromARGB(255, 128, 130, 132)),
         ),
         // color: Colors.white,
       ),
@@ -620,7 +623,7 @@ class _getFooterState extends State<getFooter> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/home.svg',
-              width: 25,
+              width: 25.sp,
               // ignore: deprecated_member_use
               color: currentIndex == 0
                   ? const Color.fromRGBO(242, 78, 30, 1)
@@ -631,7 +634,7 @@ class _getFooterState extends State<getFooter> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/transactions.svg',
-              width: 25,
+              width: 25.sp,
               // ignore: deprecated_member_use
               color: currentIndex == 1
                   ? const Color.fromRGBO(242, 78, 30, 1)
@@ -642,7 +645,7 @@ class _getFooterState extends State<getFooter> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/devise.svg',
-              width: 25,
+              width: 25.sp,
               // ignore: deprecated_member_use
               color: currentIndex == 2
                   ? const Color.fromRGBO(246, 60, 3, 1)
@@ -653,7 +656,7 @@ class _getFooterState extends State<getFooter> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/setting.svg',
-              width: 25,
+              width: 25.sp,
               // ignore: deprecated_member_use
               color: currentIndex == 3
                   ? const Color.fromRGBO(246, 60, 3, 1)
@@ -667,20 +670,105 @@ class _getFooterState extends State<getFooter> {
             currentIndex = index;
             print('currenrIndex--> $currentIndex');
             callBackFunction(currentIndex);
-            if (currentIndex == 0) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionListScreen()));
-            } else if (currentIndex == 1) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionPage(
-                      isListTransaction: true, currentTransaction: 0)));
-            } else if (currentIndex == 2) {
+            if (index == 0) {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const DevisesPage()));
-            } else if (currentIndex == 3) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const SettingsPage()));
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 100),
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionListScreen(),
+                  transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) {
+                    return Align(
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else if (index == 1) {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 100),
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionPage(
+                          isListTransaction: true, currentTransaction: 0),
+                  transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) {
+                    return Align(
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else if (index == 2) {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 100),
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      DevisesPage(),
+                  transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) {
+                    return Align(
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else if (index == 3) {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 100),
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      SettingsPage(),
+                  transitionsBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                      Widget child) {
+                    return Align(
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                    );
+                  },
+                ),
+              );
             }
+            // if (currentIndex == 0) {
+            //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
+            // } else if (currentIndex == 1) {
+            //   Navigator.of(context).push(MaterialPageRoute(
+            //       builder: (context) => TransactionPage(
+            //           isListTransaction: true, currentTransaction: 0)));
+            // } else if (currentIndex == 2) {
+            //   Navigator.of(context).push(
+            //       MaterialPageRoute(builder: (context) => const DevisesPage()));
+            // } else if (currentIndex == 3) {
+            //   Navigator.of(context).push(MaterialPageRoute(
+            //       builder: (context) => const SettingsPage()));
+            // }
           });
         },
       ),

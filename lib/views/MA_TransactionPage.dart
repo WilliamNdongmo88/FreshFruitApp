@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../controller/MA_DataController.dart';
 import '../utils/MA_CallableWidget.dart';
@@ -77,21 +78,32 @@ class TransactionPageState extends State<TransactionPage> {
     print('transfert---> ${transactions}');
   }
 
+  late String receiverName;
+  late String statusTrans;
   void getAllTransfert(data) {
     setState(() {
-      for (var i = 0; i < data.length; i++) {
+      for (int? i = 0; i! < data.length; i++) {
+        if (data[i].status == 'OPEN') {
+          statusTrans = 'traitement';
+        } else {}
+        // receiverName = data[0].receiver['nom'];
+        // print('receiverName---> $receiverName');
+        int ts = alldata[i].createdDate['_seconds'];
+        DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
+        String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
         transactions.add(TransactionItem(
-          data[i].status,
-          data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-          "traitement",
-          data[i].amount.toString(),
-          data[i].inZone['name'],
-          "Lundi 06 mai 2023",
-          alldata[i].codeReception,
-          // alldata[i].receiver['nom'],
-          // alldata[i].receiver['telephone'],
-        ));
+            data[i].status,
+            data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
+            statusTrans,
+            data[i].amount.toString(),
+            data[i].inZone['name'],
+            fdatetime,
+            data[i].codeReception
+            // data[0].receiver['nom'],
+            // data[0].receiver['telephone'],
+            ));
       }
+      // print('receiverName---> $receiverName');
     });
   }
 
@@ -241,9 +253,9 @@ class TransactionPageState extends State<TransactionPage> {
             /**Start filter */
             Center(
               child: Container(
-                margin: EdgeInsets.only(top: 590.r),
-                width: 225.w,
-                height: 80.h,
+                margin: EdgeInsets.only(top: 520.r),
+                width: 223.w,
+                height: 85.h,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.r),

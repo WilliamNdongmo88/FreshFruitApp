@@ -51,6 +51,7 @@ class _EditeDataState extends State<EditeData> {
               transaction: transaction,
               index: index,
               isListTransaction: true)));
+      print('EditePage transaction---> $transaction');
     });
   }
 

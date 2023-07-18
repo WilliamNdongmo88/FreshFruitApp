@@ -7,8 +7,8 @@ class TransactionItem {
   String city;
   String date;
   String codeReception;
-  // String receiverName;
-  // String receiverTel;
+  // String? receiverName;
+  // String? receiverTel;
   TransactionItem(
     // this.id,
     this.status,
@@ -18,7 +18,7 @@ class TransactionItem {
     this.city,
     this.date,
     this.codeReception,
-    //this.receiverName, this.receiverTel
+    // this.receiverName, this.receiverTel
   );
 }
 

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../MA_TransactionStepper.dart';
 import '../../controller/MA_DataController.dart';
 import '../../notification/MA_Notification.dart';
@@ -62,24 +63,35 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     //     receiver: alldata[0].receiver,
     //     status: alldata[0].status,
     //     to_bank: alldata[0].to_bank));
-    print('transfert---> ${transactions}');
+    print('++++alldata---> ${alldata[0].receiver['nom']}');
   }
 
+  late String receiverName;
+  late String statusTrans;
   void getAllTransfert(data) {
     setState(() {
-      for (var i = 0; i < data.length; i++) {
+      for (int? i = 0; i! < data.length; i++) {
+        if (data[i].status == 'OPEN') {
+          statusTrans = 'traitement';
+        } else {}
+        // receiverName = data[0].receiver['nom'];
+        // print('receiverName---> $receiverName');
+        int ts = alldata[i].createdDate['_seconds'];
+        DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
+        String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
         transactions.add(TransactionItem(
           data[i].status,
           data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-          "traitement",
+          statusTrans,
           data[i].amount.toString(),
           data[i].inZone['name'],
-          "Lundi 06 mai 2023",
-          alldata[i].codeReception,
-          // alldata[i].receiver['name'],
-          // alldata[i].receiver['telephone'],
+          fdatetime,
+          data[i].codeReception
+          // data[i].receiver['nom'],
+          // data[i].receiver['telephone'],
         ));
       }
+      // print('receiverName---> $receiverName');
     });
   }
 
@@ -111,62 +123,66 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                 right: 20.r,
                                 left: 20.r,
                                 bottom: 10.r),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Bonjour,",
-                                        style: TextStyle(
-                                            color: const Color.fromARGB(
-                                                255, 75, 67, 67),
-                                            fontSize: 16.sp),
-                                      ),
-                                      Text(
-                                        "Lisa Camilla ",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18.sp),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 20.r),
-                                        child: GestureDetector(
-                                          // onTap: () {
-                                          //   Navigator.push(context,
-                                          //       MaterialPageRoute(builder: (context) => ProfileScreen()));
-                                          // },
-                                          child: Icon(
-                                            Icons.account_circle,
-                                            size: 40.h,
-                                            color: const Color.fromRGBO(
-                                                242, 78, 30, 1),
-                                          ),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 5.r),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Bonjour,",
+                                          style: TextStyle(
+                                              color: const Color.fromARGB(
+                                                  255, 75, 67, 67),
+                                              fontSize: 16.sp),
                                         ),
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.only(right: 20.0),
+                                        Text(
+                                          "Lisa Camilla ",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18.sp),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 20.r),
                                           child: GestureDetector(
-                                            onTap: () {},
+                                            // onTap: () {
+                                            //   Navigator.push(context,
+                                            //       MaterialPageRoute(builder: (context) => ProfileScreen()));
+                                            // },
                                             child: Icon(
-                                              Icons.notifications,
+                                              Icons.account_circle,
                                               size: 40.h,
                                               color: const Color.fromRGBO(
                                                   242, 78, 30, 1),
                                             ),
-                                          )),
-                                    ],
+                                          ),
+                                        ),
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 20.0),
+                                            child: GestureDetector(
+                                              onTap: () {},
+                                              child: Icon(
+                                                Icons.notifications,
+                                                size: 40.h,
+                                                color: const Color.fromRGBO(
+                                                    242, 78, 30, 1),
+                                              ),
+                                            )),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -275,7 +291,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                 if (transactions.isEmpty) ...[
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        left: 95.r, bottom: 145.r),
+                                        left: 70.r, bottom: 145.r),
                                     child: const Center(
                                       child: Text(
                                           'Aucun transfert pour le moment'),
