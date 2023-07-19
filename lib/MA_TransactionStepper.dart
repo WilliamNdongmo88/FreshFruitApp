@@ -82,7 +82,8 @@ class _transfertFormState extends State<transfertForm> {
   void funcBack() {
     if (currentStep == 0) {
       setState(() {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionListScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => TransactionListScreen()));
       });
       print('go back');
     } else if (currentStep == 1) {
@@ -96,7 +97,14 @@ class _transfertFormState extends State<transfertForm> {
     }
   }
 
-  void funChange(changetxt) {
+  funChange(value) {
+    print('@@@@@@@value ' + value);
+    setState(() {
+      //changeText = value;
+    });
+  }
+
+  void funbottomBar(changetxt) {
     setState(() {
       if (changetxt == 0) {
         Navigator.pushNamed(
@@ -130,342 +138,360 @@ class _transfertFormState extends State<transfertForm> {
       currentStep = arguments;
     }
 
-    return Scaffold(
-      /*appBar: AppBar(
+    return ScreenUtilInit(
+        designSize: const Size(390, 844),
+        builder: (context, child) {
+          return Scaffold(
+            /*appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Flutter Stepper Demo'),
         centerTitle: true,
       ),*/
-      body: Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.light(primary: Colors.deepOrange),
-        ),
-        child: SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
-                child: Container(
-                  margin: EdgeInsets.only(left: 20, top: 0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: buildIconButton(
-                            iconColor: Color.fromRGBO(17, 16, 15, 1),
-                            iconButton: Icons.arrow_back_ios,
-                            buttonText: '',
-                            fontSizeIcon: 35,
-                            callBackFunction: funcBack),
-                      ),
-                      Container(
+            bottomNavigationBar:
+                getFooter(callBackFunction: funbottomBar, currentIndex: 1),
+            body: Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme:
+                    const ColorScheme.light(primary: Colors.deepOrange),
+              ),
+              child: SafeArea(
+                child: Stack(
+                  children: [
+                    Positioned(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20.w, top: 0.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: buildIconButton(
+                                  iconColor: Color.fromRGBO(17, 16, 15, 1),
+                                  iconButton: Icons.arrow_back_ios,
+                                  buttonText: '',
+                                  fontSizeIcon: 35.sp,
+                                  callBackFunction: funcBack),
+                            ),
+                            Container(
 //margin: EdgeInsets.only(bottom:640),
-                        child: const Text(
-                          "Transaction d'argent",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
+                              child: const Text(
+                                "Transaction d'argent",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Container(
-                      margin: EdgeInsets.only(top: 35),
-                      child: Stepper(
-                        steps: getSteps(),
-                        currentStep: currentStep,
-                        type: StepperType.horizontal,
-                        onStepContinue: () {
-                          final isLastStep =
-                              currentStep == getSteps().length - 1;
+                    ),
+                    Positioned(
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Container(
+                            margin: EdgeInsets.only(top: 35.w),
+                            child: Stepper(
+                              steps: getSteps(),
+                              currentStep: currentStep,
+                              type: StepperType.horizontal,
+                              onStepTapped: (int step) =>
+                                  setState(() => currentStep = step),
+                              onStepContinue: () {
+                                final isLastStep =
+                                    currentStep == getSteps().length - 1;
+                                if (isLastStep) {
+                                } else {
+                                  if (currentStep == 1) {
+                                    if (_selectedGender == 'manuel') {
+                                      if (NameReceiver.text.isEmpty) {
+                                        setState(() {
+                                          _validateName = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _validateName = false;
+                                        });
+                                      }
+                                      if (PhoneNumber.text.isEmpty) {
+                                        setState(() {
+                                          _validatePhone = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _validatePhone = false;
+                                        });
+                                      }
 
-                          if (isLastStep) {
-                          } else {
-                            if (currentStep == 1) {
-                              if (_selectedGender == 'manuel') {
-                                if (NameReceiver.text.isEmpty) {
-                                  setState(() {
-                                    _validateName = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _validateName = false;
-                                  });
-                                }
-                                if (PhoneNumber.text.isEmpty) {
-                                  setState(() {
-                                    _validatePhone = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _validatePhone = false;
-                                  });
-                                }
+                                      if (NameReceiver.text.isNotEmpty &&
+                                          NameReceiver.text.isNotEmpty &&
+                                          receptionCode.text.isNotEmpty) {
+                                        setState(() {
+                                          currentStep += 1;
+                                        });
+                                      }
+                                    }
+                                  }
 
-                                if (NameReceiver.text.isNotEmpty &&
-                                    NameReceiver.text.isNotEmpty &&
-                                    receptionCode.text.isNotEmpty) {
-                                  setState(() {
-                                    currentStep += 1;
-                                  });
-                                }
-                              }
-                            }
+                                  if (currentStep == 1) {
+                                    if (_selectedGender == 'bancaire') {
+                                      if (NameBank.text.isEmpty) {
+                                        setState(() {
+                                          _validate = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _validate = false;
+                                        });
+                                      }
+                                      if (IntituleBank.text.isEmpty) {
+                                        setState(() {
+                                          _validateIntitule = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _validateIntitule = false;
+                                        });
+                                      }
+                                      if (numberAccount.text.isEmpty) {
+                                        setState(() {
+                                          _validateAccount = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _validateAccount = false;
+                                        });
+                                      }
+                                      if (receptionCode.text.isEmpty) {
+                                        setState(() {
+                                          _validateCodeReception = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _validateCodeReception = false;
+                                        });
+                                      }
 
-                            if (currentStep == 1) {
-                              if (_selectedGender == 'bancaire') {
-                                if (NameBank.text.isEmpty) {
-                                  setState(() {
-                                    _validate = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _validate = false;
-                                  });
-                                }
-                                if (IntituleBank.text.isEmpty) {
-                                  setState(() {
-                                    _validateIntitule = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _validateIntitule = false;
-                                  });
-                                }
-                                if (numberAccount.text.isEmpty) {
-                                  setState(() {
-                                    _validateAccount = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _validateAccount = false;
-                                  });
-                                }
-                                if (receptionCode.text.isEmpty) {
-                                  setState(() {
-                                    _validateCodeReception = true;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _validateCodeReception = false;
-                                  });
-                                }
+                                      if (NameBank.text.isNotEmpty &&
+                                          IntituleBank.text.isNotEmpty &&
+                                          numberAccount.text.isNotEmpty &&
+                                          receptionCode.text.isNotEmpty) {
+                                        setState(() {
+                                          currentStep += 1;
+                                        });
+                                      }
+                                    }
+                                  }
 
-                                if (NameBank.text.isNotEmpty &&
-                                    IntituleBank.text.isNotEmpty &&
-                                    numberAccount.text.isNotEmpty &&
-                                    receptionCode.text.isNotEmpty) {
-                                  setState(() {
-                                    currentStep += 1;
-                                  });
+                                  if (currentStep == 0) {
+                                    if (selectedCountryReceiver == null ||
+                                        selectedCityReceiver == null) {
+                                      setState(() {
+                                        displayError = true;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        currentStep += 1;
+                                        displayError = false;
+                                      });
+                                    }
+                                  }
                                 }
-                              }
-                            }
-
-                            if (currentStep == 0) {
-                              if (selectedCountryReceiver == null ||
-                                  selectedCityReceiver == null) {
-                                setState(() {
-                                  displayError = true;
-                                });
-                              } else {
-                                setState(() {
-                                  currentStep += 1;
-                                  displayError = false;
-                                });
-                              }
-                            }
-                          }
-                        },
-                        onStepCancel: () {
-                          currentStep == 0
-                              ? null
-                              : setState(() {
-                                  currentStep -= 1;
-                                });
-                        },
-                        controlsBuilder:
-                            (BuildContext context, ControlsDetails details) {
-                          final isLastStep =
-                              currentStep == getSteps().length - 1;
-                          return Container(
-                            margin: EdgeInsets.only(
-                                top:
-                                    15), // modifie la position des elevated button
-                            child: Row(
-                              children: [
-                                if (currentStep == 0) ...[
-                                  Expanded(
-                                      child: SizedBox(
-                                    height: 50,
-                                    child: ElevatedButton(
-                                      onPressed: details.onStepContinue,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: const [
-                                          Text('Suivant'), // <-- Text
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Icon(
+                              },
+                              onStepCancel: () {
+                                currentStep == 0
+                                    ? null
+                                    : setState(() {
+                                        currentStep -= 1;
+                                      });
+                              },
+                              controlsBuilder: (BuildContext context,
+                                  ControlsDetails details) {
+                                final isLastStep =
+                                    currentStep == getSteps().length - 1;
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                      top:
+                                          15), // modifie la position des elevated button
+                                  child: Row(
+                                    children: [
+                                      if (currentStep == 0) ...[
+                                        Expanded(
+                                            child: SizedBox(
+                                          height: 50.h,
+                                          child: ElevatedButton(
+                                            onPressed: details.onStepContinue,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text('Suivant'), // <-- Text
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                Icon(
 // <-- Icon
-                                            Icons.arrow_forward_ios,
-                                            size: 24.0,
+                                                  Icons.arrow_forward_ios,
+                                                  size: 24.0,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                                ] else if (currentStep > 0 &&
-                                    currentStep == 1) ...[
-                                  Expanded(
-                                      child: ElevatedButton(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const [
-                                        Icon(
-                                          // <-- Icon
-                                          Icons.arrow_back_ios_new,
-                                          size: 24.0,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text('Précédent'),
-                                      ],
-                                    ),
-                                    onPressed: details.onStepCancel,
-                                  )),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                      child: ElevatedButton(
-                                    onPressed: details.onStepContinue,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const [
-                                        Text('Suivant'), // <-- Text
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Icon(
+                                        )),
+                                      ] else if (currentStep > 0 &&
+                                          currentStep == 1) ...[
+                                        Expanded(
+                                            child: ElevatedButton(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                // <-- Icon
+                                                Icons.arrow_back_ios_new,
+                                                size: 24.0,
+                                              ),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              Text('Précédent'),
+                                            ],
+                                          ),
+                                          onPressed: details.onStepCancel,
+                                        )),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                            child: ElevatedButton(
+                                          onPressed: details.onStepContinue,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text('Suivant'), // <-- Text
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              Icon(
 // <-- Ico
-                                          Icons.arrow_forward_ios,
-                                          size: 24.0,
+                                                Icons.arrow_forward_ios,
+                                                size: 24.0,
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                      ] else if (currentStep > 0 &&
+                                          currentStep == 2) ...[
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .deepOrange, // background (button) color
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const [
+                                                Text('Annuler'),
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              _showAlertDialog('annuler');
+                                            },
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  )),
-                                ] else if (currentStep > 0 &&
-                                    currentStep == 2) ...[
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors
-                                            .deepOrange, // background (button) color
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: const [
-                                          Text('Annuler'),
-                                        ],
-                                      ),
-                                      onPressed: () {
-                                        _showAlertDialog('annuler');
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors
-                                            .deepOrange, // background (button) color
-                                      ),
-                                      onPressed: () async {
-                                        if (_selectedGender == 'manuel') {
-                                          MA_Helper_Manual manual =
-                                              MA_Helper_Manual(
-                                                  NameReceiver.text,
-                                                  PhoneNumber.text);
-                                          //manual.phoneNumber = "655198362";
-                                          //manual.Name = "Evariste";
-                                          MA_Helper_Transfert data =
-                                              MA_Helper_Transfert(
-                                                  amountController.hashCode,
-                                                  selectedCitySender?.code,
-                                                  selectedCityReceiver?.code,
-                                                  receptionCode.text,
-                                                  null,
-                                                  manual as MA_Helper_Manual);
-                                          /*data.Amount =1000;
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .deepOrange, // background (button) color
+                                            ),
+                                            onPressed: () async {
+                                              if (_selectedGender == 'manuel') {
+                                                MA_Helper_Manual manual =
+                                                    MA_Helper_Manual(
+                                                        NameReceiver.text,
+                                                        PhoneNumber.text);
+                                                //manual.phoneNumber = "655198362";
+                                                //manual.Name = "Evariste";
+                                                MA_Helper_Transfert data =
+                                                    MA_Helper_Transfert(
+                                                        amountController
+                                                            .hashCode,
+                                                        selectedCitySender
+                                                            ?.code,
+                                                        selectedCityReceiver
+                                                            ?.code,
+                                                        receptionCode.text,
+                                                        null,
+                                                        manual
+                                                            as MA_Helper_Manual);
+                                                /*data.Amount =1000;
                                           data.SenderCity ='douala';
                                           data.ReceiverCity ='Paris';
                                           data.ReceptionCode ='15Ptre';
                                           data.ManualInfo =manual;*/
 
-                                          String response = await dataController
-                                              .createTransfert(data);
-                                          print('@@@@@' + response);
-                                          if (response != null) {
-                                            _showAlertDialog('confirm');
-                                          }
-                                        } else if (_selectedGender ==
-                                            'bancaire') {
-                                          MA_Helper_Bank bank = MA_Helper_Bank(
-                                              NameBank.text, IntituleBank.text);
-                                          //bank.Intitule = "Evariste";
-                                          //bank.Name = "UBA";
-                                          MA_Helper_Transfert data =
-                                              MA_Helper_Transfert(
-                                                  amountController.hashCode,
-                                                  selectedCitySender?.code,
-                                                  selectedCityReceiver?.code,
-                                                  receptionCode.text,
-                                                  bank as MA_Helper_Bank,
-                                                  null);
-                                          /*data.Amount =1000;
+                                                String response =
+                                                    await dataController
+                                                        .createTransfert(data);
+                                                print('@@@@@' + response);
+                                                if (response != null) {
+                                                  _showAlertDialog('confirm');
+                                                }
+                                              } else if (_selectedGender ==
+                                                  'bancaire') {
+                                                MA_Helper_Bank bank =
+                                                    MA_Helper_Bank(
+                                                        NameBank.text,
+                                                        IntituleBank.text);
+                                                //bank.Intitule = "Evariste";
+                                                //bank.Name = "UBA";
+                                                MA_Helper_Transfert data =
+                                                    MA_Helper_Transfert(
+                                                        amountController
+                                                            .hashCode,
+                                                        selectedCitySender
+                                                            ?.code,
+                                                        selectedCityReceiver
+                                                            ?.code,
+                                                        receptionCode.text,
+                                                        bank as MA_Helper_Bank,
+                                                        null);
+                                                /*data.Amount =1000;
                                           data.SenderCity ='douala';
                                           data.ReceiverCity ='Paris';
                                           data.ReceptionCode ='15Ptre';
                                           data.BankInfo =bank;*/
 
-                                          String response = await dataController
-                                              .createTransfert(data);
-                                          print('@@@@@' + response);
-                                          if (response != null) {
-                                            _showAlertDialog('confirm');
-                                          }
-                                        }
-                                      },
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: const [
-                                          Text('Confirmer'), // <-- Text
-                                        ],
-                                      ),
-                                    ),
+                                                String response =
+                                                    await dataController
+                                                        .createTransfert(data);
+                                                print('@@@@@' + response);
+                                                if (response != null) {
+                                                  _showAlertDialog('confirm');
+                                                }
+                                              }
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const [
+                                                Text('Confirmer'), // <-- Text
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ]
+                                    ],
                                   ),
-                                ]
-                              ],
-                            ),
-                          ); //* gestion de sboutons du bas//
-                        },
-                      )),
+                                ); //* gestion de sboutons du bas//
+                              },
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar:
-          getFooter(callBackFunction: funChange, currentIndex: 1),
-    );
+            ),
+            //bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:1),
+          );
+        });
   }
 
   List<Step> getSteps() => [
@@ -475,16 +501,16 @@ class _transfertFormState extends State<transfertForm> {
             title: Text('Etape 1'),
             content: Container(
               margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-              height: 400,
-              width: 600,
-              decoration: const BoxDecoration(
+              height: 400.h,
+              width: 600.w,
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
+                  topLeft: Radius.circular(10.r),
+                  bottomLeft: Radius.circular(10.r),
+                  bottomRight: Radius.circular(10.r),
                 ),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.grey,
                       blurRadius: 2.0,
@@ -505,26 +531,26 @@ class _transfertFormState extends State<transfertForm> {
                       children: [
                         Text('Information sur les Transactions',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 13)),
+                                fontWeight: FontWeight.bold, fontSize: 13.sp)),
                         if (displayError)
                           Text(
                               'Veillez Selectionner Le pays \n et la Ville du Recepteur !!!',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 13,
+                                  fontSize: 13.sp,
                                   color: Colors.red)),
                       ],
                     )),
                   ),
                   Positioned(
                     left: 15,
-                    top: 80,
-                    width: 290,
-                    height: 80,
+                    top: 70,
+                    width: 290.w,
+                    height: 80.h,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
                         border: Border.all(
                             color: Colors.grey,
                             //width: 4.0,
@@ -533,31 +559,31 @@ class _transfertFormState extends State<transfertForm> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            padding: EdgeInsets.fromLTRB(10.w, 0.h, 0.w, 0.h),
                             child: SvgPicture.asset(
                               'assets/Vector.svg',
                               placeholderBuilder: (context) =>
-                                  CircularProgressIndicator(),
-                              height: 30.0,
-                              width: 30,
+                                  const CircularProgressIndicator(),
+                              height: 30.h,
+                              width: 30.w,
                             ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 10.w),
                           Column(
                             children: [
                               Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 70, 0),
+                                  padding: EdgeInsets.fromLTRB(0, 0, 70.w, 0),
                                   child: Text('Envoi de',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                          color: Color(0xFF6F6F6F)))),
+                                          fontSize: 12.sp,
+                                          color: const Color(0xFF6F6F6F)))),
                               DropdownSender()
                               /*DropMenuApp()*/
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.only(left: 5),
+                            padding: EdgeInsets.only(left: 5.w),
                             decoration: const BoxDecoration(
                               border: Border(
                                 left: BorderSide(
@@ -569,12 +595,12 @@ class _transfertFormState extends State<transfertForm> {
                             child: Column(
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 70, 0),
+                                    padding: EdgeInsets.fromLTRB(0, 0, 70.w, 0),
                                     child: Text('Ville',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            color: Color(0xFF6F6F6F)))),
+                                            fontSize: 12.sp,
+                                            color: const Color(0xFF6F6F6F)))),
                                 DropdownSenderCity(),
                               ],
                             ),
@@ -584,14 +610,14 @@ class _transfertFormState extends State<transfertForm> {
                     ),
                   ),
                   Positioned(
-                    left: 15,
-                    top: 190,
-                    width: 290,
-                    height: 80,
+                    left: 15.w,
+                    top: 190.h,
+                    width: 290.w,
+                    height: 80.h,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
                         border: Border.all(
                             color: Colors.grey,
                             //width: 4.0,
@@ -600,48 +626,48 @@ class _transfertFormState extends State<transfertForm> {
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
                             child: SvgPicture.asset(
                               'assets/game-icons_receive-money.svg',
                               placeholderBuilder: (context) =>
-                                  CircularProgressIndicator(),
+                                  const CircularProgressIndicator(),
                               height: 30.0,
                               width: 30,
                             ),
                           ),
-                          SizedBox(width: 7),
+                          SizedBox(width: 7.w),
                           Column(
                             children: [
-                              const Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 90, 0),
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 90.w, 0),
                                   child: Text('Vers',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                          color: Color(0xFF6F6F6F)))),
+                                          fontSize: 12.sp,
+                                          color: const Color(0xFF6F6F6F)))),
                               DropdownReceiver(),
                             ],
                           ),
                           // DropdownReceiver(),
                           Container(
-                            padding: EdgeInsets.only(left: 5),
-                            decoration: const BoxDecoration(
+                            padding: EdgeInsets.only(left: 5.w),
+                            decoration: BoxDecoration(
                               border: Border(
                                 left: BorderSide(
                                   color: Colors.grey,
-                                  width: 1,
+                                  width: 1.w,
                                 ),
                               ),
                             ),
                             child: Column(
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 70, 0),
+                                    padding: EdgeInsets.fromLTRB(0, 0, 70.w, 0),
                                     child: Text('Ville',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            color: Color(0xFF6F6F6F)))),
+                                            fontSize: 12.sp,
+                                            color: const Color(0xFF6F6F6F)))),
                                 DropdownReceiverCity(),
                               ],
                             ),
@@ -658,8 +684,8 @@ class _transfertFormState extends State<transfertForm> {
                     child: Container(
                         child: Row(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
                           child: Text('Montant :',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -678,7 +704,6 @@ class _transfertFormState extends State<transfertForm> {
                                 border: OutlineInputBorder(),
                                 hintText: 'Entrer un  montant',
                               ),
-
                             ),
                           ),
                         )
@@ -686,14 +711,14 @@ class _transfertFormState extends State<transfertForm> {
                     )),
                   ),
                   Positioned(
-                    top: 150,
-                    left: 240,
+                    top: 150.h,
+                    left: 240.w,
                     child: /*Image.asset('assets/arrow.jpeg')*/
                         SvgPicture.asset(
                       'assets/gg_arrows-exchange-alt-v.svg',
                       // placeholderBuilder: (context) => const CircularProgressIndicator(),
-                      height: 50.0,
-                      width: 30,
+                      height: 50.h,
+                      width: 30.w,
                       // fit: BoxFit.cover,
                     ),
                   ),
@@ -706,35 +731,37 @@ class _transfertFormState extends State<transfertForm> {
             isActive: currentStep >= 1,
             title: Text('Etape 2'),
             content: Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              height: 435,
-              decoration: const BoxDecoration(
+              margin: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
+              height: 460.h,
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
+                  topLeft: Radius.circular(10.r),
+                  bottomLeft: Radius.circular(10.r),
+                  bottomRight: Radius.circular(10.r),
                 ),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.grey,
-                      blurRadius: 2.0,
-                      spreadRadius: 2.0,
+                      blurRadius: 2,
+                      spreadRadius: 2,
                       offset: Offset(
-                        -5.0, // Move to right 7.0 horizontally
-                        10.0, // Move to bottom 8.0 Vertically
+                        -5, // Move to right 7.0 horizontally
+                        10, // Move to bottom 8.0 Vertically
                       ))
                 ],
               ),
               child: Padding(
-                  padding: const EdgeInsets.all(25),
+                  padding: EdgeInsets.fromLTRB(
+                      25.w, 25.h, 25.w, 25.h), /////////////--------> to see
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Center(
+                      Center(
                           child: Text('Mode de Reception',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 13))),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13.sp))),
                       Row(
                         children: [
                           Radio<String>(
@@ -761,20 +788,20 @@ class _transfertFormState extends State<transfertForm> {
                           Text('Bancaire'),
                         ],
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: 5.sp),
                       if (_selectedGender == 'manuel') ...[
                         Container(
                           child: Column(
                             children: [
                               InputForm('Nom du destinataire', 'NameSender'),
-                              SizedBox(height: 20),
+                              SizedBox(height: 20.h),
                               InputForm('N° Téléphone', 'PhoneNumber'),
-                              SizedBox(height: 20),
+                              SizedBox(height: 20.h),
                               // DropDownForm('Pays','Pays'),
                               // DropDownForm('Ville','Ville'),
                               InputForm('Code de reception', 'CodeReception'),
-                              SizedBox(height: 30),
-                              Text(
+                              SizedBox(height: 30.h),
+                              const Text(
                                   'NB: le code de réception est à transmettre uniquement à votre récépteur.',
                                   style: TextStyle(color: Color(0xFF6F6F6F))),
                             ],
@@ -785,42 +812,41 @@ class _transfertFormState extends State<transfertForm> {
                           child: Column(
                             children: [
                               InputForm('Nom de la Banque', 'NameBank'),
-                              SizedBox(height: 5),
+                              SizedBox(height: 5.h),
                               InputForm('intitulé du compte', 'IntituleBank'),
-                              SizedBox(height: 5),
+                              SizedBox(height: 5.h),
                               InputForm('N° Compte', 'AccountNumber'),
-                              SizedBox(height: 5),
+                              SizedBox(height: 5.h),
                               InputForm('Code de reception', 'CodeReception'),
-                              SizedBox(height: 10),
-                              Text(
+                              SizedBox(height: 10.h),
+                              const Text(
                                   'NB: le code de réception est à transmettre uniquement à votre récépteur.',
                                   style: TextStyle(color: Color(0xFF6F6F6F))),
                             ],
                           ),
                         )
                     ],
-                  ),
-              ),
+                  )),
+            ) // 1er Padding
             ),
-        ),
         Step(
             isActive: currentStep >= 2,
-            title: Text('Etape 3'),
+            title: const Text('Etape 3'),
             content: Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              height: 465,
-              decoration: const BoxDecoration(
+              margin: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
+              height: 465.h,
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
+                  topLeft: Radius.circular(10.r),
+                  bottomLeft: Radius.circular(10.r),
+                  bottomRight: Radius.circular(10.r),
                 ),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.grey,
-                      blurRadius: 2.0,
-                      spreadRadius: 2.0,
+                      blurRadius: 2,
+                      spreadRadius: 2,
                       offset: Offset(
                         -5.0, // Move to right 7.0 horizontally
                         10.0, // Move to bottom 8.0 Vertically
@@ -831,40 +857,37 @@ class _transfertFormState extends State<transfertForm> {
                 controller: _controllerOne,
                 thumbVisibility: true, //always show scrollbar
                 thickness: 10, //width of scrollbar
-                radius: Radius.circular(20), //corner radius of scrollbar
+                radius: Radius.circular(20.r), //corner radius of scrollbar
                 scrollbarOrientation:
                     ScrollbarOrientation.right, //which side to show scrollbar
                 child: Padding(
-                    padding: const EdgeInsets.all(25),
+                    padding: EdgeInsets.fromLTRB(
+                        25.w, 25.h, 25.w, 25.h), /////////////--------> to see
                     child: ListView(
                       controller: _controllerOne,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Center(
+                            Center(
                                 child: Text(
                                     'Vérifier les informations sur la transaction',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 13))),
-                            const SizedBox(height: 5),
+                                        fontSize: 13.sp))),
+                            SizedBox(height: 5.h),
                             if (_selectedGender == 'manuel') ...[
                               Container(
                                 child: Column(
                                   children: [
                                     fieldInput(
-                                        topText: 'Pays envoi',
-                                        bottomText: dropdownvalueSender,
+                                        topText: "Pays et Ville d'envoi",
+                                        bottomText:
+                                            '${selectedCountrySender?.name},${selectedCitySender?.name}',
                                         svgLink:
                                             'assets/material-symbols_edit.svg',
                                         step: 0),
-                                    fieldInput(
-                                        topText: 'Pays de reception',
-                                        bottomText: dropdownvalueReceiver,
-                                        svgLink:
-                                            'assets/material-symbols_edit.svg',
-                                        step: 0),
+                                    // fieldInput(topText:'Pays de reception',bottomText:dropdownvalueReceiver,svgLink:'assets/material-symbols_edit.svg',step:0),
                                     fieldInput(
                                         topText: 'Montant',
                                         bottomText: amountController.text,
@@ -882,9 +905,7 @@ class _transfertFormState extends State<transfertForm> {
                                         topText:
                                             'Pays et ville du destinataire',
                                         bottomText:
-                                            dropdownvalueCountryReception +
-                                                ',' +
-                                                dropdownvalueCountryReception,
+                                            '${selectedCountryReceiver?.name},${selectedCityReceiver?.name}',
                                         svgLink:
                                             'assets/material-symbols_edit.svg',
                                         step: 1,
@@ -903,10 +924,10 @@ class _transfertFormState extends State<transfertForm> {
                                             'assets/material-symbols_edit.svg',
                                         step: 1,
                                         radioStep: 0),
-                                    SizedBox(width: 5),
+                                    SizedBox(width: 5.w),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
+                                      padding: EdgeInsets.only(top: 10.h),
+                                      child: const Text(
                                           'NB: le code de réception est à transmettre uniquement à votre récépteur.',
                                           style: TextStyle(
                                               color: Color(0xFF6F6F6F))),
@@ -919,23 +940,28 @@ class _transfertFormState extends State<transfertForm> {
                                 child: Column(
                                   children: [
                                     fieldInput(
-                                        topText: 'Pays envoi',
-                                        bottomText: dropdownvalueSender,
+                                        topText: "Pays et Ville d'envoi",
+                                        bottomText:
+                                            '${selectedCountrySender?.name},${selectedCitySender?.name}',
                                         svgLink:
                                             'assets/material-symbols_edit.svg',
                                         step: 0),
-                                    fieldInput(
-                                        topText: 'Pays de reception',
-                                        bottomText: dropdownvalueReceiver,
-                                        svgLink:
-                                            'assets/material-symbols_edit.svg',
-                                        step: 0),
+                                    //fieldInput(topText:'Pays de reception',bottomText:dropdownvalueReceiver,svgLink:'assets/material-symbols_edit.svg',step:0),
                                     fieldInput(
                                         topText: 'Montant',
                                         bottomText: amountController.text,
                                         svgLink:
                                             'assets/material-symbols_edit.svg',
                                         step: 0),
+                                    fieldInput(
+                                        topText:
+                                            'Pays et ville du destinataire',
+                                        bottomText:
+                                            '${selectedCountryReceiver?.name},${selectedCityReceiver?.name}',
+                                        svgLink:
+                                            'assets/material-symbols_edit.svg',
+                                        step: 1,
+                                        radioStep: 0),
                                     fieldInput(
                                         topText: 'Nom de la Banque',
                                         bottomText: NameBank.text,
@@ -964,10 +990,10 @@ class _transfertFormState extends State<transfertForm> {
                                             'assets/material-symbols_edit.svg',
                                         step: 1,
                                         radioStep: 1),
-                                    SizedBox(width: 5),
+                                    SizedBox(width: 5.w),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
+                                      padding: EdgeInsets.only(top: 10.h),
+                                      child: const Text(
                                           'NB: le code de réception est à transmettre uniquement à votre récépteur.',
                                           style: TextStyle(
                                               color: Color(0xFF6F6F6F))),
@@ -979,11 +1005,9 @@ class _transfertFormState extends State<transfertForm> {
                           ],
                         )
                       ],
-                    ),
-                    ),
+                    )),
               ),
-            ),
-            ),
+            ))
       ];
 
 //widgets permettant d'afficher la pop up
@@ -1005,16 +1029,17 @@ class _transfertFormState extends State<transfertForm> {
                       color: Colors.deepOrange,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.done_outlined,
+                    child: const Icon(Icons.done_outlined,
                         color: Colors.white, size: 15)),
               ],
             ),
             content: SingleChildScrollView(
               child: ListBody(
-                children: const <Widget>[
+                children: <Widget>[
                   Text(
                     "Votre demande de transaction a été bien enregistée. vous recevrez une notification d'ici peu",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -1064,15 +1089,16 @@ class _transfertFormState extends State<transfertForm> {
             ),
             content: SingleChildScrollView(
               child: ListBody(
-                children: const <Widget>[
+                children: <Widget>[
                   Text(
                     "Annuler la transaction ?",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     " Cette action sera irreversible",
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   )
@@ -1086,8 +1112,8 @@ class _transfertFormState extends State<transfertForm> {
                   Container(
                       height: 35,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                        border: Border.all(width: 1.w, color: Colors.grey),
                         color: Colors.grey,
                       ),
                       child: TextButton(
@@ -1099,7 +1125,7 @@ class _transfertFormState extends State<transfertForm> {
                               color: Color(0xFF6F6F6F),
                             )),
                       )),
-                  SizedBox(width: 30),
+                  SizedBox(width: 30.w),
                   Container(
                     height: 35,
                     decoration: BoxDecoration(
@@ -1181,8 +1207,8 @@ class _transfertFormState extends State<transfertForm> {
     int? radioStep,
   }) {
     return Container(
-      margin: const EdgeInsets.only(top: 15),
-      decoration: const BoxDecoration(
+      margin: EdgeInsets.only(top: 15.h),
+      decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.0, color: Colors.grey),
         ),
@@ -1245,17 +1271,17 @@ class _transfertFormState extends State<transfertForm> {
     return Container(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 5, 130, 0),
-          child: Text(label, style: TextStyle(color: Color(0xFF6F6F6F))),
+          padding: EdgeInsets.fromLTRB(0.w, 5.h, 130.w, 0.h),
+          child: Text(label, style: const TextStyle(color: Color(0xFF6F6F6F))),
         ),
         SizedBox(
-          height: 7,
+          height: 7.h,
         ),
         if (codeInput == 'NameBank') ...[
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
             child: SizedBox(
-              height: 30,
+              height: 30.h,
               child: TextField(
                 //textDirection: TextDirection.ltr ,
                 keyboardType: TextInputType.text,
@@ -1267,8 +1293,8 @@ class _transfertFormState extends State<transfertForm> {
                       : null,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(5.0),
+                        width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                 ),
               ),
@@ -1276,9 +1302,9 @@ class _transfertFormState extends State<transfertForm> {
           )
         ] else if (codeInput == 'IntituleBank') ...[
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
             child: SizedBox(
-              height: 30,
+              height: 30.h,
               child: TextField(
                 keyboardType: TextInputType.text,
                 cursorColor: Colors.orange,
@@ -1289,8 +1315,8 @@ class _transfertFormState extends State<transfertForm> {
                       : null,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(5.0),
+                        width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                 ),
               ),
@@ -1298,9 +1324,9 @@ class _transfertFormState extends State<transfertForm> {
           )
         ] else if (codeInput == 'AccountNumber') ...[
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
             child: SizedBox(
-              height: 30,
+              height: 30.h,
               child: TextField(
                 keyboardType: TextInputType.text,
                 cursorColor: Colors.orange,
@@ -1311,8 +1337,8 @@ class _transfertFormState extends State<transfertForm> {
                       : null,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(5.0),
+                        width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                 ),
               ),
@@ -1321,9 +1347,9 @@ class _transfertFormState extends State<transfertForm> {
         ] else if (codeInput == 'CodeReception') ...[
           //NameSender
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
             child: SizedBox(
-              height: 30,
+              height: 30.h,
               child: TextField(
                 keyboardType: TextInputType.text,
                 cursorColor: Colors.orange,
@@ -1334,8 +1360,8 @@ class _transfertFormState extends State<transfertForm> {
                       : null,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(5.0),
+                        width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                 ),
               ),
@@ -1344,9 +1370,9 @@ class _transfertFormState extends State<transfertForm> {
         ] else if (codeInput == 'NameSender') ...[
           //PhoneNumber
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
             child: SizedBox(
-              height: 30,
+              height: 30.h,
               child: TextFormField(
                 keyboardType: TextInputType.text,
                 cursorColor: Colors.orange,
@@ -1357,8 +1383,8 @@ class _transfertFormState extends State<transfertForm> {
                       : null,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(5.0),
+                        width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                 ),
               ),
@@ -1366,9 +1392,9 @@ class _transfertFormState extends State<transfertForm> {
           )
         ] else if (codeInput == 'PhoneNumber') ...[
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
             child: SizedBox(
-              height: 30,
+              height: 30.h,
               child: TextFormField(
                 keyboardType: TextInputType.number,
                 cursorColor: Colors.orange,
@@ -1379,8 +1405,8 @@ class _transfertFormState extends State<transfertForm> {
                       : null,
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                    borderRadius: BorderRadius.circular(5.0),
+                        width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                    borderRadius: BorderRadius.circular(5.r),
                   ),
                 ),
               ),
@@ -1543,42 +1569,7 @@ class _transfertFormState extends State<transfertForm> {
           ] else if (code == 'Ville') ...[
             Padding(
               padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
-              child: SizedBox(height: 30, child: DropdownSenderCity()
-                  /* DropdownButtonFormField(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(//<-- SEE HERE
-                    // borderSide: BorderSide(color: Colors.black, width: 2),
-                    ),
-                /*focusedBorder: OutlineInputBorder( //<-- SEE HERE
-                  borderSide: BorderSide(color: Colors.black, width: 2),
-                ),*/
-                //filled: true,
-                //fillColor: Colors.greenAccent,
-              ),
-              dropdownColor: Colors.greenAccent,
-              value: dropdownValue,
-              onChanged: (String? newValue) {
-                setState() {
-                  dropdownValue = newValue;
-                }
-              },
-              items: <String>[
-                'USA',
-                'Cameroun',
-                'France',
-                'Allemagne',
-                'Gabon',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                );
-              }).toList(),
-            ),*/
-                  ),
+              child: SizedBox(height: 30, child: DropdownSenderCity()),
             )
           ]
         ],
