@@ -63,32 +63,39 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     //     receiver: alldata[0].receiver,
     //     status: alldata[0].status,
     //     to_bank: alldata[0].to_bank));
-    print('++++alldata---> ${alldata[0].receiver['nom']}');
+    print('++++alldata---> ${alldata[1].bank}');
+    print('++++intitule---> ${alldata[1].bank?['intitule']}');
   }
 
-  late String receiverName;
-  late String statusTrans;
+  late Map receiverName;
+  late String statusIcon;
   void getAllTransfert(data) {
     setState(() {
       for (int? i = 0; i! < data.length; i++) {
         if (data[i].status == 'OPEN') {
-          statusTrans = 'traitement';
+          statusIcon = 'traitement';
         } else {}
-        // receiverName = data[0].receiver['nom'];
-        // print('receiverName---> $receiverName');
+        receiverName = data[0].inZone;
+        print('+++inZone---> ${receiverName['country']['name']}');
         int ts = alldata[i].createdDate['_seconds'];
         DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
         String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
         transactions.add(TransactionItem(
           data[i].status,
           data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-          statusTrans,
+          statusIcon,
           data[i].amount.toString(),
+          data[i].outZone['country']['name'],
+          data[i].outZone['name'],
+          data[i].inZone['country']['name'],
           data[i].inZone['name'],
           fdatetime,
-          data[i].codeReception
-          // data[i].receiver['nom'],
-          // data[i].receiver['telephone'],
+          data[i].codeReception,
+          data[i].receiver?['nom'],
+          data[i].receiver?['telephone'],
+          data[i].bank?['intitule'],
+          data[i].bank?['nom'],
+          data[i].to_bank
         ));
       }
       // print('receiverName---> $receiverName');
@@ -247,13 +254,20 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                                 onTap: () {
                                                   print('---> tout voir');
                                                   Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              TransactionPage(
-                                                                  isListTransaction:
-                                                                      true,
-                                                                  currentTransaction:
-                                                                      0)));
+                                                    PageRouteBuilder(
+                                                      pageBuilder: (BuildContext
+                                                                  context,
+                                                              Animation<double>
+                                                                  animation,
+                                                              Animation<double>
+                                                                  secondaryAnimation) =>
+                                                          TransactionPage(
+                                                              isListTransaction:
+                                                                  true,
+                                                              currentTransaction:
+                                                                  0),
+                                                    ),
+                                                  );
                                                   // Navigator.pushNamed(context, TransactionPage.transactionpage);
                                                 },
                                                 child: Text(
@@ -328,14 +342,17 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                                 print(
                                                     '----onTap From MA_homePage----');
                                                 Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            TransactionScreen(
-                                                                transaction:
-                                                                    transactions,
-                                                                index: index,
-                                                                isListTransaction:
-                                                                    true)));
+                                                  PageRouteBuilder(
+                                                    pageBuilder: (BuildContext ctxt, Animation<double>
+                                                                animation, Animation<double> secondaryAnimation) =>
+                                                        TransactionScreen(
+                                                            transaction:
+                                                                transactions,
+                                                            index: index,
+                                                            isListTransaction:
+                                                                true),
+                                                  ),
+                                                );
                                               },
                                             );
                                           } else {
@@ -369,11 +386,14 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                       style: TextStyle(fontSize: 18.sp)),
                                   elevation: 10.h,
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                transfertForm()));
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        pageBuilder: (BuildContext context,
+                                                Animation<double> animation,
+                                                Animation<double>
+                                                    secondaryAnimation) => const transfertForm(),
+                                      ),
+                                    );
                                   },
                                 ),
                               ],

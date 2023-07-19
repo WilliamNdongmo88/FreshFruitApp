@@ -420,7 +420,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${transaction.city}, ${transaction.date}',
+                                    '${transaction.inZoneCountry}, ${transaction.date}',
                                     style: GoogleFonts.inter(
                                       fontSize: 14.sp,
                                       fontStyle: FontStyle.normal,

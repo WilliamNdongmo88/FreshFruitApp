@@ -50,28 +50,45 @@ class _TransactionScreenState extends State<TransactionScreen>
         print('----back with true---- ${transaction[index].status}');
         if (transaction[index].status == 'OPEN' ||
             transaction[index].status == 'En Attente') {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => TransactionPage(
-                  isListTransaction: isListTransaction,
-                  currentTransaction: 1)));
+            Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation,
+                      Animation<double> secondaryAnimation) =>
+                  TransactionPage(
+                      isListTransaction: isListTransaction,
+                      currentTransaction: 1),
+            ),
+          );
         } else if (transaction[index].status == 'Terminé') {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => TransactionPage(
-                  isListTransaction: isListTransaction,
-                  currentTransaction: 2)));
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation,
+                      Animation<double> secondaryAnimation) =>
+                  TransactionPage(
+                      isListTransaction: isListTransaction,
+                      currentTransaction: 2),
+            ),
+          );
         } else {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => TransactionPage(
-                  isListTransaction: isListTransaction,
-                  currentTransaction: 3)));
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation,
+                      Animation<double> secondaryAnimation) =>
+                  TransactionPage(
+                      isListTransaction: isListTransaction,
+                      currentTransaction: 3),
+            ),
+          );
         }
       } else if (changetxt == 'Modifier') {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                EditeData(transaction: transaction, index: index)));
-      } else if (changetxt == 'Annuler' ||
-          changetxt == 'Supprimer' ||
-          changetxt == 'Relancer') {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) =>
+                EditeData(transaction: transaction, index: index),
+          ),
+        );
+      } else if (changetxt == 'Annuler' || changetxt == 'Supprimer' || changetxt == 'Relancer') {
         showDialog(
           context: context,
           builder: (ctx) => showdialog(ctx: ctx, changetxt: changetxt),
@@ -83,10 +100,13 @@ class _TransactionScreenState extends State<TransactionScreen>
   void funChange2(changetxt) {
     setState(() {
       if (changetxt == 0) {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
-        Navigator.pushNamed(
-            context, TransactionListScreen.transactionListScreen);
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) =>
+                TransactionListScreen(),
+          ),
+        );
       }
     });
   }

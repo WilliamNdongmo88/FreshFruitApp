@@ -49,8 +49,12 @@ class _DevisesPageState extends State<DevisesPage> {
   void funChange(changetxt) {
     setState(() {
       if (changetxt == 'WithoutLabel') {
-        Navigator.pushNamed(
-            context, TransactionListScreen.transactionListScreen);
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) => TransactionListScreen(),
+          ),
+        );
       }
     });
   }

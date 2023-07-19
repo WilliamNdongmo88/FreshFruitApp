@@ -24,33 +24,59 @@ class _EditeDataState extends State<EditeData> {
   List<TransactionItem> transaction;
   int index;
   _EditeDataState(this.transaction, this.index);
-  TextEditingController banqueNameController =
-      TextEditingController(text: 'UBA');
-  TextEditingController compteNameController =
-      TextEditingController(text: '8475 1523 6589 2547');
-  TextEditingController countryNameController =
-      TextEditingController(text: 'Cameroun');
+  TextEditingController banqueNameController = TextEditingController();
+  TextEditingController compteIntituleController = TextEditingController();
+  TextEditingController countryNameController = TextEditingController();
   TextEditingController numeroCompteController =
       TextEditingController(text: '012478635');
-  TextEditingController codeReceptionController =
-      TextEditingController(text: 'trans:062089');
-  TextEditingController destinataireNameController =
-      TextEditingController(text: 'Robert Boum');
-  TextEditingController numeroTelephoneController =
-      TextEditingController(text: '+23758697425');
-  List listCountry = ['Cameoun', 'USA', 'Angland', 'Italie'];
+  TextEditingController codeReceptionController = TextEditingController();
+  TextEditingController destinataireNameController = TextEditingController();
+  TextEditingController numeroTelephoneController = TextEditingController();
+  List listCountry = ['Cameroun', 'USA', 'Angland', 'Italie'];
   List listCities = ['Bafoussam', 'Yaoundé', 'Douala', 'Kribi', 'Bamenda'];
   var valueChoose;
   var valueCountryChoose;
   var valueCityChoose;
   int currentIndex = 0;
+  void initState() {
+    super.initState();
+
+    if (transaction[index].status == 'OPEN' &&
+        transaction[index].toBank == true) {
+      print('++++ tobank ---> ${transaction[index].toBank}');
+      print('++++ bankNom ---> ${transaction[index].bankNom}');
+      print('++++ intitule ---> ${transaction[index].bankIntitule}');
+      countryNameController.text = transaction[index].inZoneCountry;
+      compteIntituleController.text = transaction[index].bankIntitule as String;
+      banqueNameController.text = transaction[index].bankNom as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    } else if (transaction[index].status == 'OPEN' &&
+        transaction[index].toBank == false) {
+      print('++++Receivername true---> ${transaction[index].receiverName}');
+      countryNameController.text = transaction[index].inZoneCountry;
+      destinataireNameController.text =
+          transaction[index].receiverName as String;
+      numeroTelephoneController.text = transaction[index].receiverTel as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    }
+    listCountry.add(transaction[index].inZoneCountry);
+    listCities.add(transaction[index].outZoneCountry);
+  }
+
   void funChange(changetxt) {
     setState(() {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TransactionScreen(
-              transaction: transaction,
-              index: index,
-              isListTransaction: true)));
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (BuildContext context, Animation<double> animation,
+                  Animation<double> secondaryAnimation) =>
+              TransactionScreen(
+                  transaction: transaction,
+                  index: index,
+                  isListTransaction: true),
+        ),
+      );
       print('EditePage transaction---> $transaction');
     });
   }
@@ -126,14 +152,15 @@ class _EditeDataState extends State<EditeData> {
                               children: [
                                 outputField(
                                   topTextLeft: "Nom de l'expéditeur",
-                                  bottomTextLeft: 'James Kora',
+                                  bottomTextLeft: transaction[index].user,
                                 ),
                                 SizedBox(
                                   height: 10.h,
                                 ),
                                 outputField(
                                   topTextLeft: "Pays d'envoi",
-                                  bottomTextLeft: 'USA',
+                                  bottomTextLeft:
+                                      transaction[index].inZoneCountry,
                                 ),
                                 SizedBox(
                                   height: 10.h,
@@ -161,11 +188,10 @@ class _EditeDataState extends State<EditeData> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      if (transaction[index].status ==
-                                          'OPEN') ...[
+                                      if (transaction[index].status == 'OPEN' && transaction[index].toBank == true) ...[
                                         Container(
                                           margin: EdgeInsets.only(top: 10.r),
-                                          child: Text("Nom du destinataire",
+                                          child: Text("Nom de la banque",
                                               style: TextStyle(
                                                   color: const Color.fromRGBO(
                                                       97, 97, 97, 1),
@@ -178,8 +204,7 @@ class _EditeDataState extends State<EditeData> {
                                         SizedBox(
                                           height: 35.h,
                                           child: TextFormField(
-                                            controller:
-                                                destinataireNameController,
+                                            controller: banqueNameController,
                                             style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.bold),
                                             decoration: const InputDecoration(
@@ -211,7 +236,8 @@ class _EditeDataState extends State<EditeData> {
                                         SizedBox(
                                           height: 35.h,
                                           child: TextFormField(
-                                            controller: compteNameController,
+                                            controller:
+                                                compteIntituleController,
                                             style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.bold),
                                             decoration: const InputDecoration(
@@ -262,7 +288,8 @@ class _EditeDataState extends State<EditeData> {
                                                     ),
                                                     child: DropdownButton(
                                                         hint: Text(
-                                                          "Cameroun",
+                                                          transaction[index]
+                                                              .inZoneCountry,
                                                           style: GoogleFonts.inter(
                                                               fontWeight:
                                                                   FontWeight
@@ -351,12 +378,12 @@ class _EditeDataState extends State<EditeData> {
                                           ],
                                         ),
                                       ] else if (transaction[index].status ==
-                                              'En Attente' ||
-                                          transaction[index].status ==
-                                              'Annulé') ...[
+                                              'OPEN' &&
+                                          transaction[index].toBank ==
+                                              false) ...[
                                         Container(
                                           margin: EdgeInsets.only(top: 10.r),
-                                          child: Text("Nom de la banque",
+                                          child: Text("Nom du destinataire",
                                               style: TextStyle(
                                                   color: const Color.fromRGBO(
                                                       97, 97, 97, 1),
@@ -369,7 +396,234 @@ class _EditeDataState extends State<EditeData> {
                                         SizedBox(
                                           height: 35.h,
                                           child: TextFormField(
-                                            controller: banqueNameController,
+                                            controller:
+                                                destinataireNameController,
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                            decoration: const InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5.0)))),
+                                            validator: (value) {
+                                              if (value != null) {
+                                                return 'Please enter a user';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Text("N° Téléphone",
+                                            style: TextStyle(
+                                                color: const Color.fromRGBO(
+                                                    97, 97, 97, 1),
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.bold)),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        SizedBox(
+                                          height: 35.h,
+                                          child: TextFormField(
+                                            controller:
+                                                numeroTelephoneController,
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                            decoration: const InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5.0)))),
+                                            validator: (value) {
+                                              if (value != null) {
+                                                return 'Please enter a user';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 15.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Pays",
+                                                      style: TextStyle(
+                                                          color: const Color
+                                                                  .fromRGBO(
+                                                              97, 97, 97, 1),
+                                                          fontSize: 17.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(
+                                                    height: 10.h,
+                                                  ),
+                                                  Container(
+                                                    height: 35.h,
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.r, right: 5.r),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color
+                                                                  .fromRGBO(
+                                                              97, 97, 97, 1)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: DropdownButton(
+                                                        hint: Text(
+                                                          "Cameroun",
+                                                          style: GoogleFonts.inter(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: const Color(
+                                                                  0XFF000000)),
+                                                        ),
+                                                        icon: const Icon(
+                                                          Icons.arrow_drop_down,
+                                                          color:
+                                                              Color(0XFFF24E1E),
+                                                        ),
+                                                        iconSize: 40.w,
+                                                        underline:
+                                                            const SizedBox(),
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          color: const Color(
+                                                              0XFF000000),
+                                                        ),
+                                                        value:
+                                                            valueCountryChoose,
+                                                        onChanged: (newValue) {
+                                                          setState(() {
+                                                            valueCountryChoose =
+                                                                newValue;
+                                                          });
+                                                        },
+                                                        items: listCountry.map(
+                                                          (valueCountry2) {
+                                                            return DropdownMenuItem(
+                                                                value:
+                                                                    valueCountry2,
+                                                                child: Text(
+                                                                  valueCountry2,
+                                                                  style: GoogleFonts.inter(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ));
+                                                          },
+                                                        ).toList()),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Ville",
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            97, 97, 97, 1),
+                                                        fontSize: 17.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Container(
+                                                  height: 35.h,
+                                                  padding: EdgeInsets.only(
+                                                      left: 10.r, right: 5.r),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            97, 97, 97, 1)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: DropdownButton(
+                                                      hint: Text(
+                                                        transaction[index]
+                                                            .outZoneCity,
+                                                        style: GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: const Color(
+                                                                0XFF000000)),
+                                                      ),
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color:
+                                                            Color(0XFFF24E1E),
+                                                      ),
+                                                      iconSize: 40.w,
+                                                      underline:
+                                                          const SizedBox(),
+                                                      style: GoogleFonts.inter(
+                                                        color: const Color(
+                                                            0XFF000000),
+                                                      ),
+                                                      value: valueCityChoose,
+                                                      onChanged: (newValue) {
+                                                        setState(() {
+                                                          valueCityChoose =
+                                                              newValue;
+                                                        });
+                                                      },
+                                                      items: listCities.map(
+                                                        (valueCity) {
+                                                          return DropdownMenuItem(
+                                                              value: valueCity,
+                                                              child: Text(
+                                                                valueCity,
+                                                                style: GoogleFonts.inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ));
+                                                        },
+                                                      ).toList()),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ] else if (transaction[index].status ==
+                                              'En Attente' ||
+                                          transaction[index].status ==
+                                              'Annulé') ...[
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10.r),
+                                          child: Text("Nom du destinataire",
+                                              style: TextStyle(
+                                                  color: const Color.fromRGBO(
+                                                      97, 97, 97, 1),
+                                                  fontSize: 17.sp,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        SizedBox(
+                                          height: 35.h,
+                                          child: TextFormField(
+                                            controller:
+                                                destinataireNameController,
                                             style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.bold),
                                             decoration: const InputDecoration(
@@ -627,11 +881,18 @@ class _EditeDataState extends State<EditeData> {
                                   backgroundColor: const Color(0XFFF24E1E),
                                 ),
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => TransactionScreen(
-                                          transaction: transaction,
-                                          index: index,
-                                          isListTransaction: false)));
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (BuildContext context,
+                                              Animation<double> animation,
+                                              Animation<double>
+                                                  secondaryAnimation) =>
+                                          TransactionScreen(
+                                              transaction: transaction,
+                                              index: index,
+                                              isListTransaction: false),
+                                    ),
+                                  );
                                 },
                                 child: Text(
                                   'Annuler',

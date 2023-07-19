@@ -96,12 +96,17 @@ class TransactionPageState extends State<TransactionPage> {
             data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
             statusTrans,
             data[i].amount.toString(),
+            data[i].outZone['country']['name'],
+            data[i].outZone['name'],
+            data[i].inZone['country']['name'],
             data[i].inZone['name'],
             fdatetime,
-            data[i].codeReception
-            // data[0].receiver['nom'],
-            // data[0].receiver['telephone'],
-            ));
+            data[i].codeReception,
+            data[i].receiver?['nom'],
+            data[i].receiver?['telephone'],
+            data[i].bank?['intitule'],
+            data[i].bank?['nom'],
+            data[i].to_bank));
       }
       // print('receiverName---> $receiverName');
     });
@@ -120,16 +125,26 @@ class TransactionPageState extends State<TransactionPage> {
     setState(() {
       print('changetxt --> $changetxt');
       if (changetxt == 'WithoutLabel' && currentTransaction == 0) {
-        Navigator.pushNamed(
-            context, TransactionListScreen.transactionListScreen);
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) =>
+                TransactionListScreen(),
+          ),
+        );
       }
       if (changetxt == 'WithoutLabel' && currentTransaction != 0) {
         currentTransaction = 0;
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => TransactionPage(
-                  isListTransaction: isListTransaction,
-                  currentTransaction: currentTransaction,
-                )));
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) =>
+                TransactionPage(
+              isListTransaction: isListTransaction,
+              currentTransaction: currentTransaction,
+            ),
+          ),
+        );
       } else if (changetxt == 'Filtrer') {
         showDialog(
             context: context,
@@ -253,7 +268,7 @@ class TransactionPageState extends State<TransactionPage> {
             /**Start filter */
             Center(
               child: Container(
-                margin: EdgeInsets.only(top: 520.r),
+                margin: EdgeInsets.only(top: 570.r),
                 width: 223.w,
                 height: 85.h,
                 child: Card(

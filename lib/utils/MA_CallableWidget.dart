@@ -131,14 +131,17 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
     child: Container(
       child: Column(
         children: [
-          if (transaction[index].status == 'OPEN') ...[
-            outputField(topTextLeft: 'Nom de la banque', bottomTextLeft: 'UBA'),
+          if (transaction[index].status == 'OPEN' &&
+              transaction[index].toBank == true) ...[
+            outputField(
+                topTextLeft: 'Nom de la banque',
+                bottomTextLeft: transaction[index].bankNom),
             SizedBox(
               height: 15.h,
             ),
             outputField(
               topTextLeft: 'Intitulé du compte',
-              bottomTextLeft: '9874 5247 6582 1458',
+              bottomTextLeft: transaction[index].bankIntitule,
             ),
             SizedBox(
               height: 15.h,
@@ -147,7 +150,9 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
             SizedBox(
               height: 15.h,
             ),
-            outputField(topTextLeft: 'Pays', bottomTextLeft: 'Cameroun'),
+            outputField(
+                topTextLeft: 'Pays',
+                bottomTextLeft: transaction[index].outZoneCountry),
             SizedBox(
               height: 15.h,
             ),
@@ -205,6 +210,93 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
                         height: 10.h,
                       ),
                       Text(
+                        'trans: ${transaction[index].codeReception}',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ] else if (transaction[index].status == 'OPEN' &&
+              transaction[index].toBank == false) ...[
+            outputField(
+                topTextLeft: 'Nom du destinataire',
+                bottomTextLeft: transaction[index].receiverName),
+            SizedBox(
+              height: 15.h,
+            ),
+            outputField(
+                topTextLeft: 'Pays',
+                bottomTextLeft: transaction[index].outZoneCountry,
+                topTextRight: 'Vile',
+                bottomTextRight_String: transaction[index].outZoneCity),
+            SizedBox(
+              height: 15.h,
+            ),
+            outputField(
+                topTextLeft: 'N° Téléphone',
+                bottomTextLeft: transaction[index].receiverTel),
+            SizedBox(
+              height: 25.h,
+            ),
+            if (valueOfBool == false && codeReception == 'null') ...[
+              Container(
+                margin: EdgeInsets.only(top: 35.r),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
+                  ),
+                ),
+                width: double.infinity,
+                child: Container(
+                  margin: EdgeInsets.only(top: 15.r),
+                  child: Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        callBackFunction!('Open_pop_up');
+                      },
+                      child: Center(
+                        child: Text(
+                          "voir code de reception",
+                          style: TextStyle(
+                              color: const Color.fromRGBO(79, 79, 78, 1),
+                              fontSize: 15.sp),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ] else
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
+                  ),
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Code de reception",
+                        style: TextStyle(
+                            color: const Color.fromRGBO(79, 79, 79, 1),
+                            fontSize: 14.sp),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Text(
                         'trans: $codeReception',
                         style: TextStyle(
                             color: Colors.black,
@@ -220,20 +312,21 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
               transaction[index].status == 'Annulé') ...[
             outputField(
                 topTextLeft: 'Nom du destinataire',
-                bottomTextLeft: 'Robert Boum'),
+                bottomTextLeft: transaction[index].receiverName),
             SizedBox(
               height: 15.h,
             ),
             outputField(
                 topTextLeft: 'Pays',
-                bottomTextLeft: 'Cameroon',
+                bottomTextLeft: transaction[index].outZoneCountry,
                 topTextRight: 'Vile',
-                bottomTextRight_String: 'Yaoundé'),
+                bottomTextRight_String: transaction[index].outZoneCity),
             SizedBox(
               height: 15.h,
             ),
             outputField(
-                topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
+                topTextLeft: 'N° Téléphone',
+                bottomTextLeft: transaction[index].receiverTel),
             SizedBox(
               height: 25.h,
             ),
@@ -321,16 +414,17 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
             height: 20.h,
           ),
           outputField(
-              topTextLeft: 'Nom de léexpéditeur',
-              bottomTextLeft: 'Robert Boum'),
+              topTextLeft: "Nom de l'expéditeur",
+              bottomTextLeft: transaction[index].user),
           SizedBox(
             height: 35.h,
           ),
           outputField(
-              topTextLeft: 'Pays',
-              bottomTextLeft: 'USA',
-              topTextRight: 'Vile',
-              bottomTextRight_String: 'New York'),
+            topTextLeft: 'Pays',
+            bottomTextLeft: transaction[index].inZoneCountry,
+            topTextRight: 'Vile',
+            bottomTextRight_String: transaction[index].inZoneCity,
+          ),
           SizedBox(
             height: 35.h,
           ),
@@ -404,16 +498,16 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
             transaction[index].status == 'En Attente' ||
             transaction[index].status == 'Annulé') ...[
           outputField(
-              topTextLeft: 'Nom de léexpéditeur',
-              bottomTextLeft: 'Robert Boum'),
+              topTextLeft: "Nom de l'expéditeur",
+              bottomTextLeft: transaction[index].user),
           SizedBox(
             height: 5.h,
           ),
           outputField(
               topTextLeft: 'Pays',
-              bottomTextLeft: 'USA',
+              bottomTextLeft: transaction[index].inZoneCountry,
               topTextRight: 'Vile',
-              bottomTextRight_String: 'New York'),
+              bottomTextRight_String: transaction[index].inZoneCity),
           SizedBox(
             height: 5.h,
           ),
@@ -605,7 +699,7 @@ Widget showdialog({ctx, changetxt}) {
                   iconSvg: 'assets/recyclebin.svg',
                   fontSizeIcon: 35.sp,
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 if (changetxt == 'Supprimer') ...[
                   Text(
                     "Voulez vous Supprimer cette transaction ?",
@@ -1683,11 +1777,17 @@ Widget allTansactions(transactions, isListTransaction) {
             onTap: () {
               print(
                   'allTansactions---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionScreen(
-                      transaction: transactions,
-                      index: index,
-                      isListTransaction: isListTransaction)));
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
             },
           );
         },
@@ -1724,11 +1824,17 @@ Widget tansactionReussies(transactions, isListTransaction) {
             onTap: () {
               print(
                   'tansactionReussies---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionScreen(
-                      transaction: transactions,
-                      index: index,
-                      isListTransaction: isListTransaction)));
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
             },
           );
         },
@@ -1765,11 +1871,17 @@ Widget tansactionsEnCours(transactions, isListTransaction) {
             onTap: () {
               print(
                   'tansactionsEnCours---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionScreen(
-                      transaction: transactions,
-                      index: index,
-                      isListTransaction: isListTransaction)));
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
             },
           );
         },
@@ -1806,11 +1918,17 @@ Widget tansactionAnnuler(transactions, isListTransaction) {
             onTap: () {
               print(
                   'tansactionAnnuler---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TransactionScreen(
-                      transaction: transactions,
-                      index: index,
-                      isListTransaction: isListTransaction)));
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
             },
           );
         },
