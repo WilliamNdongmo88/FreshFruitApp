@@ -1,34 +1,38 @@
-import 'dart:io';
+// ignore_for_file: sort_child_properties_last, avoid_print, unnecessary_this, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../views/MA_DevisesPage.dart';
-import '../views/MA_SettingsPage.dart';
+import '../views/MA_EditeData.dart';
 import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'MA_CallableWidget.dart';
 import 'MA_TransactionItem.dart';
 import 'MA_Widgets.dart';
 
+// ignore: must_be_immutable
 class TransactionScreen extends StatefulWidget {
   List<TransactionItem> transaction;
   int index;
+  bool isListTransaction;
   static const transactionScreenPage = '/TransactionScreen';
   TransactionScreen(
-      {super.key, required this.transaction, required this.index});
+      {super.key,
+      required this.transaction,
+      required this.index,
+      required this.isListTransaction});
 
   @override
-  State<TransactionScreen> createState() =>
-      _TransactionScreenState(this.transaction, this.index);
+  State<TransactionScreen> createState() => _TransactionScreenState(
+      this.transaction, this.index, this.isListTransaction);
 }
 
 class _TransactionScreenState extends State<TransactionScreen>
     with TickerProviderStateMixin {
   List<TransactionItem> transaction;
   int index;
-  bool check = true;
-  _TransactionScreenState(this.transaction, this.index);
+  bool isListTransaction;
+  _TransactionScreenState(this.transaction, this.index, this.isListTransaction);
   var txt = 'Nom du bénéficiaire';
   void funChange(changetxt) {
     setState(() {
@@ -39,23 +43,50 @@ class _TransactionScreenState extends State<TransactionScreen>
           builder: (ctx) => Center(
               child: GetDataForm(ctx: ctx, callBackFunction: funInputChange)),
         );
-      } else if (changetxt == 'WithoutLabel') {
+      } else if (changetxt == 'WithoutLabel' && isListTransaction == false) {
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
+      } else if (changetxt == 'WithoutLabel' && isListTransaction == true) {
+        print('----back with true---- ${transaction[index].status}');
+        if (transaction[index].status == 'OPEN' ||
+            transaction[index].status == 'En Attente') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => TransactionPage(
+                  isListTransaction: isListTransaction,
+                  currentTransaction: 1)));
+        } else if (transaction[index].status == 'Terminé') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => TransactionPage(
+                  isListTransaction: isListTransaction,
+                  currentTransaction: 2)));
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => TransactionPage(
+                  isListTransaction: isListTransaction,
+                  currentTransaction: 3)));
+        }
+      } else if (changetxt == 'Modifier') {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                EditeData(transaction: transaction, index: index)));
+      } else if (changetxt == 'Annuler' ||
+          changetxt == 'Supprimer' ||
+          changetxt == 'Relancer') {
+        showDialog(
+          context: context,
+          builder: (ctx) => showdialog(ctx: ctx, changetxt: changetxt),
+        );
       }
     });
   }
 
   void funChange2(changetxt) {
     setState(() {
-      // currentIndex = changetxt;
-      // print('currentIndex--> $currentIndex');
-      // txt = changetxt;
       if (changetxt == 0) {
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
         Navigator.pushNamed(
             context, TransactionListScreen.transactionListScreen);
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => TransactionListScreen()));
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => TransactionListScreen()));
       }
     });
   }
@@ -79,279 +110,397 @@ class _TransactionScreenState extends State<TransactionScreen>
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    bool isSizeBox = false;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Color.fromARGB(255, 240, 238, 238),
-      //   elevation: 0,
-      //   title: Row(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //       Padding(
-      //         padding: EdgeInsets.only(left: 0),
-      //       ),
-      //       Text(
-      //         txt,
-      //         style: TextStyle(color: Colors.black, fontSize: 15),
-      //       ),
-      //     ],
-      //   ),
-      // ),
       resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 20, top: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    buildIconButton(
-                        iconColor: Color.fromRGBO(17, 16, 15, 1),
-                        iconButton: Icons.arrow_back_ios,
-                        buttonText: '',
-                        fontSizeIcon: 35,
-                        callBackFunction: funChange),
-                    const Text(
-                      'Détail de la transaction',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 75),
-                width: double.infinity,
-                height: 130,
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(242, 78, 30, 1),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
+      body: ScreenUtilInit(
+        designSize: const Size(390, 844),
+        builder: (contex, child) => SingleChildScrollView(
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 20.r, top: 10.r),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      buildIconButton(
+                          iconColor: const Color.fromRGBO(17, 16, 15, 1),
+                          iconButton: Icons.arrow_back_ios,
+                          buttonText: '',
+                          fontSizeIcon: 35.w,
+                          callBackFunction: funChange),
+                      Text(
+                        'Détail de la transaction',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ),
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$index',
-                            style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'James Kora',
-                            style: TextStyle(
+                Container(
+                  margin: EdgeInsets.only(top: 75.r),
+                  width: double.infinity,
+                  height: 140.h,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(242, 78, 30, 1),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  padding: EdgeInsets.all(20.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 15.r),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$txt ' '$index ' '$isListTransaction',
+                              style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Text(
+                              'James Kora',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 32.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (transaction[index].status == 'En Attente') ...[
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 175.r, left: 5.r, right: 5.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {},
+                              color: Colors.white,
+                              textColor: Colors.white,
+                              child: buildIconButtonSvg(
+                                  iconColor:
+                                      const Color.fromRGBO(17, 16, 15, 1),
+                                  iconSvg: 'assets/cancel2.svg',
+                                  buttonText: 'Annuler',
+                                  fontSizeIcon: 35.w,
+                                  callBackFunction: funChange),
+                              padding: EdgeInsets.all(13.r),
+                              shape: const CircleBorder(),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text('Annuler', style: TextStyle(fontSize: 16.sp)),
+                          ],
+                        ),
+                        SizedBox(width: 5.w),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {},
+                              color: Colors.white,
+                              textColor: Colors.white,
+                              child: buildIconButtonSvg(
+                                  iconColor: Colors.black,
+                                  buttonText: 'Modifier',
+                                  iconSvg: 'assets/edit.svg',
+                                  fontSizeIcon: 36.w,
+                                  callBackFunction: funChange),
+                              padding: EdgeInsets.all(13.r),
+                              shape: CircleBorder(),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text("Modifier", style: TextStyle(fontSize: 16.sp)),
+                          ],
+                        ),
+                        SizedBox(width: 5.h),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {},
+                              color: Colors.white,
+                              textColor: Colors.white,
+                              child: buildIconButtonSvg(
+                                  iconColor: Color.fromRGBO(17, 16, 15, 1),
+                                  iconSvg: 'assets/confirm.svg',
+                                  buttonText: 'Confirmer',
+                                  fontSizeIcon: 35.w,
+                                  callBackFunction: funChange),
+                              padding: EdgeInsets.all(13.r),
+                              shape: const CircleBorder(),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text("Confirmer",
+                                style: TextStyle(fontSize: 16.sp)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ] else if (transaction[index].status == 'OPEN') ...[
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 175.r, left: 5.r, right: 5.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                  child: MaterialButton(
+                                onPressed: () {},
                                 color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
+                                textColor: Colors.white,
+                                child: buildIconButtonSvg(
+                                    iconColor:
+                                        const Color.fromRGBO(17, 16, 15, 1),
+                                    iconSvg: 'assets/cancel2.svg',
+                                    buttonText: 'Annuler',
+                                    fontSizeIcon: 35.sp,
+                                    callBackFunction: funChange),
+                                padding: EdgeInsets.all(13.r),
+                                shape: const CircleBorder(),
+                              )),
+                              SizedBox(height: 8.h),
+                              Text('Annuler',
+                                  style: TextStyle(fontSize: 16.sp)),
+                            ],
                           ),
-                        ],
+                        ),
+                        SizedBox(width: 80.h),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {},
+                              color: Colors.white,
+                              textColor: Colors.white,
+                              child: buildIconButtonSvg(
+                                  iconColor: Colors.black,
+                                  buttonText: 'Modifier',
+                                  iconSvg: 'assets/edit.svg',
+                                  fontSizeIcon: 36.w,
+                                  callBackFunction: funChange),
+                              padding: EdgeInsets.all(13.r),
+                              shape: CircleBorder(),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text("Modifier", style: TextStyle(fontSize: 16.sp)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ] else if (transaction[index].status == 'Annulé') ...[
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 175.r, left: 5.r, right: 5.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                  child: MaterialButton(
+                                onPressed: () {},
+                                color: Colors.white,
+                                textColor: Colors.white,
+                                child: buildIconButtonSvg(
+                                    iconColor:
+                                        const Color.fromRGBO(17, 16, 15, 1),
+                                    iconSvg: 'assets/delete.svg',
+                                    buttonText: 'Supprimer',
+                                    fontSizeIcon: 35.w,
+                                    callBackFunction: funChange),
+                                padding: EdgeInsets.all(13.h),
+                                shape: const CircleBorder(),
+                              )),
+                              SizedBox(height: 8.h),
+                              Text('Supprimer',
+                                  style: TextStyle(fontSize: 16.sp)),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 5.h),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {},
+                              color: Colors.white,
+                              textColor: Colors.white,
+                              child: buildIconButtonSvg(
+                                  iconColor: Colors.black,
+                                  buttonText: 'Modifier',
+                                  iconSvg: 'assets/edit.svg',
+                                  fontSizeIcon: 36.w,
+                                  callBackFunction: funChange),
+                              padding: EdgeInsets.all(13.r),
+                              shape: CircleBorder(),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text("Modifier", style: TextStyle(fontSize: 16.sp)),
+                          ],
+                        ),
+                        SizedBox(width: 5.h),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {},
+                              color: Colors.white,
+                              textColor: Colors.white,
+                              child: buildIconButtonSvg(
+                                  iconColor: Color.fromRGBO(17, 16, 15, 1),
+                                  iconSvg: 'assets/relancer.svg',
+                                  buttonText: 'Relancer',
+                                  fontSizeIcon: 35.w,
+                                  callBackFunction: funChange),
+                              padding: EdgeInsets.all(13.r),
+                              shape: const CircleBorder(),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text("Relancer", style: TextStyle(fontSize: 16.h)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                /* Tab Bar */
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                      top: transaction[index].status == 'Terminé'
+                          ? 230.r
+                          : 280.r,
+                      left: 18.r,
+                      right: 18.r),
+                  height:
+                      transaction[index].status == 'Terminé' ? 510.r : 480.r,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.circular(25), //border corner radius
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(1), //color of shadow
+                        spreadRadius: 3, //spread radius
+                        blurRadius: 3, // blur radius
+                        offset: Offset(-3, 3), // changes position of shadow
+                        //first paramerter of offset is left-right
+                        //second parameter is top to down
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 175, left: 5, right: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                              child: MaterialButton(
-                            onPressed: () {},
-                            color: Colors.white,
-                            textColor: Colors.white,
-                            child: buildIconButtonSvg(
-                                iconColor: Color.fromRGBO(17, 16, 15, 1),
-                                iconSvg: 'assets/cancel.svg',
-                                buttonText: 'Annuler',
-                                fontSizeIcon: 35,
-                                callBackFunction: funChange),
-                            padding: EdgeInsets.all(13),
-                            shape: CircleBorder(),
-                          )),
-                          SizedBox(height: 8),
-                          const Text('Annuler', style: TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                              child: MaterialButton(
-                            onPressed: () {},
-                            color: Colors.white,
-                            textColor: Colors.white,
-                            child: buildIconButtonSvg(
-                                iconColor: Colors.black,
-                                buttonText: 'Modifier',
-                                iconSvg: 'assets/edit.svg',
-                                fontSizeIcon: 36,
-                                callBackFunction: funChange),
-                            padding: EdgeInsets.all(13),
-                            shape: CircleBorder(),
-                          )),
-                          SizedBox(height: 8),
-                          const Text("Modifier",
-                              style: TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                              child: MaterialButton(
-                            onPressed: () {},
-                            color: Colors.white,
-                            textColor: Colors.white,
-                            child: buildIconButtonSvg(
-                                iconColor: Color.fromRGBO(17, 16, 15, 1),
-                                iconSvg: 'assets/confirm.svg',
-                                buttonText: 'Confirmer',
-                                fontSizeIcon: 35,
-                                callBackFunction: funChange),
-                            padding: EdgeInsets.all(13),
-                            shape: CircleBorder(),
-                          )),
-                          SizedBox(height: 8),
-                          const Text("Confirmer",
-                              style: TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              /* Bon */
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 280, left: 18, right: 18),
-                height: 450,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(25), //border corner radius
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(1), //color of shadow
-                      spreadRadius: 3, //spread radius
-                      blurRadius: 3, // blur radius
-                      offset: Offset(-3, 3), // changes position of shadow
-                      //first paramerter of offset is left-right
-                      //second parameter is top to down
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    /// CUSTOM TABBAR
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 15, left: 5, right: 5),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 45,
-                        child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: tabs.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (ctx, index) {
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        current = index;
-                                        print('current--> $current');
-                                        print('index--> $index');
-                                      });
-                                    },
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      margin: const EdgeInsets.all(5),
-                                      width: 111,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                        border: current == index
-                                            ? const Border(
-                                                bottom: BorderSide(
-                                                    color: Color.fromRGBO(
-                                                        242, 78, 30, 1),
-                                                    width: 3.0,
-                                                    style: BorderStyle.solid),
-                                              )
-                                            : null,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          tabs[index],
-                                          style: GoogleFonts.laila(
-                                              fontSize:
-                                                  current == index ? 18 : 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: current == index
-                                                  ? Color.fromRGBO(
-                                                      242, 78, 30, 1)
-                                                  : Colors.grey),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      /// CUSTOM TABBAR
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 15.r, left: 5.r, right: 5.r),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 60.h,
+                          child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: tabs.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (ctx, index) {
+                                return Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          current = index;
+                                          print('current--> $current');
+                                          print('index--> $index');
+                                        });
+                                      },
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        margin: EdgeInsets.all(5.r),
+                                        width: 111.w,
+                                        height: 35.h,
+                                        decoration: BoxDecoration(
+                                          border: current == index
+                                              ? Border(
+                                                  bottom: BorderSide(
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              242, 78, 30, 1),
+                                                      width: 3.0.w,
+                                                      style: BorderStyle.solid),
+                                                )
+                                              : null,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            tabs[index],
+                                            style: GoogleFonts.inter(
+                                                fontSize: current == index
+                                                    ? 18.sp
+                                                    : 16.sp,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.normal,
+                                                color: current == index
+                                                    ? const Color.fromRGBO(
+                                                        242, 78, 30, 1)
+                                                    : Color(0XFF6F6F6F)),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            }),
+                                  ],
+                                );
+                              }),
+                        ),
                       ),
-                    ),
 
-                    /// MAIN BODY
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          tabDetails(
-                              index:index,
-                              transaction: transaction,
-                              valueTab: tabs[current],
-                              callBackFunction: funChange,
-                              valueOfBool: valueOfBool,
-                              codeReception: codeReception),
-                        ],
+                      /// MAIN BODY
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.r),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            tabDetails(
+                                index: index,
+                                transaction: transaction,
+                                valueTab: tabs[current],
+                                callBackFunction: funChange,
+                                valueOfBool: valueOfBool,
+                                codeReception: codeReception),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              /* Bon */
-            ],
+                /* Tab Bar */
+              ],
+            ),
           ),
         ),
       ),
-
-      bottomNavigationBar: getFooter(callBackFunction: funChange2, currentIndex:1),
+      bottomNavigationBar:
+          getFooter(callBackFunction: funChange2, currentIndex: 1),
     );
   }
 }

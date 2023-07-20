@@ -1,36 +1,41 @@
 class TransactionItem {
-  int id;
+  // int id;
   String status;
   String user;
   String? icon;
   String amont;
   String city;
   String date;
+  String codeReception;
+  // String receiverName;
+  // String receiverTel;
   TransactionItem(
-      this.id,
-      this.status, this.user, this.icon, this.amont, this.city, this.date);
+      // this.id,
+      this.status, this.user, this.icon, this.amont, this.city, this.date, this.codeReception,
+      //this.receiverName, this.receiverTel
+      ); 
 }
 
 class TransactionItemToFireBase {
   String lastTimeInPending;
-  String amont;
+  int amount;
   Map bank;
   String codeReception;
-  String deposit;
+  Map deposit;
   String description;
-  String createdDate;
+  Map createdDate;
   Map inZone;
   Map outZone;
   Map owner;
   String ownerId;
   Map receiver;
   String status;
-  String to_bank;
+  bool to_bank;
   String? icon;
 
   TransactionItemToFireBase({
     required this.lastTimeInPending,
-    required this.amont,
+    required this.amount,
     required this.bank,
     required this.codeReception,
     required this.createdDate,
@@ -48,7 +53,7 @@ class TransactionItemToFireBase {
   Map<String, dynamic> toJson() {
     return {
       'lastTimeInPending': lastTimeInPending,
-      'amont': amont,
+      'amont': amount,
       'bank': bank,
       'codeReception': codeReception,
       'createdDate': createdDate,
@@ -67,7 +72,7 @@ class TransactionItemToFireBase {
   factory TransactionItemToFireBase.fromJson(Map<String, dynamic> json) {
     return TransactionItemToFireBase(
       lastTimeInPending: json['lastTimeInPending'],
-      amont: json['amont'],
+      amount: json['amount'],
       bank: json['bank'],
       codeReception: json['codeReception'],
       createdDate: json['createdDate'],
