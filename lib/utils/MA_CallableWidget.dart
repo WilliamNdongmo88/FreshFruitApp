@@ -46,7 +46,7 @@ Widget tabTransaction(transaction, index) {
         ),
         outputField(
           topTextLeft: 'Date',
-          bottomTextLeft: '26/06/2023',
+          bottomTextLeft: transaction[index].date,
         ),
         SizedBox(
           height: 15.h,
@@ -111,7 +111,7 @@ Widget tabTransaction(transaction, index) {
                     '\$${int.parse(transaction[index].amont) + frais}.00',
                     style: TextStyle(
                         color: const Color.fromRGBO(246, 60, 3, 1),
-                        fontSize: 30.sp,
+                        fontSize: 25.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -131,14 +131,17 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
     child: Container(
       child: Column(
         children: [
-          if (transaction[index].status == 'OPEN') ...[
-            outputField(topTextLeft: 'Nom de la banque', bottomTextLeft: 'UBA'),
+          if (transaction[index].status == 'OPEN' &&
+              transaction[index].toBank == true) ...[
+            outputField(
+                topTextLeft: 'Nom de la banque',
+                bottomTextLeft: transaction[index].bankNom),
             SizedBox(
               height: 15.h,
             ),
             outputField(
               topTextLeft: 'Intitulé du compte',
-              bottomTextLeft: '9874 5247 6582 1458',
+              bottomTextLeft: transaction[index].bankIntitule,
             ),
             SizedBox(
               height: 15.h,
@@ -147,7 +150,9 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
             SizedBox(
               height: 15.h,
             ),
-            outputField(topTextLeft: 'Pays', bottomTextLeft: 'Cameroun'),
+            outputField(
+                topTextLeft: 'Pays',
+                bottomTextLeft: transaction[index].outZoneCountry),
             SizedBox(
               height: 15.h,
             ),
@@ -165,7 +170,7 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
                 child: Container(
                   margin: EdgeInsets.only(top: 15.r, left: 30.r),
                   child: Container(
-                    margin: EdgeInsets.only(left: 55.r),
+                    margin: EdgeInsets.only(left: 30.r),
                     child: GestureDetector(
                       onTap: () {
                         callBackFunction!('Open_pop_up');
@@ -205,6 +210,93 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
                         height: 10.h,
                       ),
                       Text(
+                        'trans: ${transaction[index].codeReception}',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ] else if (transaction[index].status == 'OPEN' &&
+              transaction[index].toBank == false) ...[
+            outputField(
+                topTextLeft: 'Nom du destinataire',
+                bottomTextLeft: transaction[index].receiverName),
+            SizedBox(
+              height: 15.h,
+            ),
+            outputField(
+                topTextLeft: 'Pays',
+                bottomTextLeft: transaction[index].outZoneCountry,
+                topTextRight: 'Vile',
+                bottomTextRight_String: transaction[index].outZoneCity),
+            SizedBox(
+              height: 15.h,
+            ),
+            outputField(
+                topTextLeft: 'N° Téléphone',
+                bottomTextLeft: transaction[index].receiverTel),
+            SizedBox(
+              height: 25.h,
+            ),
+            if (valueOfBool == false && codeReception == 'null') ...[
+              Container(
+                margin: EdgeInsets.only(top: 35.r),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
+                  ),
+                ),
+                width: double.infinity,
+                child: Container(
+                  margin: EdgeInsets.only(top: 15.r),
+                  child: Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        callBackFunction!('Open_pop_up');
+                      },
+                      child: Center(
+                        child: Text(
+                          "voir code de reception",
+                          style: TextStyle(
+                              color: const Color.fromRGBO(79, 79, 78, 1),
+                              fontSize: 15.sp),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ] else
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        width: 0.5.w,
+                        color: const Color.fromARGB(255, 128, 130, 132)),
+                  ),
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Code de reception",
+                        style: TextStyle(
+                            color: const Color.fromRGBO(79, 79, 79, 1),
+                            fontSize: 14.sp),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Text(
                         'trans: $codeReception',
                         style: TextStyle(
                             color: Colors.black,
@@ -220,20 +312,21 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
               transaction[index].status == 'Annulé') ...[
             outputField(
                 topTextLeft: 'Nom du destinataire',
-                bottomTextLeft: 'Robert Boum'),
+                bottomTextLeft: transaction[index].receiverName),
             SizedBox(
               height: 15.h,
             ),
             outputField(
                 topTextLeft: 'Pays',
-                bottomTextLeft: 'Cameroon',
+                bottomTextLeft: transaction[index].outZoneCountry,
                 topTextRight: 'Vile',
-                bottomTextRight_String: 'Yaoundé'),
+                bottomTextRight_String: transaction[index].outZoneCity),
             SizedBox(
               height: 15.h,
             ),
             outputField(
-                topTextLeft: 'N° Téléphone', bottomTextLeft: '+237655002318'),
+                topTextLeft: 'N° Téléphone',
+                bottomTextLeft: transaction[index].receiverTel),
             SizedBox(
               height: 25.h,
             ),
@@ -321,16 +414,17 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
             height: 20.h,
           ),
           outputField(
-              topTextLeft: 'Nom de léexpéditeur',
-              bottomTextLeft: 'Robert Boum'),
+              topTextLeft: "Nom de l'expéditeur",
+              bottomTextLeft: transaction[index].user),
           SizedBox(
             height: 35.h,
           ),
           outputField(
-              topTextLeft: 'Pays',
-              bottomTextLeft: 'USA',
-              topTextRight: 'Vile',
-              bottomTextRight_String: 'New York'),
+            topTextLeft: 'Pays',
+            bottomTextLeft: transaction[index].inZoneCountry,
+            topTextRight: 'Vile',
+            bottomTextRight_String: transaction[index].inZoneCity,
+          ),
           SizedBox(
             height: 35.h,
           ),
@@ -404,16 +498,16 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
             transaction[index].status == 'En Attente' ||
             transaction[index].status == 'Annulé') ...[
           outputField(
-              topTextLeft: 'Nom de léexpéditeur',
-              bottomTextLeft: 'Robert Boum'),
+              topTextLeft: "Nom de l'expéditeur",
+              bottomTextLeft: transaction[index].user),
           SizedBox(
             height: 5.h,
           ),
           outputField(
               topTextLeft: 'Pays',
-              bottomTextLeft: 'USA',
+              bottomTextLeft: transaction[index].inZoneCountry,
               topTextRight: 'Vile',
-              bottomTextRight_String: 'New York'),
+              bottomTextRight_String: transaction[index].inZoneCity),
           SizedBox(
             height: 5.h,
           ),
@@ -594,8 +688,8 @@ Widget showdialog({ctx, changetxt}) {
       ),
       child: AlertDialog(
         title: SizedBox(
-          height: 120,
-          width: 250,
+          height: 120.h,
+          width: 250.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -603,14 +697,14 @@ Widget showdialog({ctx, changetxt}) {
                 buildIconButtonSvg(
                   iconColor: const Color(0XFFF24E1E),
                   iconSvg: 'assets/recyclebin.svg',
-                  fontSizeIcon: 35,
+                  fontSizeIcon: 35.sp,
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h),
                 if (changetxt == 'Supprimer') ...[
                   Text(
                     "Voulez vous Supprimer cette transaction ?",
                     style: GoogleFonts.inter(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -618,15 +712,15 @@ Widget showdialog({ctx, changetxt}) {
                   Text(
                     "Voulez vous annuler cette transaction ?",
                     style: GoogleFonts.inter(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Text(
                   "Cette action sera irreversible",
                   style: GoogleFonts.inter(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 129, 123, 123),
                   ),
@@ -634,13 +728,13 @@ Widget showdialog({ctx, changetxt}) {
               ] else if (changetxt == 'Relancer') ...[
                 buildIconButton(
                   iconColor: const Color(0XFFF24E1E),
-                  fontSizeIcon: 35,
+                  fontSizeIcon: 35.sp,
                   iconButton: Icons.loop,
                 ),
                 Text(
                   "Votre transaction sera relancée et vous pourrez être servir",
                   style: GoogleFonts.inter(
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -650,13 +744,13 @@ Widget showdialog({ctx, changetxt}) {
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: EdgeInsets.only(bottom: 20.r),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  width: 100,
-                  height: 50,
+                  width: 100.w,
+                  height: 50.h,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(229, 225, 225, 1),
@@ -664,29 +758,29 @@ Widget showdialog({ctx, changetxt}) {
                     onPressed: () {
                       Navigator.of(ctx).pop();
                     },
-                    child: const Text(
+                    child: Text(
                       'Non',
                       style: TextStyle(
-                          color: Color.fromARGB(255, 106, 99, 99),
+                          color: const Color.fromARGB(255, 106, 99, 99),
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 16.sp),
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: 100,
-                  height: 50,
+                  width: 100.w,
+                  height: 50.h,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                     ),
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       'Oui',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 16.sp),
                     ),
                   ),
                 ),
@@ -703,29 +797,29 @@ Widget showdialog({ctx, changetxt}) {
       ),
       child: AlertDialog(
         title: SizedBox(
-          height: 120,
-          width: 250,
+          height: 120.h,
+          width: 250.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildIconButtonSvg(
                 iconColor: const Color(0XFFF24E1E),
                 iconSvg: 'assets/termine.svg',
-                fontSizeIcon: 35,
+                fontSizeIcon: 35.h,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.r),
               Text(
                 "Confirmer les modifications",
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.r),
               Text(
                 "Les changement seront Sauvegardés",
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: const Color.fromARGB(255, 129, 123, 123),
                 ),
@@ -735,13 +829,13 @@ Widget showdialog({ctx, changetxt}) {
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: EdgeInsets.only(bottom: 20.r),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  width: 100,
-                  height: 50,
+                  width: 100.w,
+                  height: 50.h,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(229, 225, 225, 1),
@@ -759,19 +853,19 @@ Widget showdialog({ctx, changetxt}) {
                   ),
                 ),
                 SizedBox(
-                  width: 100,
-                  height: 50,
+                  width: 100.w,
+                  height: 50.h,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                     ),
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       'Oui',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 16.sp),
                     ),
                   ),
                 ),
@@ -837,8 +931,8 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                 ),
                 child: AlertDialog(
                   title: SizedBox(
-                    height: 200,
-                    width: 250,
+                    height: 200.h,
+                    width: 250.w,
                     child: Column(
                       children: [
                         Row(children: [
@@ -846,30 +940,30 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                             buildIconButtonSvg(
                               iconColor: const Color(0XFFF24E1E),
                               iconSvg: 'assets/filter.svg',
-                              fontSizeIcon: 45,
+                              fontSizeIcon: 45.sp,
                             ),
-                            const SizedBox(
-                              width: 180,
+                            SizedBox(
+                              width: 170.w,
                             ),
                             GestureDetector(
                               onTap: () => Navigator.of(ctx).pop(),
                               child: SvgPicture.asset(
                                 'assets/close.svg',
-                                width: 15,
+                                width: 15.w,
                                 // ignore: deprecated_member_use
                                 color: const Color(0XFFF24E1E),
                               ),
                             ),
                           ]),
                         ]),
-                        const SizedBox(height: 15),
+                        SizedBox(height: 15.h),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.only(left: 20.r, right: 20.r),
                           child: Row(
                             children: [
                               const Text('Date'),
-                              const SizedBox(
-                                width: 100,
+                              SizedBox(
+                                width: 100.w,
                               ),
                               Radio(
                                   value: 1,
@@ -884,14 +978,14 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 15),
+                        SizedBox(height: 15.h),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.only(left: 20.r, right: 20.r),
                           child: Row(
                             children: [
                               const Text('Montant'),
-                              const SizedBox(
-                                width: 70,
+                              SizedBox(
+                                width: 68.w,
                               ),
                               Radio(
                                   value: 2,
@@ -919,37 +1013,37 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
           ),
           child: AlertDialog(
             title: SizedBox(
-              height: 330,
-              width: 250,
+              height: 330.h,
+              width: 250.w,
               child: Column(
                 children: [
                   Row(children: [
                     buildIconButtonSvg(
                       iconColor: const Color(0XFFF24E1E),
                       iconSvg: 'assets/filter.svg',
-                      fontSizeIcon: 45,
+                      fontSizeIcon: 45.sp,
                     ),
-                    const SizedBox(
-                      width: 180,
+                    SizedBox(
+                      width: 180.h,
                     ),
                     GestureDetector(
                       onTap: () => Navigator.of(ctx).pop(),
                       child: SvgPicture.asset(
                         'assets/close.svg',
-                        width: 15,
+                        width: 15.w,
                         // ignore: deprecated_member_use
                         color: const Color(0XFFF24E1E),
                       ),
                     ),
                   ]),
-                  const SizedBox(height: 60),
+                  SizedBox(height: 60.h),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 20.r, right: 20.r),
                     child: Row(
                       children: [
                         const Text('Date'),
-                        const SizedBox(
-                          width: 103,
+                        SizedBox(
+                          width: 103.w,
                         ),
                         Radio(
                             value: 1,
@@ -963,14 +1057,14 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  SizedBox(height: 25.h),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 20.r, right: 20.r),
                     child: Row(
                       children: [
                         const Text('Montant'),
-                        const SizedBox(
-                          width: 70,
+                        SizedBox(
+                          width: 70.h,
                         ),
                         Radio(
                             value: 2,
@@ -984,31 +1078,31 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 25,
+                  SizedBox(
+                    height: 25.h,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 20.r, right: 20.r),
                     child: Row(
-                      children: const [
+                      children: [
                         Text("Status",
                             style: TextStyle(
                                 color: Color(0XFF000000),
-                                fontSize: 17,
+                                fontSize: 17.sp,
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: 5.h,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 20.r, right: 20.r),
                     child: Row(
                       children: [
                         Container(
-                          height: 35,
-                          width: 200,
+                          height: 35.h,
+                          width: 200.w,
                           decoration: BoxDecoration(
                             border: Border.all(
                                 color: const Color.fromRGBO(97, 97, 97, 1)),
@@ -1016,7 +1110,7 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                           ),
                           child: DropdownButton(
                               hint: Padding(
-                                padding: const EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.only(left: 10.r),
                                 child: Text(
                                   "En Attente",
                                   style: GoogleFonts.inter(
@@ -1024,14 +1118,14 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                                       color: const Color(0XFF000000)),
                                 ),
                               ),
-                              icon: const Padding(
-                                padding: EdgeInsets.only(left: 50),
+                              icon: Padding(
+                                padding: EdgeInsets.only(left: 50.r),
                                 child: Icon(
                                   Icons.arrow_drop_down,
                                   color: Color(0XFFF24E1E),
                                 ),
                               ),
-                              iconSize: 40,
+                              iconSize: 40.h,
                               underline: const SizedBox(),
                               style: GoogleFonts.inter(
                                 color: const Color(0XFF000000),
@@ -1047,8 +1141,7 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                                   return DropdownMenuItem(
                                       value: valueCountry,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.only(left: 10.r),
                                         child: Text(
                                           valueCountry,
                                           style: GoogleFonts.inter(
@@ -1066,13 +1159,13 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
             ),
             actions: [
               Container(
-                margin: const EdgeInsets.only(bottom: 30),
+                margin: EdgeInsets.only(bottom: 30.r),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
-                      width: 100,
-                      height: 45,
+                      width: 100.w,
+                      height: 45.h,
                       child: TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor:
@@ -1081,29 +1174,29 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                         onPressed: () {
                           Navigator.of(ctx).pop();
                         },
-                        child: const Text(
+                        child: Text(
                           'Annuler',
                           style: TextStyle(
-                              color: Color.fromARGB(255, 106, 99, 99),
+                              color: const Color.fromARGB(255, 106, 99, 99),
                               fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                              fontSize: 16.sp),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: 100,
-                      height: 45,
+                      width: 100.w,
+                      height: 45.h,
                       child: TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                         ),
                         onPressed: () {},
-                        child: const Text(
+                        child: Text(
                           'Ok',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                              fontSize: 16.sp),
                         ),
                       ),
                     ),
@@ -1121,8 +1214,8 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
         ),
         child: AlertDialog(
           title: SizedBox(
-            height: 150,
-            width: 250,
+            height: 160.h,
+            width: 250.w,
             child: Column(
               children: [
                 Row(children: [
@@ -1130,30 +1223,30 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                     buildIconButtonSvg(
                       iconColor: const Color(0XFFF24E1E),
                       iconSvg: 'assets/trier.svg',
-                      fontSizeIcon: 45,
+                      fontSizeIcon: 45.sp,
                     ),
-                    const SizedBox(
-                      width: 180,
+                    SizedBox(
+                      width: 170.w,
                     ),
                     GestureDetector(
                       onTap: () => Navigator.of(ctx).pop(),
                       child: SvgPicture.asset(
                         'assets/close.svg',
-                        width: 15,
+                        width: 15.w,
                         // ignore: deprecated_member_use
                         color: const Color(0XFFF24E1E),
                       ),
                     ),
                   ]),
                 ]),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(left: 20.r, right: 20.r),
                   child: Row(
                     children: [
                       const Text('Ascendant'),
-                      const SizedBox(
-                        width: 60,
+                      SizedBox(
+                        width: 40.w,
                       ),
                       Radio(
                           value: 1,
@@ -1167,14 +1260,14 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 5.h),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(left: 20.r, right: 20.r),
                   child: Row(
                     children: [
                       const Text('Descendant'),
-                      const SizedBox(
-                        width: 50,
+                      SizedBox(
+                        width: 30.w,
                       ),
                       Radio(
                           value: 2,
@@ -1193,13 +1286,13 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
           ),
           actions: [
             Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 10.r),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    width: 100,
-                    height: 45,
+                    width: 100.h,
+                    height: 45.w,
                     child: TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(229, 225, 225, 1),
@@ -1207,29 +1300,29 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: const Text(
+                      child: Text(
                         'Annuler',
                         style: TextStyle(
-                            color: Color.fromARGB(255, 106, 99, 99),
+                            color: const Color.fromARGB(255, 106, 99, 99),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                            fontSize: 16.sp),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 100,
-                    height: 45,
+                    width: 100.h,
+                    height: 45.w,
                     child: TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                       ),
                       onPressed: () {},
-                      child: const Text(
+                      child: Text(
                         'Ok',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                            fontSize: 16.sp),
                       ),
                     ),
                   ),
@@ -1667,143 +1760,179 @@ Widget TansactionsTab(List<TransactionItem> transactions, String valueTab,
 }
 
 Widget allTansactions(transactions, isListTransaction) {
-  return Container(
-    // color: const Color.fromARGB(255, 242, 236, 224),
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          onTap: () {
-            print(
-                'allTansactions---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      // color: Color.fromARGB(255, 47, 45, 41),
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            onTap: () {
+              print(
+                  'allTansactions---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
+            },
+          );
+        },
+      ),
     ),
   );
 }
 
 Widget tansactionReussies(transactions, isListTransaction) {
-  return Container(
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          // Dismissible(
-          //     key: Key(transaction.user),
-          //     onDismissed: (direction) {
-          //       // setState(() {
-          //       //   transactions.removeAt(index);
-          //       // });
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //           SnackBar(content: Text("${transaction.user} supprimé")));
-          //     },
-          //     child: cardItem(transaction: transaction)
-          //     ),
-          onTap: () {
-            print(
-                'tansactionReussies---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            // Dismissible(
+            //     key: Key(transaction.user),
+            //     onDismissed: (direction) {
+            //       // setState(() {
+            //       //   transactions.removeAt(index);
+            //       // });
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text("${transaction.user} supprimé")));
+            //     },
+            //     child: cardItem(transaction: transaction)
+            //     ),
+            onTap: () {
+              print(
+                  'tansactionReussies---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
+            },
+          );
+        },
+      ),
     ),
   );
 }
 
 Widget tansactionsEnCours(transactions, isListTransaction) {
-  return Container(
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          // Dismissible(
-          //     key: Key(transaction.user),
-          //     onDismissed: (direction) {
-          //       // setState(() {
-          //       //   transactions.removeAt(index);
-          //       // });
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //           SnackBar(content: Text("${transaction.user} supprimé")));
-          //     },
-          //     child: cardItem(transaction: transaction)
-          //     ),
-          onTap: () {
-            print(
-                'tansactionsEnCours---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            // Dismissible(
+            //     key: Key(transaction.user),
+            //     onDismissed: (direction) {
+            //       // setState(() {
+            //       //   transactions.removeAt(index);
+            //       // });
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text("${transaction.user} supprimé")));
+            //     },
+            //     child: cardItem(transaction: transaction)
+            //     ),
+            onTap: () {
+              print(
+                  'tansactionsEnCours---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
+            },
+          );
+        },
+      ),
     ),
   );
 }
 
 Widget tansactionAnnuler(transactions, isListTransaction) {
-  return Container(
-    margin: const EdgeInsets.only(top: 130),
-    height: 650,
-    child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return ListTile(
-          title: cardItem(transaction: transaction),
-          // Dismissible(
-          //     key: Key(transaction.user),
-          //     onDismissed: (direction) {
-          //       // setState(() {
-          //       //   transactions.removeAt(index);
-          //       // });
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //           SnackBar(content: Text("${transaction.user} supprimé")));
-          //     },
-          //     child: cardItem(transaction: transaction)
-          //     ),
-          onTap: () {
-            print(
-                'tansactionAnnuler---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TransactionScreen(
-                    transaction: transactions,
-                    index: index,
-                    isListTransaction: isListTransaction)));
-          },
-        );
-      },
+  return Padding(
+    padding: EdgeInsets.only(top: 25.r),
+    child: Container(
+      margin: EdgeInsets.only(top: 110.r),
+      height: 530.h,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return ListTile(
+            title: cardItem(transaction: transaction),
+            // Dismissible(
+            //     key: Key(transaction.user),
+            //     onDismissed: (direction) {
+            //       // setState(() {
+            //       //   transactions.removeAt(index);
+            //       // });
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text("${transaction.user} supprimé")));
+            //     },
+            //     child: cardItem(transaction: transaction)
+            //     ),
+            onTap: () {
+              print(
+                  'tansactionAnnuler---> onTap From MA_TransactionPage Inside  MA_callableWidget----');
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) =>
+                      TransactionScreen(
+                          transaction: transactions,
+                          index: index,
+                          isListTransaction: isListTransaction),
+                ),
+              );
+            },
+          );
+        },
+      ),
     ),
   );
 }
