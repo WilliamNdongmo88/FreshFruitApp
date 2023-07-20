@@ -45,10 +45,13 @@ class _transfertFormState extends State<transfertForm> {
   late List<MA_Helper_City> cityListSender;
   late List<MA_Helper_City> cityListReceiver;
 
-  MA_Helper_Country? selectedCountrySender;
-  MA_Helper_City? selectedCitySender;
+  MA_Helper_Country? selectedCountrySender = null;
+  MA_Helper_City? selectedCitySender ;
   MA_Helper_Country? selectedCountryReceiver = null;
   MA_Helper_City? selectedCityReceiver = null;
+
+  String SelectedCountryDisplay = 'Cameroon';
+
 
   @override
   void initState() {
@@ -56,6 +59,7 @@ class _transfertFormState extends State<transfertForm> {
     countryList = dataController.CountryListToDispatch.value;
     cityListSender = [];
     cityListReceiver = [];
+
 
     print("****** in InitState Country List ******* $countryList\n ");
     print(countryList);
@@ -412,10 +416,7 @@ class _transfertFormState extends State<transfertForm> {
                                                 _showAlertDialog('confirm');
                                               }
                                             } else if(_selectedGender =='bancaire'){
-
-
-
-                                              MA_Helper_Bank bank = MA_Helper_Bank(NameBank.text,IntituleBank.text);
+                                              MA_Helper_Bank bank = MA_Helper_Bank(NameBank.text,IntituleBank.text,numberAccount.text);
                                               //bank.Intitule = "Evariste";
                                               //bank.Name = "UBA";
                                               MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode ,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text,bank as MA_Helper_Bank,null);
@@ -427,6 +428,7 @@ class _transfertFormState extends State<transfertForm> {
 
                                               String response = await dataController.createTransfert(data);
                                               print('@@@@@'+response);
+                                              print(data);
                                               if(response !=null){
                                                 _showAlertDialog('confirm');
                                               }
@@ -466,7 +468,7 @@ class _transfertFormState extends State<transfertForm> {
         content: Container(
           margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
           height: 400.h,
-          width:600.w,
+         // width:600.w,
           decoration:  BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -504,9 +506,10 @@ class _transfertFormState extends State<transfertForm> {
               Positioned(
                 left: 15,
                 top: 70,
-                width: 290.w,
+                //width: 290.w,
                 height: 80.h,
                 child: Container(
+
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8.r)),
@@ -552,7 +555,7 @@ class _transfertFormState extends State<transfertForm> {
                         child: Column(
                           children: [
                             Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0,70.w, 0),
+                                padding: EdgeInsets.fromLTRB(0.w, 0.h,70.w, 0.h),
                                 child: Text('Ville', style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12.sp,
@@ -568,7 +571,7 @@ class _transfertFormState extends State<transfertForm> {
               Positioned(
                 left: 15.w,
                 top: 190.h,
-                width: 290.w,
+                //width: 290.w,
                 height: 80.h,
                 child: Container(
                   decoration: BoxDecoration(
@@ -582,7 +585,7 @@ class _transfertFormState extends State<transfertForm> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(10.w, 0.h, 0.w, 0.h),
                         child: SvgPicture.asset(
                           'assets/game-icons_receive-money.svg',
                           placeholderBuilder: (context) =>
@@ -606,7 +609,7 @@ class _transfertFormState extends State<transfertForm> {
                       ),
                       // DropdownReceiver(),
                       Container(
-                        padding: EdgeInsets.only(left:5.w),
+                        padding: EdgeInsets.only(left:1.w),
                         decoration:  BoxDecoration(
                           border: Border(
                             left: BorderSide(
@@ -688,7 +691,7 @@ class _transfertFormState extends State<transfertForm> {
         title: Text('Etape 2'),
         content: Container(
           margin:  EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
-          height: 460.h,
+          height: 490.h,
           decoration:  BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -708,7 +711,7 @@ class _transfertFormState extends State<transfertForm> {
             ],
           ),
           child: Padding(
-              padding:  EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 25.h), /////////////--------> to see
+              padding:  EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0.h), /////////////--------> to see
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1100,7 +1103,7 @@ class _transfertFormState extends State<transfertForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0.w, 5.h, 130.w, 0.h),
+              padding: EdgeInsets.fromLTRB(0.w, 5.h, 100.w, 0.h),
               child: Text(label, style: const TextStyle(color: Color(0xFF6F6F6F))),
             ),
            SizedBox(height:7.h,),
@@ -1243,63 +1246,69 @@ class _transfertFormState extends State<transfertForm> {
 
 /////////// sender Country
   Widget DropdownSender() {
-    return DropdownButton(
-      // Initial Value
-      value: selectedCountrySender,
+    return SizedBox(
+      width: 100,
+      child: DropdownButton(
+        // Initial Value
+        value: selectedCountrySender,
+        isExpanded: true,
+        // Down Arrow Icon
+        icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
 
-      // Down Arrow Icon
-      icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
-
-      // Array list of items
-      items:  countryList.map(
-              (e) => DropdownMenuItem(child: Text(e.name), value: e,)
-      ).toSet().toList(),
-      // After selecting the desired option,it will
-      // change button value to selected value
-      onChanged: (val){
-        setState(() {
-          selectedCitySender= null;
-          print(selectedCitySender);
-          cityListSender.clear();
-          print("****cityList just after the clear****");
-          print(cityListSender); // selectedCountrySender &&
-          selectedCountrySender = val as MA_Helper_Country;
-          cityListSender = val?.cities.toSet().toList() as List<MA_Helper_City>;
-          print("****cityList after the set up****");
-          print(cityListSender);
-        });
-      },
+        // Array list of items
+        items:  countryList.map(
+                (e) => DropdownMenuItem(child: Text(e.name), value: e,)
+        ).toSet().toList(),
+        // After selecting the desired option,it will
+        // change button value to selected value
+        onChanged: (val){
+          setState(() {
+            selectedCitySender= null;
+            print(selectedCitySender);
+            cityListSender.clear();
+            print("****cityList just after the clear****");
+            print(cityListSender); // selectedCountrySender &&
+            selectedCountrySender = val as MA_Helper_Country;
+            cityListSender = val?.cities.toSet().toList() as List<MA_Helper_City>;
+            print("****cityList after the set up****");
+            print(cityListSender);
+          });
+        },
+      ),
     );
   }
 
 /////////// Receiver Country
   Widget DropdownReceiver() {
-    return DropdownButton(
-      // Initial Value
-      value: selectedCountryReceiver,
+    return SizedBox(
+      width: 100,
+      child: DropdownButton(
+        // Initial Value
+        value: selectedCountryReceiver,
+        isExpanded: true,
+        // Down Arrow Icon
+        icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
 
-      // Down Arrow Icon
-      icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
-
-      // Array list of items
-      items:  countryList.map(
-              (e) => DropdownMenuItem(child: Text(e.name), value: e,)
-      ).toSet().toList(),
-      // After selecting the desired option,it will
-      // change button value to selected value
-      onChanged: (val){
-        setState(() {
-          selectedCityReceiver= null;
-          print(selectedCityReceiver);
-          cityListReceiver.clear();
-          print("****cityList just after the clear****");
-          print(cityListReceiver);
-          selectedCountryReceiver = val as MA_Helper_Country;
-          cityListReceiver = val?.cities.toSet().toList() as List<MA_Helper_City>;
-          print("****cityList after the set up****");
-          print(cityListSender);
-        });
-      },
+        // Array list of items
+        items:  countryList.map(
+                (e) => DropdownMenuItem(child: Text(e.name), value: e,)
+        ).toSet().toList(),
+        // After selecting the desired option,it will
+        // change button value to selected value
+        onChanged: (val){
+          setState(() {
+            selectedCityReceiver= null;
+            print(selectedCityReceiver);
+            cityListReceiver.clear();
+            print("****cityList just after the clear****");
+            print(cityListReceiver);
+            selectedCountryReceiver = val as MA_Helper_Country;
+            cityListReceiver = val?.cities.toSet().toList() as List<MA_Helper_City>;
+            print("****cityList after the set up****");
+            print(cityListSender);
+          });
+        },
+      ),
     );
   }
 
