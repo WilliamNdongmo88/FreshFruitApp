@@ -6,7 +6,6 @@ class MA_Helper_City extends Equatable{
   String name;
   String countryId;
 
-
   MA_Helper_City({
     required this.id,
     required this.code,

@@ -42,7 +42,7 @@ dependencies:
   # google_fonts: ^3.0.1
   intl: ^0.18.1
   get:
-  google_fonts:
+  google_fonts: ^5.1.0
   firebase_core:
   google_sign_in:
   flutter_facebook_auth:
