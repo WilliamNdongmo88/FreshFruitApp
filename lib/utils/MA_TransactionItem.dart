@@ -4,22 +4,40 @@ class TransactionItem {
   String user;
   String? icon;
   String amont;
-  String city;
+  String outZoneCountry;
+  String outZoneCity;
+  String inZoneCountry;
+  String inZoneCity;
   String date;
   String codeReception;
-  // String receiverName;
-  // String receiverTel;
+  String? receiverName;
+  String? receiverTel;
+  String? bankIntitule;
+  String? bankNom;
+  bool toBank;
   TransactionItem(
       // this.id,
-      this.status, this.user, this.icon, this.amont, this.city, this.date, this.codeReception,
-      //this.receiverName, this.receiverTel
-      ); 
+      this.status,
+      this.user,
+      this.icon,
+      this.amont,
+      this.outZoneCountry,
+      this.outZoneCity,
+      this.inZoneCountry,
+      this.inZoneCity,
+      this.date,
+      this.codeReception,
+      this.receiverName,
+      this.receiverTel,
+      this.bankIntitule,
+      this.bankNom,
+      this.toBank);
 }
 
 class TransactionItemToFireBase {
-  String lastTimeInPending;
+  String? lastTimeInPending;
   int amount;
-  Map bank;
+  Map? bank;
   String codeReception;
   Map deposit;
   String description;
@@ -28,7 +46,7 @@ class TransactionItemToFireBase {
   Map outZone;
   Map owner;
   String ownerId;
-  Map receiver;
+  Map? receiver;
   String status;
   bool to_bank;
   String? icon;
@@ -36,7 +54,6 @@ class TransactionItemToFireBase {
   TransactionItemToFireBase({
     required this.lastTimeInPending,
     required this.amount,
-    required this.bank,
     required this.codeReception,
     required this.createdDate,
     required this.deposit,
@@ -46,6 +63,7 @@ class TransactionItemToFireBase {
     required this.owner,
     required this.ownerId,
     required this.receiver,
+    required this.bank,
     required this.status,
     required this.to_bank,
     this.icon,

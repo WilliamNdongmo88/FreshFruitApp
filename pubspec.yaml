@@ -49,7 +49,6 @@ dependencies:
   firebase_auth: ^4.6.1
   cloud_functions:
   equatable:
-  flutter_screenutil:
   firebase_messaging:
 dev_dependencies:
   flutter_test:

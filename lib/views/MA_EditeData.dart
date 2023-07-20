@@ -24,138 +24,174 @@ class _EditeDataState extends State<EditeData> {
   List<TransactionItem> transaction;
   int index;
   _EditeDataState(this.transaction, this.index);
-  TextEditingController banqueNameController =
-      TextEditingController(text: 'UBA');
-  TextEditingController compteNameController =
-      TextEditingController(text: '8475 1523 6589 2547');
-  TextEditingController countryNameController =
-      TextEditingController(text: 'Cameroun');
+  TextEditingController banqueNameController = TextEditingController();
+  TextEditingController compteIntituleController = TextEditingController();
+  TextEditingController countryNameController = TextEditingController();
   TextEditingController numeroCompteController =
       TextEditingController(text: '012478635');
-  TextEditingController codeReceptionController =
-      TextEditingController(text: 'trans:062089');
-  TextEditingController destinataireNameController =
-      TextEditingController(text: 'Robert Boum');
-  TextEditingController numeroTelephoneController =
-      TextEditingController(text: '+23758697425');
-  List listCountry = ['Cameoun', 'USA', 'Angland', 'Italie'];
+  TextEditingController codeReceptionController = TextEditingController();
+  TextEditingController destinataireNameController = TextEditingController();
+  TextEditingController numeroTelephoneController = TextEditingController();
+  List listCountry = ['Cameroun', 'USA', 'Angland', 'Italie'];
   List listCities = ['Bafoussam', 'Yaoundé', 'Douala', 'Kribi', 'Bamenda'];
   var valueChoose;
   var valueCountryChoose;
   var valueCityChoose;
   int currentIndex = 0;
+  void initState() {
+    super.initState();
+
+    if (transaction[index].status == 'OPEN' &&
+        transaction[index].toBank == true) {
+      print('++++ tobank ---> ${transaction[index].toBank}');
+      print('++++ bankNom ---> ${transaction[index].bankNom}');
+      print('++++ intitule ---> ${transaction[index].bankIntitule}');
+      countryNameController.text = transaction[index].inZoneCountry;
+      compteIntituleController.text = transaction[index].bankIntitule as String;
+      banqueNameController.text = transaction[index].bankNom as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    } else if (transaction[index].status == 'OPEN' &&
+        transaction[index].toBank == false) {
+      print('++++Receivername true---> ${transaction[index].receiverName}');
+      countryNameController.text = transaction[index].inZoneCountry;
+      destinataireNameController.text =
+          transaction[index].receiverName as String;
+      numeroTelephoneController.text = transaction[index].receiverTel as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    }
+    listCountry.add(transaction[index].inZoneCountry);
+    listCities.add(transaction[index].outZoneCountry);
+  }
+
   void funChange(changetxt) {
     setState(() {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => TransactionScreen(
-              transaction: transaction,
-              index: index,
-              isListTransaction: true)));
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (BuildContext context, Animation<double> animation,
+                  Animation<double> secondaryAnimation) =>
+              TransactionScreen(
+                  transaction: transaction,
+                  index: index,
+                  isListTransaction: true),
+        ),
+      );
+      print('EditePage transaction---> $transaction');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ScreenUtilInit(
-        designSize: const Size(390, 844),
-        builder: (contex, child) => SingleChildScrollView(
-          child: Column(children: [
-            Container(
-              margin: EdgeInsets.only(left: 20.r, top: 60.r),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // margin: EdgeInsets.only(top: 5),
-                    child: buildIconButtonSvg(
-                        iconSvg: 'assets/back.svg',
-                        iconColor: const Color(0XFF000000),
-                        fontSizeIcon: 35,
-                        callBackFunction: funChange),
-                  ),
-                  Text(
-                    'Modification de la transaction',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 20.r, left: 18.r, right: 18.r),
-                // height: 690,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(25), //border corner radius
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(1), //color of shadow
-                      spreadRadius: 3, //spread radius
-                      blurRadius: 3, // blur radius
-                      offset: const Offset(-3, 3), // changes position of shadow
-                      //first paramerter of offset is left-right
-                      //second parameter is top to down
+    return SafeArea(
+      child: Scaffold(
+        body: ScreenUtilInit(
+          designSize: const Size(390, 844),
+          builder: (context, child) => SingleChildScrollView(
+            child: Column(children: [
+              Container(
+                margin: EdgeInsets.only(left: 10.r, top: 60.r),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      // margin: EdgeInsets.only(top: 5),
+                      child: buildIconButtonSvg(
+                          iconSvg: 'assets/back.svg',
+                          iconColor: const Color(0XFF000000),
+                          fontSizeIcon: 35.sp,
+                          callBackFunction: funChange),
+                    ),
+                    Text(
+                      'Modification de la transaction',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(top: 20.r),
-                        child: Text("Les informations de l'expéditeur",
-                            style: GoogleFonts.inter(
-                                fontSize: 22.sp, fontWeight: FontWeight.bold))),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(left: 25.r, right: 25.r),
-                        child: Column(
-                          children: [
-                            outputField(
-                              topTextLeft: "Nom de l'expéditeur",
-                              bottomTextLeft: 'James Kora',
+              ),
+              Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 20.r, left: 18.r, right: 18.r),
+                  // height: 690.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.circular(25), //border corner radius
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(1), //color of shadow
+                        spreadRadius: 3, //spread radius
+                        blurRadius: 3, // blur radius
+                        offset:
+                            const Offset(-3, 3), // changes position of shadow
+                        //first paramerter of offset is left-right
+                        //second parameter is top to down
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(top: 15.r),
+                          child: Text("Les informations de l'expéditeur",
+                              style: GoogleFonts.inter(
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold))),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.r, right: 25.r),
+                            child: Column(
+                              children: [
+                                outputField(
+                                  topTextLeft: "Nom de l'expéditeur",
+                                  bottomTextLeft: transaction[index].user,
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                outputField(
+                                  topTextLeft: "Pays d'envoi",
+                                  bottomTextLeft:
+                                      transaction[index].inZoneCountry,
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                outputField(
+                                  topTextLeft: 'N° Téléphone',
+                                  bottomTextLeft: '+23765214789471',
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            outputField(
-                              topTextLeft: "Pays d'envoi",
-                              bottomTextLeft: 'USA',
-                            ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            outputField(
-                              topTextLeft: 'N° Téléphone',
-                              bottomTextLeft: '+23765214789471',
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 18.r, right: 14.r),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(top: 15.r),
                               child: Text(
                                   "Les informations sur le destinataire",
                                   style: GoogleFonts.inter(
                                       fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Form(
+                                      fontWeight: FontWeight.bold))),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.r, right: 25.r),
+                            child: Form(
                               child: Column(
                                 children: [
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      if (transaction[index].status ==
-                                          'OPEN') ...[
+                                      if (transaction[index].status == 'OPEN' && transaction[index].toBank == true) ...[
                                         Container(
                                           margin: EdgeInsets.only(top: 10.r),
-                                          child: Text("Nom du destinataire",
+                                          child: Text("Nom de la banque",
                                               style: TextStyle(
                                                   color: const Color.fromRGBO(
                                                       97, 97, 97, 1),
@@ -168,8 +204,7 @@ class _EditeDataState extends State<EditeData> {
                                         SizedBox(
                                           height: 35.h,
                                           child: TextFormField(
-                                            controller:
-                                                destinataireNameController,
+                                            controller: banqueNameController,
                                             style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.bold),
                                             decoration: const InputDecoration(
@@ -201,7 +236,8 @@ class _EditeDataState extends State<EditeData> {
                                         SizedBox(
                                           height: 35.h,
                                           child: TextFormField(
-                                            controller: compteNameController,
+                                            controller:
+                                                compteIntituleController,
                                             style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.bold),
                                             decoration: const InputDecoration(
@@ -252,7 +288,8 @@ class _EditeDataState extends State<EditeData> {
                                                     ),
                                                     child: DropdownButton(
                                                         hint: Text(
-                                                          "Cameroun",
+                                                          transaction[index]
+                                                              .inZoneCountry,
                                                           style: GoogleFonts.inter(
                                                               fontWeight:
                                                                   FontWeight
@@ -311,7 +348,7 @@ class _EditeDataState extends State<EditeData> {
                                                         fontWeight:
                                                             FontWeight.bold)),
                                                 SizedBox(
-                                                  height: 10.h,
+                                                  height: 5.h,
                                                 ),
                                                 SizedBox(
                                                   height: 35.h,
@@ -341,12 +378,12 @@ class _EditeDataState extends State<EditeData> {
                                           ],
                                         ),
                                       ] else if (transaction[index].status ==
-                                              'En Attente' ||
-                                          transaction[index].status ==
-                                              'Annulé') ...[
+                                              'OPEN' &&
+                                          transaction[index].toBank ==
+                                              false) ...[
                                         Container(
                                           margin: EdgeInsets.only(top: 10.r),
-                                          child: Text("Nom de la banque",
+                                          child: Text("Nom du destinataire",
                                               style: TextStyle(
                                                   color: const Color.fromRGBO(
                                                       97, 97, 97, 1),
@@ -359,7 +396,8 @@ class _EditeDataState extends State<EditeData> {
                                         SizedBox(
                                           height: 35.h,
                                           child: TextFormField(
-                                            controller: banqueNameController,
+                                            controller:
+                                                destinataireNameController,
                                             style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.bold),
                                             decoration: const InputDecoration(
@@ -386,7 +424,7 @@ class _EditeDataState extends State<EditeData> {
                                                 fontSize: 17.sp,
                                                 fontWeight: FontWeight.bold)),
                                         SizedBox(
-                                          height: 10.sp,
+                                          height: 10.h,
                                         ),
                                         SizedBox(
                                           height: 35.h,
@@ -503,7 +541,233 @@ class _EditeDataState extends State<EditeData> {
                                                         fontWeight:
                                                             FontWeight.bold)),
                                                 SizedBox(
-                                                  height: 10.h,
+                                                  height: 5.h,
+                                                ),
+                                                Container(
+                                                  height: 35.h,
+                                                  padding: EdgeInsets.only(
+                                                      left: 10.r, right: 5.r),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            97, 97, 97, 1)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: DropdownButton(
+                                                      hint: Text(
+                                                        transaction[index]
+                                                            .outZoneCity,
+                                                        style: GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: const Color(
+                                                                0XFF000000)),
+                                                      ),
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color:
+                                                            Color(0XFFF24E1E),
+                                                      ),
+                                                      iconSize: 40.w,
+                                                      underline:
+                                                          const SizedBox(),
+                                                      style: GoogleFonts.inter(
+                                                        color: const Color(
+                                                            0XFF000000),
+                                                      ),
+                                                      value: valueCityChoose,
+                                                      onChanged: (newValue) {
+                                                        setState(() {
+                                                          valueCityChoose =
+                                                              newValue;
+                                                        });
+                                                      },
+                                                      items: listCities.map(
+                                                        (valueCity) {
+                                                          return DropdownMenuItem(
+                                                              value: valueCity,
+                                                              child: Text(
+                                                                valueCity,
+                                                                style: GoogleFonts.inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ));
+                                                        },
+                                                      ).toList()),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ] else if (transaction[index].status ==
+                                              'En Attente' ||
+                                          transaction[index].status ==
+                                              'Annulé') ...[
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10.r),
+                                          child: Text("Nom du destinataire",
+                                              style: TextStyle(
+                                                  color: const Color.fromRGBO(
+                                                      97, 97, 97, 1),
+                                                  fontSize: 17.sp,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        SizedBox(
+                                          height: 35.h,
+                                          child: TextFormField(
+                                            controller:
+                                                destinataireNameController,
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                            decoration: const InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5.0)))),
+                                            validator: (value) {
+                                              if (value != null) {
+                                                return 'Please enter a user';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Text("N° Téléphone",
+                                            style: TextStyle(
+                                                color: const Color.fromRGBO(
+                                                    97, 97, 97, 1),
+                                                fontSize: 17.sp,
+                                                fontWeight: FontWeight.bold)),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        SizedBox(
+                                          height: 35.h,
+                                          child: TextFormField(
+                                            controller:
+                                                numeroTelephoneController,
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                            decoration: const InputDecoration(
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5.0)))),
+                                            validator: (value) {
+                                              if (value != null) {
+                                                return 'Please enter a user';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 15.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Pays",
+                                                      style: TextStyle(
+                                                          color: const Color
+                                                                  .fromRGBO(
+                                                              97, 97, 97, 1),
+                                                          fontSize: 17.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  SizedBox(
+                                                    height: 10.h,
+                                                  ),
+                                                  Container(
+                                                    height: 35.h,
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.r, right: 5.r),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color
+                                                                  .fromRGBO(
+                                                              97, 97, 97, 1)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: DropdownButton(
+                                                        hint: Text(
+                                                          "Cameroun",
+                                                          style: GoogleFonts.inter(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: const Color(
+                                                                  0XFF000000)),
+                                                        ),
+                                                        icon: const Icon(
+                                                          Icons.arrow_drop_down,
+                                                          color:
+                                                              Color(0XFFF24E1E),
+                                                        ),
+                                                        iconSize: 40.w,
+                                                        underline:
+                                                            const SizedBox(),
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          color: const Color(
+                                                              0XFF000000),
+                                                        ),
+                                                        value:
+                                                            valueCountryChoose,
+                                                        onChanged: (newValue) {
+                                                          setState(() {
+                                                            valueCountryChoose =
+                                                                newValue;
+                                                          });
+                                                        },
+                                                        items: listCountry.map(
+                                                          (valueCountry2) {
+                                                            return DropdownMenuItem(
+                                                                value:
+                                                                    valueCountry2,
+                                                                child: Text(
+                                                                  valueCountry2,
+                                                                  style: GoogleFonts.inter(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ));
+                                                          },
+                                                        ).toList()),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Ville",
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            97, 97, 97, 1),
+                                                        fontSize: 17.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                SizedBox(
+                                                  height: 5.h,
                                                 ),
                                                 Container(
                                                   height: 35.h,
@@ -600,76 +864,85 @@ class _EditeDataState extends State<EditeData> {
                                 ],
                               ),
                             ),
-                          ],
-                        )),
-                    SizedBox(height: 15.h),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30.r),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                            width: 170.w,
-                            height: 45.h,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: const Color(0XFFF24E1E),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => TransactionScreen(
-                                        transaction: transaction,
-                                        index: index,
-                                        isListTransaction: false)));
-                              },
-                              child: Text(
-                                'Annuler',
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
-                                  color: const Color(0xfffffffff),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 170.w,
-                            height: 45.h,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: const Color(0XFFF24E1E),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  print('-------alertDialog-----');
-                                  showDialog(
-                                      context: context,
-                                      builder: (ctx) {
-                                        return showdialog(ctx: ctx);
-                                      });
-                                });
-                              },
-                              child: Text(
-                                'Confirmer',
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
-                                  color: const Color(0xfffffffff),
-                                ),
-                              ),
-                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                )),
-          ]),
+                      SizedBox(height: 15.h),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30.r),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              width: 170.w,
+                              height: 45.h,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color(0XFFF24E1E),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (BuildContext context,
+                                              Animation<double> animation,
+                                              Animation<double>
+                                                  secondaryAnimation) =>
+                                          TransactionScreen(
+                                              transaction: transaction,
+                                              index: index,
+                                              isListTransaction: false),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Annuler',
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp,
+                                    color: const Color(0xfffffffff),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 170.w,
+                              height: 45.h,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color(0XFFF24E1E),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    print('-------alertDialog-----');
+                                    showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return showdialog(ctx: ctx);
+                                        });
+                                  });
+                                },
+                                child: Text(
+                                  'Confirmer',
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp,
+                                    color: const Color(0xfffffffff),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+            ]),
+          ),
         ),
+        /* Tab Bar */
+        bottomNavigationBar:
+            getFooter(callBackFunction: funChange, currentIndex: 1),
       ),
-      /* Tab Bar */
-      bottomNavigationBar:
-          getFooter(callBackFunction: funChange, currentIndex: 1),
     );
   }
 }
