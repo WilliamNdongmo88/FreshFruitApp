@@ -24,12 +24,12 @@ class UserProfil extends StatelessWidget {
                 height: 5.h,
               ),
               Padding(
-                padding: EdgeInsets.only(right: 150.w, left: 65.w),
+                padding: EdgeInsets.only(right: 150.w, left: 23.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        iconSize: 50.sp,
+                        iconSize: 70.sp,
                         onPressed: () {
                           Navigator.push(
                               context,

@@ -284,6 +284,38 @@ Widget myelementSetting({text, String? icon, ct, classname}) {
   );
 }
 
+Widget myTextFormField3(
+    {keyboadtypeinput,
+    textLabel,
+    textHint,
+    String? icon,
+    textObscure,
+    TextEditingController? controller,
+    Function? validator}) {
+  return Container(
+    padding: EdgeInsets.zero,
+    decoration: BoxDecoration(border: Border.all()),
+    child: TextFormField(
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        contentPadding: EdgeInsets.all(10.0).r,
+        labelText: 'Email:',
+        labelStyle: TextStyle(color: Colors.red, height: 1.h),
+        prefixIcon: Icon(Icons.email_outlined),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent)),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent)),
+        prefixStyle: TextStyle(
+          inherit: true,
+          color: Colors.red,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget elevatedButton({text, Function? onpress, width, height}) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
