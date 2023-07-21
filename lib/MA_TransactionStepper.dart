@@ -5,7 +5,6 @@ import 'package:money_app/controller/MA_DataController.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_TransfertInformation.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Bank.dart';
 import 'package:money_app/controller/Helper classes/MA_Helper_Manual.dart';
-import 'package:money_app/utils/MA_TransactionItemDetails.dart';
 import 'package:money_app/utils/MA_Widgets.dart';
 import 'package:money_app/views/homePage/MA_homePage.dart';
 
@@ -46,10 +45,13 @@ class _transfertFormState extends State<transfertForm> {
   late List<MA_Helper_City> cityListSender;
   late List<MA_Helper_City> cityListReceiver;
 
-  MA_Helper_Country? selectedCountrySender;
-  MA_Helper_City? selectedCitySender;
+  MA_Helper_Country? selectedCountrySender = null;
+  MA_Helper_City? selectedCitySender ;
   MA_Helper_Country? selectedCountryReceiver = null;
   MA_Helper_City? selectedCityReceiver = null;
+
+  String SelectedCountryDisplay = 'Cameroon';
+
 
   @override
   void initState() {
@@ -57,6 +59,7 @@ class _transfertFormState extends State<transfertForm> {
     countryList = dataController.CountryListToDispatch.value;
     cityListSender = [];
     cityListReceiver = [];
+
 
     print("****** in InitState Country List ******* $countryList\n ");
     print(countryList);
@@ -149,313 +152,311 @@ class _transfertFormState extends State<transfertForm> {
     return ScreenUtilInit(
         designSize: const Size(390, 844),
         builder: (context , child) {
-         return Scaffold(
+          return Scaffold(
 
-      /*appBar: AppBar(
+            /*appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Flutter Stepper Demo'),
         centerTitle: true,
       ),*/
-        bottomNavigationBar: getFooter(callBackFunction: funbottomBar, currentIndex: 1),
-      body: Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: const ColorScheme.light(primary: Colors.deepOrange),
-            ),
-            child: SafeArea(
-              child: Stack(
-                children: [
-                  Positioned(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 20.w, top: 0.w),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment:MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: buildIconButton(
-                                iconColor: Color.fromRGBO(17, 16, 15, 1),
-                                iconButton: Icons.arrow_back_ios,
-                                buttonText: '',
-                                fontSizeIcon: 35.sp,
-                                callBackFunction: funcBack),
-                          ),
-                          Container(
-//margin: EdgeInsets.only(bottom:640),
-                            child: const Text(
-                              "Transaction d'argent",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
+            bottomNavigationBar: getFooter(callBackFunction: funbottomBar, currentIndex: 1),
+            body: Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(primary: Colors.deepOrange),
+              ),
+              child: SafeArea(
+                child: Stack(
+                  children: [
+                    Positioned(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20.w, top: 0.w),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment:MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: buildIconButton(
+                                  iconColor: Color.fromRGBO(17, 16, 15, 1),
+                                  iconButton: Icons.arrow_back_ios,
+                                  buttonText: '',
+                                  fontSizeIcon: 35.sp,
+                                  callBackFunction: funcBack),
                             ),
-                          ),
-                        ],
+                            Container(
+//margin: EdgeInsets.only(bottom:640),
+                              child: const Text(
+                                "Transaction d'argent",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    child: Padding(
-                      padding: const EdgeInsets.all(18),
-                      child: Container(
-                          margin: EdgeInsets.only(top: 35.w),
-                          child: Stepper(
-                            steps: getSteps(),
-                            currentStep: currentStep,
-                            type: StepperType.horizontal,
-                            onStepTapped: (int step) => setState(() => currentStep = step),
-                            onStepContinue: () {
-                              final isLastStep = currentStep == getSteps().length - 1;
-                              if (isLastStep) {
-                              } else {
-                                if(currentStep == 1){
-                                  if(_selectedGender=='manuel'){
-                                    if(NameReceiver.text.isEmpty){
-                                      setState(() {
-                                        _validateName = true;
-                                      });
-                                    }else{
-                                      setState(() {
-                                        _validateName = false;
-                                      });
-                                    }
-                                    if(PhoneNumber.text.isEmpty){
-                                      setState(() {
-                                        _validatePhone = true;
-                                      });
-                                    }else{
-                                      setState(() {
-                                        _validatePhone = false;
-                                      });
-                                    }
+                    Positioned(
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Container(
+                            margin: EdgeInsets.only(top: 35.w),
+                            child: Stepper(
+                              steps: getSteps(),
+                              currentStep: currentStep,
+                              type: StepperType.horizontal,
+                              onStepTapped: (int step) => setState(() => currentStep = step),
+                              onStepContinue: () {
+                                final isLastStep = currentStep == getSteps().length - 1;
+                                if (isLastStep) {
+                                } else {
+                                  if(currentStep == 1){
+                                    if(_selectedGender=='manuel'){
+                                      if(NameReceiver.text.isEmpty){
+                                        setState(() {
+                                          _validateName = true;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          _validateName = false;
+                                        });
+                                      }
+                                      if(PhoneNumber.text.isEmpty){
+                                        setState(() {
+                                          _validatePhone = true;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          _validatePhone = false;
+                                        });
+                                      }
 
-                                    if(NameReceiver.text.isNotEmpty && NameReceiver.text.isNotEmpty &&
-                                        receptionCode.text.isNotEmpty){
+                                      if(NameReceiver.text.isNotEmpty && NameReceiver.text.isNotEmpty &&
+                                          receptionCode.text.isNotEmpty){
+                                        setState(() {
+                                          currentStep += 1;
+                                        });
+                                      }
+                                    }
+                                  }
+
+                                  if(currentStep == 1){
+                                    if(_selectedGender=='bancaire'){
+                                      if(NameBank.text.isEmpty){
+                                        setState(() {
+                                          _validate = true ;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          _validate = false;
+                                        });
+                                      }
+                                      if(IntituleBank.text.isEmpty){
+                                        setState(() {
+                                          _validateIntitule = true ;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          _validateIntitule = false;
+                                        });
+                                      }
+                                      if(numberAccount.text.isEmpty){
+                                        setState(() {
+                                          _validateAccount = true ;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          _validateAccount = false;
+                                        });
+                                      }
+                                      if(receptionCode.text.isEmpty){
+                                        setState(() {
+                                          _validateCodeReception = true ;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          _validateCodeReception = false;
+                                        });
+                                      }
+
+                                      if(NameBank.text.isNotEmpty && IntituleBank.text.isNotEmpty
+                                          && numberAccount.text.isNotEmpty &&receptionCode.text.isNotEmpty){
+                                        setState(() {
+                                          currentStep += 1;
+                                        });
+                                      }
+                                    }
+                                  }
+
+                                  if(currentStep ==0){
+                                    if(selectedCountryReceiver ==null || selectedCityReceiver ==null){
+                                      setState(() {
+                                        displayError = true;
+                                      });
+                                    }else{
                                       setState(() {
                                         currentStep += 1;
+                                        displayError = false;
                                       });
+
                                     }
                                   }
                                 }
-
-                                if(currentStep == 1){
-                                  if(_selectedGender=='bancaire'){
-                                    if(NameBank.text.isEmpty){
-                                      setState(() {
-                                        _validate = true ;
-                                      });
-                                    }else{
-                                      setState(() {
-                                        _validate = false;
-                                      });
-                                    }
-                                    if(IntituleBank.text.isEmpty){
-                                      setState(() {
-                                        _validateIntitule = true ;
-                                      });
-                                    }else{
-                                      setState(() {
-                                        _validateIntitule = false;
-                                      });
-                                    }
-                                    if(numberAccount.text.isEmpty){
-                                      setState(() {
-                                        _validateAccount = true ;
-                                      });
-                                    }else{
-                                      setState(() {
-                                        _validateAccount = false;
-                                      });
-                                    }
-                                    if(receptionCode.text.isEmpty){
-                                      setState(() {
-                                        _validateCodeReception = true ;
-                                      });
-                                    }else{
-                                      setState(() {
-                                        _validateCodeReception = false;
-                                      });
-                                    }
-
-                                    if(NameBank.text.isNotEmpty && IntituleBank.text.isNotEmpty
-                                        && numberAccount.text.isNotEmpty &&receptionCode.text.isNotEmpty){
-                                      setState(() {
-                                        currentStep += 1;
-                                      });
-                                    }
-                                  }
-                                }
-
-                                if(currentStep ==0){
-                                  if(selectedCountryReceiver ==null || selectedCityReceiver ==null){
-                                    setState(() {
-                                      displayError = true;
-                                    });
-                                  }else{
-                                    setState(() {
-                                      currentStep += 1;
-                                      displayError = false;
-                                    });
-
-                                  }
-                                }
-                              }
-                            },
-                            onStepCancel: () {
-                              currentStep == 0
-                                  ? null
-                                  : setState(() {
-                                currentStep -= 1;
-                              });
-                            },
-                            controlsBuilder: (BuildContext context, ControlsDetails details) {
-                              final isLastStep = currentStep == getSteps().length - 1;
-                              return Container(
-                                margin: EdgeInsets.only(top:15),// modifie la position des elevated button
-                                child: Row(
-                                  children: [
-                                    if (currentStep == 0) ...[
-                                      Expanded(
-                                          child: SizedBox(
-                                            height: 50.h,
+                              },
+                              onStepCancel: () {
+                                currentStep == 0
+                                    ? null
+                                    : setState(() {
+                                  currentStep -= 1;
+                                });
+                              },
+                              controlsBuilder: (BuildContext context, ControlsDetails details) {
+                                final isLastStep = currentStep == getSteps().length - 1;
+                                return Container(
+                                  margin: EdgeInsets.only(top:15),// modifie la position des elevated button
+                                  child: Row(
+                                    children: [
+                                      if (currentStep == 0) ...[
+                                        Expanded(
+                                            child: SizedBox(
+                                              height: 50.h,
+                                              child: ElevatedButton(
+                                                onPressed: details.onStepContinue,
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children:  [
+                                                    Text('Suivant'), // <-- Text
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    Icon(
+// <-- Icon
+                                                      Icons.arrow_forward_ios,
+                                                      size: 24.0,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )),
+                                      ] else if (currentStep > 0 && currentStep == 1) ...[
+                                        Expanded(
+                                            child: ElevatedButton(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children:  [
+                                                  Icon(// <-- Icon
+                                                    Icons.arrow_back_ios_new,
+                                                    size: 24.0,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.w,
+                                                  ),
+                                                  Text('Précédent'),
+                                                ],
+                                              ),
+                                              onPressed: details.onStepCancel,
+                                            )),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
                                             child: ElevatedButton(
                                               onPressed: details.onStepContinue,
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children:  [
                                                   Text('Suivant'), // <-- Text
-                                                 SizedBox(
+                                                  SizedBox(
                                                     width: 5.w,
                                                   ),
                                                   Icon(
-// <-- Icon
+// <-- Ico
                                                     Icons.arrow_forward_ios,
                                                     size: 24.0,
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                          )),
-                                    ] else if (currentStep > 0 && currentStep == 1) ...[
-                                      Expanded(
+                                            )),
+                                      ]else if (currentStep > 0 && currentStep == 2) ...[
+                                        Expanded(
                                           child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.deepOrange, // background (button) color
+                                            ),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              children:  [
-                                                Icon(// <-- Icon
-                                                  Icons.arrow_back_ios_new,
-                                                  size: 24.0,
-                                                ),
-                                                SizedBox(
-                                                  width: 5.w,
-                                                ),
-                                                Text('Précédent'),
+                                              children: const [
+                                                Text('Annuler'),
                                               ],
                                             ),
-                                            onPressed: details.onStepCancel,
-                                          )),
-                                       SizedBox(width: 12.w),
-                                      Expanded(
+                                            onPressed: (){
+                                              _showAlertDialog('annuler');
+                                            },
+                                          ),),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
                                           child: ElevatedButton(
-                                            onPressed: details.onStepContinue,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children:  [
-                                                Text('Suivant'), // <-- Text
-                                                SizedBox(
-                                                  width: 5.w,
-                                                ),
-                                                Icon(
-// <-- Ico
-                                                  Icons.arrow_forward_ios,
-                                                  size: 24.0,
-                                                ),
-                                              ],
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.deepOrange, // background (button) color
                                             ),
-                                          )),
-                                    ]else if (currentStep > 0 && currentStep == 2) ...[
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.deepOrange, // background (button) color
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: const [
-                                              Text('Annuler'),
-                                            ],
-                                          ),
-                                          onPressed: (){
-                                            _showAlertDialog('annuler');
-                                          },
-                                        ),),
-                                       SizedBox(width: 12.w),
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.deepOrange, // background (button) color
-                                          ),
-                                          onPressed: () async{
-                                            if(_selectedGender =='manuel'){
-                                              MA_Helper_Manual manual = MA_Helper_Manual(NameReceiver.text,PhoneNumber.text);
-                                              //manual.phoneNumber = "655198362";
-                                              //manual.Name = "Evariste";
-                                              MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text, null,manual as MA_Helper_Manual);
-                                              /*data.Amount =1000;
+                                            onPressed: () async{
+                                              if(_selectedGender =='manuel'){
+                                                MA_Helper_Manual manual = MA_Helper_Manual(NameReceiver.text,PhoneNumber.text);
+                                                //manual.phoneNumber = "655198362";
+                                                //manual.Name = "Evariste";
+                                                MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text, null,manual as MA_Helper_Manual);
+                                                /*data.Amount =1000;
                                           data.SenderCity ='douala';
                                           data.ReceiverCity ='Paris';
                                           data.ReceptionCode ='15Ptre';
                                           data.ManualInfo =manual;*/
 
 
-                                              String response = await dataController.createTransfert(data);
-                                              print('@@@@@'+response);
-                                              if(response !=null){
-                                                _showAlertDialog('confirm');
-                                              }
-                                            } else if(_selectedGender =='bancaire'){
-
-
-
-                                              MA_Helper_Bank bank = MA_Helper_Bank(NameBank.text,IntituleBank.text);
-                                              //bank.Intitule = "Evariste";
-                                              //bank.Name = "UBA";
-                                              MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode ,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text,bank as MA_Helper_Bank,null);
-                                              /*data.Amount =1000;
+                                                String response = await dataController.createTransfert(data);
+                                                print('@@@@@'+response);
+                                                if(response !=null){
+                                                  _showAlertDialog('confirm');
+                                                }
+                                              } else if(_selectedGender =='bancaire'){
+                                                MA_Helper_Bank bank = MA_Helper_Bank(NameBank.text,IntituleBank.text,numberAccount.text);
+                                                //bank.Intitule = "Evariste";
+                                                //bank.Name = "UBA";
+                                                MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode ,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text,bank as MA_Helper_Bank,null);
+                                                /*data.Amount =1000;
                                           data.SenderCity ='douala';
                                           data.ReceiverCity ='Paris';
                                           data.ReceptionCode ='15Ptre';
                                           data.BankInfo =bank;*/
 
-                                              String response = await dataController.createTransfert(data);
-                                              print('@@@@@'+response);
-                                              if(response !=null){
-                                                _showAlertDialog('confirm');
+                                                String response = await dataController.createTransfert(data);
+                                                print('@@@@@'+response);
+                                                print(data);
+                                                if(response !=null){
+                                                  _showAlertDialog('confirm');
+                                                }
                                               }
-                                            }
 
-                                          },
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: const [
-                                              Text('Confirmer'), // <-- Text
-                                            ],
-                                          ),
-                                        ),),
-                                    ]
-                                  ],
-                                ),
-                              ); //* gestion de sboutons du bas//
-                            },
-                          )),
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const [
+                                                Text('Confirmer'), // <-- Text
+                                              ],
+                                            ),
+                                          ),),
+                                      ]
+                                    ],
+                                  ),
+                                ); //* gestion de sboutons du bas//
+                              },
+                            )),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-      //bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:1),
-    );
-  }
+            //bottomNavigationBar: getFooter(callBackFunction: funChange, currentIndex:1),
+          );
+        }
     );
   }
 
@@ -467,7 +468,7 @@ class _transfertFormState extends State<transfertForm> {
         content: Container(
           margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
           height: 400.h,
-          width:600.w,
+          // width:600.w,
           decoration:  BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -505,9 +506,10 @@ class _transfertFormState extends State<transfertForm> {
               Positioned(
                 left: 15,
                 top: 70,
-                width: 290.w,
+                //width: 290.w,
                 height: 80.h,
                 child: Container(
+
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8.r)),
@@ -523,7 +525,7 @@ class _transfertFormState extends State<transfertForm> {
                         child: SvgPicture.asset(
                           'assets/Vector.svg',
                           placeholderBuilder: (context) =>
-                              const CircularProgressIndicator(),
+                          const CircularProgressIndicator(),
                           height: 30.h,
                           width: 30.w,
                         ),
@@ -553,7 +555,7 @@ class _transfertFormState extends State<transfertForm> {
                         child: Column(
                           children: [
                             Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0,70.w, 0),
+                                padding: EdgeInsets.fromLTRB(0.w, 0.h,70.w, 0.h),
                                 child: Text('Ville', style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12.sp,
@@ -569,7 +571,7 @@ class _transfertFormState extends State<transfertForm> {
               Positioned(
                 left: 15.w,
                 top: 190.h,
-                width: 290.w,
+                //width: 290.w,
                 height: 80.h,
                 child: Container(
                   decoration: BoxDecoration(
@@ -583,11 +585,11 @@ class _transfertFormState extends State<transfertForm> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(10.w, 0.h, 0.w, 0.h),
                         child: SvgPicture.asset(
                           'assets/game-icons_receive-money.svg',
                           placeholderBuilder: (context) =>
-                              const CircularProgressIndicator(),
+                          const CircularProgressIndicator(),
                           height: 30.0,
                           width: 30,
                         ),
@@ -595,7 +597,7 @@ class _transfertFormState extends State<transfertForm> {
                       SizedBox(width: 7.w),
                       Column(
                         children: [
-                           Padding(
+                          Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 90.w, 0),
                               child: Text('Vers',
                                   style: TextStyle(
@@ -607,7 +609,7 @@ class _transfertFormState extends State<transfertForm> {
                       ),
                       // DropdownReceiver(),
                       Container(
-                        padding: EdgeInsets.only(left:5.w),
+                        padding: EdgeInsets.only(left:1.w),
                         decoration:  BoxDecoration(
                           border: Border(
                             left: BorderSide(
@@ -640,7 +642,7 @@ class _transfertFormState extends State<transfertForm> {
                 child: Container(
                     child: Row(
                       children:  [
-                         Padding(
+                        Padding(
                           padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0),
                           child: Text('Montant :',
                               style: TextStyle(
@@ -689,7 +691,7 @@ class _transfertFormState extends State<transfertForm> {
         title: Text('Etape 2'),
         content: Container(
           margin:  EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
-          height: 460.h,
+          height: 490.h,
           decoration:  BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -709,11 +711,11 @@ class _transfertFormState extends State<transfertForm> {
             ],
           ),
           child: Padding(
-              padding:  EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 25.h), /////////////--------> to see
+              padding:  EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0.h), /////////////--------> to see
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Center(
+                  Center(
                       child: Text('Mode de Reception',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 13.sp))),
@@ -741,7 +743,7 @@ class _transfertFormState extends State<transfertForm> {
                       Text('Bancaire'),
                     ],
                   ),
-                   SizedBox(height: 5.sp),
+                  SizedBox(height: 5.sp),
                   if (_selectedGender == 'manuel') ...[
                     Container(
                       child: Column(
@@ -815,16 +817,16 @@ class _transfertFormState extends State<transfertForm> {
                   children: [Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Center(
+                      Center(
                           child: Text('Vérifier les informations sur la transaction', style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 13.sp))),
-                       SizedBox(height: 5.h),
+                      SizedBox(height: 5.h),
                       if (_selectedGender == 'manuel') ...[
                         Container(
                           child: Column(
                             children: [
                               fieldInput(topText:"Pays et Ville d'envoi",bottomText:'${selectedCountrySender?.name},${selectedCitySender?.name}',svgLink:'assets/material-symbols_edit.svg',step:0),
-                             // fieldInput(topText:'Pays de reception',bottomText:dropdownvalueReceiver,svgLink:'assets/material-symbols_edit.svg',step:0),
+                              // fieldInput(topText:'Pays de reception',bottomText:dropdownvalueReceiver,svgLink:'assets/material-symbols_edit.svg',step:0),
                               fieldInput(topText:'Montant',bottomText:amountController.text,svgLink:'assets/material-symbols_edit.svg',step:0),
                               fieldInput(topText:'Nom du destinataire',bottomText:NameReceiver.text,svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:0),
                               fieldInput(topText:'Pays et ville du destinataire',bottomText:'${selectedCountryReceiver?.name},${selectedCityReceiver?.name}',svgLink:'assets/material-symbols_edit.svg',step:1,radioStep:0),
@@ -1051,7 +1053,7 @@ class _transfertFormState extends State<transfertForm> {
                   style:  TextStyle(
                       color: Color.fromRGBO(79, 79, 79, 1), fontSize: 15.sp),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: 5.h,
                 ),
                 Text(
@@ -1101,10 +1103,10 @@ class _transfertFormState extends State<transfertForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0.w, 5.h, 130.w, 0.h),
+              padding: EdgeInsets.fromLTRB(0.w, 5.h, 100.w, 0.h),
               child: Text(label, style: const TextStyle(color: Color(0xFF6F6F6F))),
             ),
-           SizedBox(height:7.h,),
+            SizedBox(height:7.h,),
             if (codeInput == 'NameBank') ...[
               Padding(
                 padding: EdgeInsets.fromLTRB(0.w, 5.h, 0.w, 0.h),
@@ -1138,7 +1140,7 @@ class _transfertFormState extends State<transfertForm> {
                     cursorColor: Colors.orange,
                     controller: IntituleBank,
                     decoration: InputDecoration(
-                    errorText: _validateIntitule ?'veillez renseigner l\'Intitule du compte':null,
+                      errorText: _validateIntitule ?'veillez renseigner l\'Intitule du compte':null,
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                         BorderSide(width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
@@ -1160,11 +1162,11 @@ class _transfertFormState extends State<transfertForm> {
                     controller: numberAccount,
                     decoration: InputDecoration(
                       errorText: _validateAccount ?'veillez renseigner le Numero de Compte':null,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
-                          borderRadius: BorderRadius.circular(5.r),
-                        ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
                     ),
                   ),
 
@@ -1244,63 +1246,69 @@ class _transfertFormState extends State<transfertForm> {
 
 /////////// sender Country
   Widget DropdownSender() {
-    return DropdownButton(
-      // Initial Value
-      value: selectedCountrySender,
+    return SizedBox(
+      width: 100,
+      child: DropdownButton(
+        // Initial Value
+        value: selectedCountrySender,
+        isExpanded: true,
+        // Down Arrow Icon
+        icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
 
-      // Down Arrow Icon
-      icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
-
-      // Array list of items
-      items:  countryList.map(
-              (e) => DropdownMenuItem(child: Text(e.name), value: e,)
-      ).toSet().toList(),
-      // After selecting the desired option,it will
-      // change button value to selected value
-      onChanged: (val){
-        setState(() {
-          selectedCitySender= null;
-          print(selectedCitySender);
-          cityListSender.clear();
-          print("****cityList just after the clear****");
-          print(cityListSender); // selectedCountrySender &&
-          selectedCountrySender = val as MA_Helper_Country;
-          cityListSender = val?.cities.toSet().toList() as List<MA_Helper_City>;
-          print("****cityList after the set up****");
-          print(cityListSender);
-        });
-      },
+        // Array list of items
+        items:  countryList.map(
+                (e) => DropdownMenuItem(child: Text(e.name), value: e,)
+        ).toSet().toList(),
+        // After selecting the desired option,it will
+        // change button value to selected value
+        onChanged: (val){
+          setState(() {
+            selectedCitySender= null;
+            print(selectedCitySender);
+            cityListSender.clear();
+            print("****cityList just after the clear****");
+            print(cityListSender); // selectedCountrySender &&
+            selectedCountrySender = val as MA_Helper_Country;
+            cityListSender = val?.cities.toSet().toList() as List<MA_Helper_City>;
+            print("****cityList after the set up****");
+            print(cityListSender);
+          });
+        },
+      ),
     );
   }
 
 /////////// Receiver Country
   Widget DropdownReceiver() {
-    return DropdownButton(
-      // Initial Value
-      value: selectedCountryReceiver,
+    return SizedBox(
+      width: 100,
+      child: DropdownButton(
+        // Initial Value
+        value: selectedCountryReceiver,
+        isExpanded: true,
+        // Down Arrow Icon
+        icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
 
-      // Down Arrow Icon
-      icon: const Icon(Icons.arrow_drop_down,color:const Color(0XFFF24E1E),),
-
-      // Array list of items
-      items:  countryList.map(
-              (e) => DropdownMenuItem(child: Text(e.name), value: e,)
-      ).toSet().toList(),
-      // After selecting the desired option,it will
-      // change button value to selected value
-      onChanged: (val){
-        setState(() {
-          selectedCityReceiver= null;
-          print(selectedCityReceiver);
-          cityListReceiver.clear();
-          print("****cityList just after the clear****");
-          print(cityListReceiver);
-          selectedCountryReceiver = val as MA_Helper_Country;
-          cityListReceiver = val?.cities.toSet().toList() as List<MA_Helper_City>;
-          print("****cityList after the set up****");
-          print(cityListSender);
-        });
-      },
+        // Array list of items
+        items:  countryList.map(
+                (e) => DropdownMenuItem(child: Text(e.name), value: e,)
+        ).toSet().toList(),
+        // After selecting the desired option,it will
+        // change button value to selected value
+        onChanged: (val){
+          setState(() {
+            selectedCityReceiver= null;
+            print(selectedCityReceiver);
+            cityListReceiver.clear();
+            print("****cityList just after the clear****");
+            print(cityListReceiver);
+            selectedCountryReceiver = val as MA_Helper_Country;
+            cityListReceiver = val?.cities.toSet().toList() as List<MA_Helper_City>;
+            print("****cityList after the set up****");
+            print(cityListSender);
+          });
+        },
+      ),
     );
   }
 
@@ -1382,5 +1390,3 @@ class _transfertFormState extends State<transfertForm> {
   }
 //navigationBar
 }
-
-
