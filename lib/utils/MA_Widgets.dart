@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,12 +8,12 @@ import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'MA_Styles.dart';
 import 'MA_TransactionItem.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget myTextField({label, text, String? icon, bool, TextEditingController? controller,Function? validator}) {
   return Container(
     height: 50,
     child: TextFormField(
-
       validator: (input)=> validator!(input),
       obscureText: bool,
       controller: controller,
@@ -159,8 +158,7 @@ Widget myTextFormField(
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.grey),
         ),
-        focusedErrorBorder:
-        OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
+        focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
         errorStyle: TextStyle(
             color: AppColors.orange,
             fontSize: 14.sp,
@@ -360,6 +358,40 @@ Widget myelementSetting({text, String? icon, ct, classname}) {
   );
 }
 
+Widget myTextFormField3(
+    {keyboadtypeinput,
+    textLabel,
+    textHint,
+    String? icon,
+    textObscure,
+    TextEditingController? controller,
+    Function? validator}) {
+  return Container(
+    padding: EdgeInsets.zero,
+    decoration: BoxDecoration(border: Border.all()),
+    child: TextFormField(
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        contentPadding: EdgeInsets.all(10.0).r,
+        labelText: 'Email:',
+        labelStyle: TextStyle(color: Colors.red, height: 1.h),
+        prefixIcon: Icon(Icons.email_outlined),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent)),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent)),
+        prefixStyle: TextStyle(
+          inherit: true,
+          color: Colors.red,
+        ),
+      ),
+    ),
+  );
+}
+
+
+
 //Will Code Start
 
 /// William Ndongmo
@@ -425,6 +457,7 @@ Widget outputField({
                         fontWeight: FontWeight.bold),
                   ),
                 ]
+
               ],
             ),
           ),

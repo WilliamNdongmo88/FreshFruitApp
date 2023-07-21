@@ -71,6 +71,34 @@ class _ResetPasswordState extends State<ResetPassword> {
                       height: 24.h,
                     ),
                     Padding(
+                      padding: const EdgeInsets.all(10).r,
+                      child: Container(
+                        padding: EdgeInsets.zero,
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: EdgeInsets.all(10.0).r,
+                            labelText: 'Email:',
+                            labelStyle:
+                                TextStyle(color: Colors.red, height: 1.h),
+                            prefixIcon: Icon(Icons.email_outlined),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent)),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent)),
+                            prefixStyle: TextStyle(
+                              inherit: true,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 43.w),
                       child: Container(
                         height: 70.h,

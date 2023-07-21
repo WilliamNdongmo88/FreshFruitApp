@@ -55,9 +55,9 @@ class _EditProfilState extends State<EditProfil> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 20.h, left: 10.w, right: 80.w),
+                padding: EdgeInsets.only(top: 20.h, left: 15.w, right: 120.w),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                         iconSize: 70.sp,
@@ -81,7 +81,7 @@ class _EditProfilState extends State<EditProfil> {
                 ),
               ),
               SizedBox(
-                height: 10.h,
+                height: 20.h,
               ),
               Form(
                 key: _formKey,
