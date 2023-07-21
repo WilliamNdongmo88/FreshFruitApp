@@ -2,7 +2,7 @@ name: money_app
 description: Noeli Intern Money App
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: ">=2.19.6 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,18 +28,29 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_secure_storage: any
   flutter:
     sdk: flutter
-  flutter_svg: ^1.1.4
+  flutter_spinkit: ^5.2.0
+  cloud_firestore:
   flutter_switch: ^0.3.2
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_screenutil: ^5.8.4
+  flutter_svg: ^2.0.5
+  # google_fonts: ^3.0.1
+  intl: ^0.18.1
   get:
   google_fonts:
+  firebase_core:
+  google_sign_in:
+  flutter_facebook_auth:
+  firebase_auth: ^4.6.1
+  cloud_functions:
+  equatable:
+  flutter_screenutil:
+  firebase_messaging:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,6 +75,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/images/
     - assets/icons/
   #   - images/a_dot_ham.jpeg
