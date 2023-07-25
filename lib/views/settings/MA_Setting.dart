@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:money_app/component/MA_BottomNavigationBar.dart';
 import 'package:money_app/utils/MA_Widgets.dart';
 import 'package:money_app/views/settings/MA_Acceuil.dart';
 import 'package:money_app/views/settings/MA_UserProfil.dart';
+
+import '../homePage/MA_homePage.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -16,6 +17,21 @@ class Setting extends StatefulWidget {
 
 class _Setting extends State<Setting> {
   bool status = false;
+
+  void funChange(changetxt) {
+    setState(() {
+      print('***********changetxt****** $changetxt');
+      /*if (changetxt == 'WithoutLabel') {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) => TransactionListScreen(),
+          ),
+        );
+      }*/
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,7 +52,7 @@ class _Setting extends State<Setting> {
                               context,
                               PageRouteBuilder(
                                   pageBuilder: (_, __, ___) =>
-                                      const Acceuil()));
+                                      TransactionListScreen()));
                         },
                         icon: SvgPicture.asset("assets/icons/icon_back.svg")),
                     SizedBox(
@@ -466,7 +482,9 @@ class _Setting extends State<Setting> {
             ],
           ),
         ),
-        bottomNavigationBar: const bottom_navigation_bar(currentIndex: 3),
+        bottomNavigationBar: getFooter(
+            callBackFunction: funChange,
+            currentIndex: 3), //const bottom_navigation_bar(currentIndex: 3),
       ),
     );
   }
