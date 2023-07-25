@@ -193,13 +193,22 @@ class _TransactionScreenState extends State<TransactionScreen>
                               SizedBox(
                                 height: 10.h,
                               ),
-                              Text(
-                                '${transaction[index].receiverName}',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              if (transaction[index].toBank == true) ...[
+                                Text(
+                                  '${transaction[index].bankNom}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ] else
+                                Text(
+                                  '${transaction[index].receiverName}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),

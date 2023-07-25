@@ -37,6 +37,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     });
   }
 
+  late String userName;
   List alldata = [];
   Future<void> getDataTransferts() async {
     DataController dataController = DataController();
@@ -58,8 +59,10 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     //     receiver: alldata[0].receiver,
     //     status: alldata[0].status,
     //     to_bank: alldata[0].to_bank));
-    // print('++++alldata---> ${alldata[1].bank}');
-    // print('++++intitule---> ${alldata[1].bank?['intitule']}');
+    // userName = alldata[1].owner['firstname'] + alldata[1].owner['lastname'];
+    print('++++alldata---> ${alldata[1].owner}');
+    print('++++alldatabank---> ${alldata[1].bank}');
+    print('++++intitulebankintitule---> ${alldata[1].bank?['intitule']}');
   }
 
   late Map receiverName;
@@ -91,20 +94,21 @@ class TransactionListScreenState extends State<TransactionListScreen> {
             data[i].bank?['intitule'],
             data[i].bank?['nom'],
             data[i].to_bank));
+        userName = transactions[i].user;
       }
-      // print('receiverName---> $receiverName');
+      print('0000000userName---> $userName');
     });
   }
 
   @override
   void initState() {
+    userName = "";
     super.initState();
     getDataTransferts();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<TransactionItemToFireBase> alltransactions = [];
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -141,7 +145,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                               fontSize: 16.sp),
                                         ),
                                         Text(
-                                          "Lisa Camilla ",
+                                          userName,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 18.sp),
