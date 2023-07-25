@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../views/MA_DevisesPage.dart';
-import '../views/MA_SettingsPage.dart';
 import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
 import '../views/settings/MA_Setting.dart';
