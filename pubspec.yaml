@@ -51,6 +51,7 @@ dependencies:
   flutter_screenutil:
   equatable:
   firebase_messaging:
+  flutter_screenutil: ^5.8.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

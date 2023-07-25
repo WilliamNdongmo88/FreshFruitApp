@@ -63,8 +63,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     //     receiver: alldata[0].receiver,
     //     status: alldata[0].status,
     //     to_bank: alldata[0].to_bank));
-    print('++++alldata---> ${alldata[1].bank}');
-    print('++++intitule---> ${alldata[1].bank?['intitule']}');
+    // print('++++alldata---> ${alldata[1].bank}');
+    // print('++++intitule---> ${alldata[1].bank?['intitule']}');
   }
 
   late Map receiverName;
@@ -81,22 +81,21 @@ class TransactionListScreenState extends State<TransactionListScreen> {
         DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
         String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
         transactions.add(TransactionItem(
-          data[i].status,
-          data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-          statusIcon,
-          data[i].amount.toString(),
-          data[i].outZone['country']['name'],
-          data[i].outZone['name'],
-          data[i].inZone['country']['name'],
-          data[i].inZone['name'],
-          fdatetime,
-          data[i].codeReception,
-          data[i].receiver?['nom'],
-          data[i].receiver?['telephone'],
-          data[i].bank?['intitule'],
-          data[i].bank?['nom'],
-          data[i].to_bank
-        ));
+            data[i].status,
+            data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
+            statusIcon,
+            data[i].amount.toString(),
+            data[i].outZone['country']['name'],
+            data[i].outZone['name'],
+            data[i].inZone['country']['name'],
+            data[i].inZone['name'],
+            fdatetime,
+            data[i].codeReception,
+            data[i].receiver?['nom'],
+            data[i].receiver?['telephone'],
+            data[i].bank?['intitule'],
+            data[i].bank?['nom'],
+            data[i].to_bank));
       }
       // print('receiverName---> $receiverName');
     });
@@ -203,7 +202,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                               ),
                             ),
                             padding: EdgeInsets.all(20.r),
-                            child:  Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Text(alltransferts[0].owner['firstname']),
@@ -343,8 +342,12 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                                     '----onTap From MA_homePage----');
                                                 Navigator.of(context).push(
                                                   PageRouteBuilder(
-                                                    pageBuilder: (BuildContext ctxt, Animation<double>
-                                                                animation, Animation<double> secondaryAnimation) =>
+                                                    pageBuilder: (BuildContext
+                                                                ctxt,
+                                                            Animation<double>
+                                                                animation,
+                                                            Animation<double>
+                                                                secondaryAnimation) =>
                                                         TransactionScreen(
                                                             transaction:
                                                                 transactions,
@@ -391,7 +394,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                         pageBuilder: (BuildContext context,
                                                 Animation<double> animation,
                                                 Animation<double>
-                                                    secondaryAnimation) => const transfertForm(),
+                                                    secondaryAnimation) =>
+                                            const transfertForm(),
                                       ),
                                     );
                                   },
