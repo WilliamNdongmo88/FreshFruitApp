@@ -326,7 +326,7 @@ class _Setting extends State<Setting> {
                                 height: 26.h,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: 15),
+                                padding: EdgeInsets.only(left: 15.w),
                                 child: Text(
                                   'Commentaires sur l’application',
                                   style: TextStyle(
