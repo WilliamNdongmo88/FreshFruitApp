@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:money_app/utils/MA_Widgets.dart';
-import 'package:money_app/views/settings/MA_Acceuil.dart';
 import 'package:money_app/views/settings/MA_UserProfil.dart';
 
 import '../homePage/MA_homePage.dart';
