@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../MA_TransactionStepper.dart';
 import '../../controller/MA_DataController.dart';
-import '../../notification/MA_Notification.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
-import '../MA_DevisesPage.dart';
-import '../MA_SettingsPage.dart';
 import '../MA_TransactionPage.dart';
-import '../app content/MA_Provider_CheckUser.dart';
 
 class TransactionListScreen extends StatefulWidget {
   bool? check;

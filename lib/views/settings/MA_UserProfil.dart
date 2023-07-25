@@ -2,17 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:money_app/component/MA_BottomNavigationBar.dart';
 import 'package:money_app/utils/MA_Widgets.dart';
 import 'package:money_app/views/settings/MA_Setting.dart';
 import 'package:money_app/views/settings/MA_EditProfil.dart';
 import 'package:money_app/views/settings/MA_ResetPassword.dart';
 
 //MA_EditProfil
-class UserProfil extends StatelessWidget {
+class UserProfil extends StatefulWidget {
   const UserProfil({Key? key}) : super(key: key);
+
+  @override
+  State<UserProfil> createState() => _UserProfilState();
+}
+
+class _UserProfilState extends State<UserProfil> {
   final ttext = 'norel aboty';
+
   final isObscure = true;
+
+  void funChange(changetxt) {
+    setState(() {
+      print('***********changetxt****** $changetxt');
+      /*if (changetxt == 'WithoutLabel') {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) => TransactionListScreen(),
+          ),
+        );
+      }*/
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -648,7 +669,9 @@ class UserProfil extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: const bottom_navigation_bar(currentIndex: 3),
+        bottomNavigationBar: getFooter(
+            callBackFunction: funChange,
+            currentIndex: 3), //const bottom_navigation_bar(currentIndex: 3),
       ),
     );
   }
