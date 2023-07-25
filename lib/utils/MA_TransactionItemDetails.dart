@@ -50,7 +50,7 @@ class _TransactionScreenState extends State<TransactionScreen>
         print('----back with true---- ${transaction[index].status}');
         if (transaction[index].status == 'OPEN' ||
             transaction[index].status == 'En Attente') {
-            Navigator.of(context).push(
+          Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation,
                       Animation<double> secondaryAnimation) =>
@@ -88,7 +88,9 @@ class _TransactionScreenState extends State<TransactionScreen>
                 EditeData(transaction: transaction, index: index),
           ),
         );
-      } else if (changetxt == 'Annuler' || changetxt == 'Supprimer' || changetxt == 'Relancer') {
+      } else if (changetxt == 'Annuler' ||
+          changetxt == 'Supprimer' ||
+          changetxt == 'Relancer') {
         showDialog(
           context: context,
           builder: (ctx) => showdialog(ctx: ctx, changetxt: changetxt),
@@ -155,7 +157,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                           'Détail de la transaction',
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 30.sp,
+                              fontSize: 25.sp,
                               fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -181,7 +183,8 @@ class _TransactionScreenState extends State<TransactionScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '$txt ' '$index ' '$isListTransaction',
+                                '$txt ',
+                                // '$index ' '$isListTransaction',
                                 style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 15.sp,
@@ -190,13 +193,22 @@ class _TransactionScreenState extends State<TransactionScreen>
                               SizedBox(
                                 height: 10.h,
                               ),
-                              Text(
-                                'James Kora',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              if (transaction[index].toBank == true) ...[
+                                Text(
+                                  '${transaction[index].bankNom}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ] else
+                                Text(
+                                  '${transaction[index].receiverName}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),

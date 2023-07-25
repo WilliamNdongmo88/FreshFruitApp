@@ -23,4 +23,12 @@ class AppColors{
   );
   static Color blackText = Color.fromRGBO(0, 0, 0,1);
   static Color grayText = Color.fromRGBO(128, 128, 128,1);
+  //static Color orange = Color.fromRGBO(242, 78, 30, 1);
+  //static Color blueText = Color.fromRGBO(9, 67, 189, 1);
+
+  // norel-Aboty
+
+  //static Color orange = Color(0xFFF24E1E);
+  static Color grey = Color(0xFF6F6F6F);
+  static Color dark = Color(0xFF000000);
 }

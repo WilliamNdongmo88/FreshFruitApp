@@ -192,11 +192,11 @@ class TransactionPageState extends State<TransactionPage> {
                   SizedBox(
                     width: 25.w,
                   ),
-                  const Text(
+                  Text(
                     'Liste des transactions',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 25,
+                        fontSize: 25.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
