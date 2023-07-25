@@ -4,7 +4,6 @@ import 'package:money_app/utils/MA_Styles.dart';
 import 'package:money_app/views/settings/MA_UserProfil.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../component/MA_BottomNavigationBar.dart';
 import '../../utils/MA_Widgets.dart';
 
 class EditProfil extends StatefulWidget {
@@ -41,6 +40,20 @@ class _EditProfilState extends State<EditProfil> {
     paysController.dispose();
     villeController.dispose();
     telephoneController.dispose();
+  }
+
+  void funChange(changetxt) {
+    setState(() {
+      print('***********changetxt****** $changetxt');
+      /*if (changetxt == 'WithoutLabel') {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) => TransactionListScreen(),
+          ),
+        );
+      }*/
+    });
   }
 
   @override
@@ -363,7 +376,9 @@ class _EditProfilState extends State<EditProfil> {
             ],
           ),
         ),
-        bottomNavigationBar: const bottom_navigation_bar(currentIndex: 3),
+        bottomNavigationBar: getFooter(
+            callBackFunction: funChange,
+            currentIndex: 3), //const bottom_navigation_bar(currentIndex: 3),
       ),
     );
   }
