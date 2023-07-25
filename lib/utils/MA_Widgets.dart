@@ -6,32 +6,41 @@ import '../views/MA_DevisesPage.dart';
 import '../views/MA_SettingsPage.dart';
 import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
+import '../views/settings/MA_Setting.dart';
 import 'MA_Styles.dart';
 import 'MA_TransactionItem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget myTextField({label, text, String? icon, bool, TextEditingController? controller,Function? validator}) {
+Widget myTextField(
+    {label,
+    text,
+    String? icon,
+    bool,
+    TextEditingController? controller,
+    Function? validator}) {
   return Container(
     height: 50,
     child: TextFormField(
-      validator: (input)=> validator!(input),
+      validator: (input) => validator!(input),
       obscureText: bool,
       controller: controller,
       decoration: InputDecoration(
-          contentPadding:EdgeInsets.only(top: 5, bottom: 0),
+        contentPadding: EdgeInsets.only(top: 5, bottom: 0),
         //  errorStyle: TextStyle(fontSize: 14),
-          hintStyle: TextStyle(
-            fontSize: 18, color: AppColors.genderTextColor,
-          ),
-          labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
-          hintText: text,
-          labelText: label,
-          prefixIcon: Image.asset(
-            icon!,
-            cacheHeight: 20,
-          ),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        hintStyle: TextStyle(
+          fontSize: 18,
+          color: AppColors.genderTextColor,
+        ),
+        labelStyle: TextStyle(fontSize: 18, color: AppColors.grayText),
+        hintText: text,
+        labelText: label,
+        prefixIcon: Image.asset(
+          icon!,
+          cacheHeight: 20,
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        focusedBorder:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
     ),
   );
@@ -56,8 +65,9 @@ Widget elevatedButton({text, Function? onpress, width, height}) {
   );
 }
 
-Widget elevatedButtonright({text, Function? onpress, width, height, icon}){
-  return ElevatedButton.icon(   // <-- ElevatedButton
+Widget elevatedButtonright({text, Function? onpress, width, height, icon}) {
+  return ElevatedButton.icon(
+    // <-- ElevatedButton
     style: ElevatedButton.styleFrom(
       minimumSize: Size(width, height),
       backgroundColor: AppColors.orange,
@@ -96,9 +106,9 @@ Widget myText({text, style, textAlign}) {
   );
 }
 
-Widget socialAppsIcons({text,Function? onPressed}) {
+Widget socialAppsIcons({text, Function? onPressed}) {
   return InkWell(
-    onTap: ()=> onPressed!(),
+    onTap: () => onPressed!(),
     child: Container(
       margin: const EdgeInsets.all(10),
       width: 48,
@@ -111,7 +121,6 @@ Widget socialAppsIcons({text,Function? onPressed}) {
     ),
   );
 }
-
 
 // norel-Aboty
 Widget myerrorMessage({text, paddingerror}) {
@@ -131,12 +140,12 @@ Widget myerrorMessage({text, paddingerror}) {
 
 Widget myTextFormField(
     {keyboadtypeinput,
-      textLabel,
-      textHint,
-      String? icon,
-      textObscure,
-      TextEditingController? controller,
-      Function? validator}) {
+    textLabel,
+    textHint,
+    String? icon,
+    textObscure,
+    TextEditingController? controller,
+    Function? validator}) {
   return TextFormField(
     obscureText: textObscure,
     keyboardType: TextInputType.text,
@@ -158,7 +167,8 @@ Widget myTextFormField(
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.grey),
         ),
-        focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
+        focusedErrorBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
         errorStyle: TextStyle(
             color: AppColors.orange,
             fontSize: 14.sp,
@@ -172,11 +182,11 @@ Widget myTextFormField(
           letterSpacing: 0.1.sp,
         ),
         focusedBorder:
-        OutlineInputBorder(borderSide: BorderSide(color: AppColors.orange)),
+            OutlineInputBorder(borderSide: BorderSide(color: AppColors.orange)),
         border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: AppColors.grey,
-            )),
+          color: AppColors.grey,
+        )),
         prefixIcon: Padding(
             padding: EdgeInsets.only(
                 top: 15.h, bottom: 21.h, left: 8.w, right: 15.w),
@@ -195,17 +205,17 @@ Widget myTextFormField(
 
 Widget myTextFormField2(
     {keyboadtypeinput,
-      textLabel,
-      textHint,
-      String? icon,
-      textObscure,
-      TextEditingController? controller,
-      Function? validator}) {
+    textLabel,
+    textHint,
+    String? icon,
+    textObscure,
+    TextEditingController? controller,
+    Function? validator}) {
   return TextFormField(
     obscureText: textObscure,
     keyboardType: keyboadtypeinput,
     decoration: InputDecoration(
-      /*contentPadding:
+        /*contentPadding:
             EdgeInsets.only(top: 10.h, bottom: 10.h, right: 5.w, left: 5.w),*/
         label: RichText(
           text: TextSpan(
@@ -225,7 +235,7 @@ Widget myTextFormField2(
           borderSide: BorderSide(color: AppColors.grey),
         ),
         focusedErrorBorder:
-        OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
+            OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
         errorStyle: TextStyle(
             color: AppColors.orange,
             fontSize: 14.sp,
@@ -240,14 +250,14 @@ Widget myTextFormField2(
           letterSpacing: 0.1.sp,
         ),
         focusedBorder:
-        OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
+            OutlineInputBorder(borderSide: BorderSide(color: AppColors.grey)),
         border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: AppColors.grey,
-            )),
+          color: AppColors.grey,
+        )),
         prefixIcon: Padding(
             padding:
-            EdgeInsets.only(top: 0.h, bottom: 0.h, left: 5.w, right: 5.w),
+                EdgeInsets.only(top: 0.h, bottom: 0.h, left: 5.w, right: 5.w),
             child: IconButton(
                 onPressed: () {},
                 icon: SvgPicture.asset(
@@ -390,8 +400,6 @@ Widget myTextFormField3(
   );
 }
 
-
-
 //Will Code Start
 
 /// William Ndongmo
@@ -457,7 +465,6 @@ Widget outputField({
                         fontWeight: FontWeight.bold),
                   ),
                 ]
-
               ],
             ),
           ),
@@ -881,8 +888,8 @@ class _getFooterState extends State<getFooter> {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top:
-              BorderSide(width: 1.w, color: const Color.fromARGB(255, 128, 130, 132)),
+          top: BorderSide(
+              width: 1.w, color: const Color.fromARGB(255, 128, 130, 132)),
         ),
         // color: Colors.white,
       ),
@@ -1013,7 +1020,7 @@ class _getFooterState extends State<getFooter> {
                   pageBuilder: (BuildContext context,
                           Animation<double> animation,
                           Animation<double> secondaryAnimation) =>
-                      SettingsPage(),
+                      const Setting(),
                   transitionsBuilder: (BuildContext context,
                       Animation<double> animation,
                       Animation<double> secondaryAnimation,

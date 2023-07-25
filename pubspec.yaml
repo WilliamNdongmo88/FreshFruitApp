@@ -42,14 +42,16 @@ dependencies:
   # google_fonts: ^3.0.1
   intl: ^0.18.1
   get:
-  google_fonts: ^5.1.0
+  google_fonts:
   firebase_core:
   google_sign_in:
   flutter_facebook_auth:
   firebase_auth: ^4.6.1
   cloud_functions:
+  flutter_screenutil:
   equatable:
   firebase_messaging:
+  flutter_screenutil: ^5.8.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
