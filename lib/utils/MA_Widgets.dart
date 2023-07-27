@@ -663,6 +663,8 @@ Widget buildIconButtonSvg(
 /// cardItem(transaction: transaction)
 /// transaction  est une liste d'elements
 Widget cardItem({required TransactionItem transaction}) {
+  print('transaction status ---> ${transaction.status}');
+  print('--------> statut ${transaction.icon}');
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
@@ -710,9 +712,19 @@ Widget cardItem({required TransactionItem transaction}) {
                               ),
                             ),
                             if (transaction.status == 'OPEN' ||
-                                transaction.status == 'En Attente') ...[
+                                transaction.status == 'IN APPROVAL') ...[
                               Text(
                                 'En cours',
+                                style: GoogleFonts.inter(
+                                  fontSize: 15.sp,
+                                  fontStyle: FontStyle.normal,
+                                  color:
+                                      const Color.fromARGB(255, 136, 134, 134),
+                                ),
+                              ),
+                            ] else if (transaction.status == 'CANCELED') ...[
+                              Text(
+                                'Annulée',
                                 style: GoogleFonts.inter(
                                   fontSize: 15.sp,
                                   fontStyle: FontStyle.normal,
@@ -765,7 +777,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                     )),
                               ],
                             ),
-                          ] else if (transaction.status == 'En Attente') ...[
+                          ] else if (transaction.status == 'IN APPROVAL') ...[
                             Text(transaction.user,
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
@@ -783,7 +795,7 @@ Widget cardItem({required TransactionItem transaction}) {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text(transaction.status,
+                                Text('En Attente',
                                     style: GoogleFonts.inter(
                                       fontSize: 14,
                                       fontStyle: FontStyle.normal,

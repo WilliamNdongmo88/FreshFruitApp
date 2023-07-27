@@ -54,6 +54,39 @@ class _EditeDataState extends State<EditeData> {
     } else if (transaction[index].status == 'OPEN' &&
         transaction[index].toBank == false) {
       print('++++Receivername true---> ${transaction[index].receiverName}');
+      print('++++Receivertel true---> ${transaction[index].receiverTel}');
+      print('++++codeReception true---> ${transaction[index].codeReception}');
+      countryNameController.text = transaction[index].inZoneCountry;
+      destinataireNameController.text =
+          transaction[index].receiverName as String;
+      numeroTelephoneController.text = transaction[index].receiverTel as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    } else if (transaction[index].status == 'CANCELED' &&
+        transaction[index].toBank == true) {
+      countryNameController.text = transaction[index].inZoneCountry;
+      compteIntituleController.text = transaction[index].bankIntitule as String;
+      banqueNameController.text = transaction[index].bankNom as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    } else if (transaction[index].status == 'CANCELED' &&
+        transaction[index].toBank == false) {
+      countryNameController.text = transaction[index].inZoneCountry;
+      destinataireNameController.text =
+          transaction[index].receiverName as String;
+      numeroTelephoneController.text = transaction[index].receiverTel as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    } else if (transaction[index].status == 'IN APPROVAL' &&
+        transaction[index].toBank == true) {
+      countryNameController.text = transaction[index].inZoneCountry;
+      destinataireNameController.text =
+          transaction[index].receiverName as String;
+      numeroTelephoneController.text = transaction[index].receiverTel as String;
+      codeReceptionController.text =
+          'trans:${transaction[index].codeReception}';
+    } else if (transaction[index].status == 'IN APPROVAL' &&
+        transaction[index].toBank == false) {
       countryNameController.text = transaction[index].inZoneCountry;
       destinataireNameController.text =
           transaction[index].receiverName as String;
@@ -135,12 +168,15 @@ class _EditeDataState extends State<EditeData> {
                   ),
                   child: Column(
                     children: [
-                      Container(
-                          margin: EdgeInsets.only(top: 15.r),
-                          child: Text("Les informations de l'expéditeur",
-                              style: GoogleFonts.inter(
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold))),
+                      Padding(
+                        padding: EdgeInsets.only(left: 16.r, right: 16.r),
+                        child: Container(
+                            margin: EdgeInsets.only(top: 15.r),
+                            child: Text("Les informations de l'expéditeur",
+                                style: GoogleFonts.inter(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold))),
+                      ),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -172,13 +208,15 @@ class _EditeDataState extends State<EditeData> {
                               ],
                             ),
                           ),
-                          Container(
-                              margin: EdgeInsets.only(top: 15.r),
-                              child: Text(
-                                  "Les informations sur le destinataire",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold))),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.r, right: 16.r),
+                            child: Container(
+                                margin: EdgeInsets.only(top: 15.r),
+                                child: Text("Les informations du destinataire",
+                                    style: GoogleFonts.inter(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold))),
+                          ),
                           Padding(
                             padding: EdgeInsets.only(left: 25.r, right: 25.r),
                             child: Form(
@@ -188,7 +226,9 @@ class _EditeDataState extends State<EditeData> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      if (transaction[index].status == 'OPEN' && transaction[index].toBank == true) ...[
+                                      if (transaction[index].status == 'OPEN' &&
+                                          transaction[index].toBank ==
+                                              true) ...[
                                         Container(
                                           margin: EdgeInsets.only(top: 10.r),
                                           child: Text("Nom de la banque",
@@ -604,9 +644,9 @@ class _EditeDataState extends State<EditeData> {
                                           ],
                                         ),
                                       ] else if (transaction[index].status ==
-                                              'En Attente' ||
+                                              'IN APPROVAL' ||
                                           transaction[index].status ==
-                                              'Annulé') ...[
+                                              'CANCELED') ...[
                                         Container(
                                           margin: EdgeInsets.only(top: 10.r),
                                           child: Text("Nom du destinataire",
