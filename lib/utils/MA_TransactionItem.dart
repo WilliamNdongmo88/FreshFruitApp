@@ -1,22 +1,22 @@
 class TransactionItem {
-  // int id;
+  String id;
   String status;
   String user;
   String? icon;
-  String amont;
+  String? amont;
   String outZoneCountry;
   String outZoneCity;
   String inZoneCountry;
   String inZoneCity;
   String date;
-  String codeReception;
+  String? codeReception;
   String? receiverName;
   String? receiverTel;
   String? bankIntitule;
   String? bankNom;
   bool toBank;
   TransactionItem(
-      // this.id,
+      this.id,
       this.status,
       this.user,
       this.icon,
@@ -35,15 +35,16 @@ class TransactionItem {
 }
 
 class TransactionItemToFireBase {
+  String id;
   String? lastTimeInPending;
-  int amount;
+  int? amount;
   Map? bank;
-  String codeReception;
+  String? codeReception;
   Map deposit;
-  String description;
-  Map createdDate;
-  Map inZone;
-  Map outZone;
+  String? description;
+  Map? createdDate;
+  Map? inZone;
+  Map? outZone;
   Map owner;
   String ownerId;
   Map? receiver;
@@ -52,6 +53,7 @@ class TransactionItemToFireBase {
   String? icon;
 
   TransactionItemToFireBase({
+    required this.id,
     required this.lastTimeInPending,
     required this.amount,
     required this.codeReception,
@@ -89,6 +91,7 @@ class TransactionItemToFireBase {
 
   factory TransactionItemToFireBase.fromJson(Map<String, dynamic> json) {
     return TransactionItemToFireBase(
+      id: json['id'],
       lastTimeInPending: json['lastTimeInPending'],
       amount: json['amount'],
       bank: json['bank'],

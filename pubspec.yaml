@@ -48,9 +48,10 @@ dependencies:
   flutter_facebook_auth: ^6.0.0
   firebase_auth: ^4.6.1
   cloud_functions:
-  flutter_screenutil:
+  # flutter_screenutil:
   equatable:
   firebase_messaging:
+  flutter_screenutil: ^5.8.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
