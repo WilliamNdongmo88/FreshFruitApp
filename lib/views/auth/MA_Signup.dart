@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_app/utils/MA_Styles.dart';
@@ -127,17 +128,17 @@ class _SignupViewState extends State<SignupView> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 15),
+          padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 15.h),
           child: Column(
               children: [
                 Image.asset('assets/logo.png'),
                 SizedBox(
-                  height: Get.height * 0.01,
+                  height: Get.height * 0.01.h,
                 ),
                 myText(
                   text: 'Inscription',
                   style: GoogleFonts.dmSans(
-                      textStyle: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)
+                      textStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold)
                   ),
                   textAlign: TextAlign.center
                 ),
@@ -151,10 +152,10 @@ class _SignupViewState extends State<SignupView> {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: Get.height * 0.03,
+                                  height: Get.height * 0.03.h,
                                 ),
                                 SizedBox(
-                                  height: 75,
+                                  height: 75.h,
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/icon_name.png',
@@ -172,10 +173,10 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.01,
+                                  height: Get.height * 0.01.h,
                                 ),
                                 SizedBox(
-                                  height: 75,
+                                  height: 75.h,
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/icon_name.png',
@@ -192,7 +193,7 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.01,
+                                  height: Get.height * 0.01.h,
                                 ),
                                 DropdownButtonFormField(
                                     value: selectedCountry,
@@ -214,13 +215,13 @@ class _SignupViewState extends State<SignupView> {
                                     },
                                     decoration: InputDecoration(
                                       labelText: "Pays",
-                                      labelStyle: TextStyle(fontSize: 18),
+                                      labelStyle: TextStyle(fontSize: 18.sp),
                                       border: OutlineInputBorder(),
                                     ),
 
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.02,
+                                  height: Get.height * 0.02.h,
                                 ),
                                 DropdownButtonFormField(
                                   value: selectedCity,
@@ -236,13 +237,13 @@ class _SignupViewState extends State<SignupView> {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "Ville",
-                                      labelStyle: TextStyle(fontSize: 18),
+                                      labelStyle: TextStyle(fontSize: 18.sp),
                                       border: OutlineInputBorder(),
                                   ),
 
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.01,
+                                  height: Get.height * 0.01.h,
                                 ),
                                 /*SizedBox(
                                   height: 75,
@@ -261,7 +262,7 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                 ),*/
                                 SizedBox(
-                                  height: Get.height * 0.01,
+                                  height: Get.height * 0.01.h,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -273,8 +274,8 @@ class _SignupViewState extends State<SignupView> {
                                         authController.logout();
                                         Get.to(()=> LoginView());
                                       },
-                                      width: 130.0,
-                                      height: 40.0,
+                                      width: 130.w,
+                                      height: 40.h,
                                     ),
                                     elevatedButtonright(
                                         text: 'Suivant',
@@ -289,8 +290,8 @@ class _SignupViewState extends State<SignupView> {
                                           });
 
                                         },
-                                        width: 130.0,
-                                        height: 40.0,
+                                        width: 130.w,
+                                        height: 40.h,
                                         icon: Icon(
                                             Icons.chevron_right_outlined
                                         )
@@ -305,10 +306,10 @@ class _SignupViewState extends State<SignupView> {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: Get.height * 0.02,
+                                  height: Get.height * 0.02.h,
                                 ),
                                 SizedBox(
-                                  height: 75,
+                                  height: 75.h,
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/phone_icon.png',
@@ -325,7 +326,7 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 75,
+                                  height: 75.h,
                                   child: myTextField(
                                       bool: false,
                                       icon: 'assets/icon_name.png',
@@ -341,25 +342,25 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.03,
+                                  height: Get.height * 0.03.h,
                                 ),
                                 Card(),
                                 SizedBox(
-                                  width: 400,
-                                  height: 100,
+                                  width: 400.w,
+                                  height: 100.h,
                                   child: Column(
                                     children: [
                                       myText(
                                           text: 'Telecharger une pièce d\'identité \n ( CNI ou Passport)',
                                           style: GoogleFonts.dmSans(
-                                              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.normal)
+                                              textStyle: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.normal)
                                           ),
                                           textAlign: TextAlign.center
                                       ),
                                       IconButton(
                                         icon:  Icon(
                                           Icons.cloud_upload_outlined,
-                                          size: 50,
+                                          size: 50.sp,
                                         ),
                                         color: AppColors.orange,
                                         onPressed: () {},
@@ -368,7 +369,7 @@ class _SignupViewState extends State<SignupView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: Get.height * 0.02,
+                                  height: Get.height * 0.02.h,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -386,8 +387,8 @@ class _SignupViewState extends State<SignupView> {
                                           });
                                           dataController.isLoading.value = false;
                                         },
-                                        width: 130.0,
-                                        height: 40.0,
+                                        width: 130.w,
+                                        height: 40.h,
                                         icon: Icon(
                                             Icons.chevron_left_outlined
                                         )
@@ -413,8 +414,8 @@ class _SignupViewState extends State<SignupView> {
 
                                           callCreateUser(usr);
                                         },
-                                        width: 130.0,
-                                        height: 40.0,
+                                        width: 130.w,
+                                        height: 40.h,
                                       ),
                                     ),
                                     )
@@ -428,18 +429,18 @@ class _SignupViewState extends State<SignupView> {
                   ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.03,
+                  height: Get.height * 0.03.h,
                 ),
                 myText(
                     text: 'Vous avez déjà un compte?',
                     style: GoogleFonts.dmSans(
-                        textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+                        textStyle: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)
                     ),
                     textAlign: TextAlign.center
                 ),
                 textButton(
                   text: 'Se connecter',
-                  fontSize: 20.0,
+                  fontSize: 20.sp,
                   color: AppColors.orange,
                     onpress: (){
                       print('******* press on the Se connecter button ****');

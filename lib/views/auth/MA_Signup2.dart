@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_app/views/auth/MA_Login.dart';
@@ -39,26 +40,26 @@ class _MaSignupViewState extends State<MaSignupView> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+          padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 20.h),
           child: Form(
             key: formKey,
             child: Column(
               children: [
                 Image.asset('assets/logo.png'),
                 SizedBox(
-                  height: Get.height * 0.03,
+                  height: Get.height * 0.03.h,
                 ),
                 myText(
                     text: ' Signup ',
                     style: GoogleFonts.dmSans(
-                            textStyle: TextStyle( fontSize: 32, fontWeight: FontWeight.bold)),
+                            textStyle: TextStyle( fontSize: 32.sp, fontWeight: FontWeight.bold)),
                     textAlign: TextAlign.center
                 ),
                 SizedBox(
-                  height: Get.height * 0.04,
+                  height: Get.height * 0.04.h,
                 ),
                 SizedBox(
-                  height: 75,
+                  height: 75.h,
                   child: myTextField(
                       bool: false,
                       icon: 'assets/mail.png',
@@ -77,10 +78,10 @@ class _MaSignupViewState extends State<MaSignupView> {
                   ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.01,
+                  height: Get.height * 0.01.h,
                 ),
                 SizedBox(
-                  height: 75,
+                  height: 75.h,
                   child: myTextField(
                       bool: true,
                       icon: 'assets/icon_name.png',
@@ -108,7 +109,7 @@ class _MaSignupViewState extends State<MaSignupView> {
                   ),
                 ),
                 SizedBox(
-                  height: 75,
+                  height: 75.h,
                   child: myTextField(
                       bool: true,
                       icon: 'assets/icon_name.png',
@@ -150,13 +151,13 @@ class _MaSignupViewState extends State<MaSignupView> {
                     )
                 ),*/
                 SizedBox(
-                  height: Get.height * 0.02,
+                  height: Get.height * 0.02.h,
                 ),
                 SizedBox(
-                  height: Get.height * 0.04,
+                  height: Get.height * 0.04.h,
                 ),
                 Obx(() => authController.isLoading.value? Center(child: CircularProgressIndicator(),) : Container(
-                  height: 50,
+                  height: 50.h,
                   child: elevatedButton(
                     text: ' Signup ',
                     onpress: (){
@@ -169,23 +170,23 @@ class _MaSignupViewState extends State<MaSignupView> {
 
                      // Get.to(()=> SignupView());
                     },
-                    width: 30.0,
-                    height: 40.0,
+                    width: 30.w,
+                    height: 40.h,
                   ),
                 ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.06,
+                  height: Get.height * 0.06.h,
                 ),
                 myText(
                     text: 'Vous avez déjà un compte?',
                     style: GoogleFonts.dmSans(
                         textStyle: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                            fontSize: 18.sp, fontWeight: FontWeight.bold)),
                     textAlign: TextAlign.center),
                 textButton(
                     text: ' Connectez vous ',
-                    fontSize: 20.0,
+                    fontSize: 20.sp,
                     color: AppColors.orange,
                     onpress: (){
                       print('******* press on the Connectez vous button ****');

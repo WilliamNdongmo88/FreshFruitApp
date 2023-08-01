@@ -69,6 +69,7 @@ class AppWrapper extends StatelessWidget {
           return TransactionListScreen();
           //return LoginView();
         } else {
+
           return LoginView();
         }
       },
@@ -77,9 +78,9 @@ class AppWrapper extends StatelessWidget {
 
   Future<bool> checkUserLoggedIn() async {
     bool res = false;
-    List<MA_Helper_Country> listCountry =
+    /*List<MA_Helper_Country> listCountry =
         await dataController.retrieveCountry();
-    dataController.updateCountryList(listCountry);
+    dataController.updateCountryList(listCountry);*/
     //save the contry
     await FirebaseAuth.instance.authStateChanges().listen((User? user) {
       print("********** in fire qut check state **********");

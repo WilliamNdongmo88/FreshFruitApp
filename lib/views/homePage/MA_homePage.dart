@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../MA_TransactionStepper.dart';
 import '../../controller/MA_DataController.dart';
+import '../../notification/MA_Notification.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
@@ -140,7 +144,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                               fontSize: 16.sp),
                                         ),
                                         Text(
-                                          "Lisa Camilla ",
+                                          (FirebaseAuth.instance.currentUser?.displayName!=null  ? FirebaseAuth.instance.currentUser?.displayName as String : ' ') ,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 18.sp),
@@ -170,7 +174,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                             padding:
                                                 EdgeInsets.only(right: 20.0),
                                             child: GestureDetector(
-                                              onTap: () {},
+                                              onTap: () {
+                                                Get.to(NotificationScreen());
+                                              },
                                               child: Icon(
                                                 Icons.notifications,
                                                 size: 40.h,
