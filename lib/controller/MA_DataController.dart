@@ -197,13 +197,14 @@ class DataController extends GetxController {
     token.value = toknC;
   }
 
-  Future<String> createTransfert(MA_Helper_Transfert transfert) async {
+  Future<dynamic> createTransfert(MA_Helper_Transfert transfert) async {
     print('***** Enter in createTransfert *********');
     String msg = '';
     String date = getDate(DateTime.now());
+    dynamic result ;
     if (transfert.ManualInfo != null) {
       print('***** Enter in if ManualInfo *********');
-      dynamic result = await callCloudFunction('nl_manage_request', {
+       result = await callCloudFunction('nl_manage_request', {
         "action": "SAVE",
         "transfert": {
           "amount": transfert.Amount,
@@ -238,12 +239,13 @@ class DataController extends GetxController {
       }
     } else if (transfert.BankInfo != null) {
       print('***** Enter in else if BankInfo *********');
-      dynamic result = await callCloudFunction('nl_manage_request', {
+       result = await callCloudFunction('nl_manage_request', {
+
         "action": "SAVE",
         "transfert": {
           "amount": transfert.Amount,
           "status": "OPEN",
-          "createdDate": date,
+          //"createdDate": date,
           "bank": {
             "nom": transfert.BankInfo?.Name,
             "intitule": transfert.BankInfo?.Intitule,
@@ -253,6 +255,10 @@ class DataController extends GetxController {
           "codeReception": transfert.ReceptionCode,
         }
       });
+      print('entire response ààààààààà');//{exit: KO, code: failed-precondition, message: inZoneCity and outZoneCity can not have a same value}
+                                         //{exit: OK, code: 200, message: Transfert Created, body: hDWL2WwUeRoVEWuGrtN2}
+                                         //{exit: KO, code: failed-precondition, message: Transfert must have inZone and outZone city}
+      print(result);
       if (result['ErrorCode'] == null) {
         if (result['message'] != null) {
           //empty result
@@ -272,7 +278,7 @@ class DataController extends GetxController {
         msg = "K.O";
       }
     }
-    return msg;
+    return result;
   }
 
   String getDate(DateTime data) {
