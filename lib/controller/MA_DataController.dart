@@ -175,6 +175,7 @@ class DataController extends GetxController {
         print('enter In good response scope');
         print(result['body'].runtimeType);
         msg = result['body'];
+        await FirebaseAuth.instance.currentUser?.updateDisplayName(user.firstname+' '+user.lastname);
         isLoading(false);
         Get.to(() => TransactionListScreen());
       }

@@ -45,12 +45,12 @@ dependencies:
   google_fonts:
   firebase_core:
   google_sign_in:
-  flutter_facebook_auth:
+  flutter_facebook_auth: ^6.0.0
   firebase_auth: ^4.6.1
   cloud_functions:
   # flutter_screenutil:
   equatable:
-  firebase_messaging: ^14.6.5
+  firebase_messaging:
   flutter_screenutil: ^5.8.4
 dev_dependencies:
   flutter_test:

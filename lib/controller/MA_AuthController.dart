@@ -32,6 +32,7 @@ class AuthController extends GetxController{
     }).catchError((e) {
       isLoading(false);
       /// print error information
+      Get.snackbar('Error',"$e", duration: Duration(seconds: 6));
       print("Error in authentication $e");
     });
   }
@@ -47,8 +48,15 @@ class AuthController extends GetxController{
       ///go to dashboard directly
       Get.to(()=> TransactionListScreen());
     } ).catchError((e) {
+      if(e.code == 'user-not-found'){
+        Get.snackbar('Error',"USER NOT FOUND",duration: Duration(seconds: 6),);
+      }else if(e.code == 'wrong-password'){
+        Get.snackbar('Error',"WRONG PASSWORD",duration: Duration(seconds: 6));
+      }else{
+        Get.snackbar('Error',"$e", duration: Duration(seconds: 12));
+      }
+
       isLoading(false);
-      //Get.snackbar('Error',"$e");
       print("Error in authentication $e");
 
     });
