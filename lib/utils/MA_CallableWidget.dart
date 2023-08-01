@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../views/MA_TransactionPage.dart';
+import '../views/homePage/MA_homePage.dart';
 import 'MA_TransactionItem.dart';
 import 'MA_TransactionItemDetails.dart';
 import 'MA_Widgets.dart';
@@ -18,20 +20,21 @@ Widget tabDetails(
     List<TransactionItem>? transaction,
     int? index,
     bool? valueOfBool,
-    String? codeReception}) {
+    String? codeReception,
+    String? indexOfStatutTransaction}) {
   if (valueTab == 'Transaction') {
-    return tabTransaction(transaction, index);
+    return tabTransaction(transaction, index, indexOfStatutTransaction);
   } else if (valueTab == 'Destinataire') {
     print('-->codeReception $codeReception');
-    return tabDestinataire(
-        transaction, index, callBackFunction, valueOfBool!, codeReception!);
+    return tabDestinataire(transaction, index, callBackFunction, valueOfBool!,
+        codeReception!, indexOfStatutTransaction);
   } else {
-    return tabExpediteur(
-        transaction, index, callBackFunction, valueOfBool!, codeReception!);
+    return tabExpediteur(transaction, index, callBackFunction, valueOfBool!,
+        codeReception!, indexOfStatutTransaction);
   }
 }
 
-Widget tabTransaction(transaction, index) {
+Widget tabTransaction(transaction, index, indexOfStatutTransaction) {
   int frais = 20;
   return Padding(
     padding: EdgeInsets.only(left: 30.r, right: 30.r),
@@ -51,30 +54,31 @@ Widget tabTransaction(transaction, index) {
         SizedBox(
           height: 15.h,
         ),
-        if (transaction[index].status == 'Terminé') ...[
+        if (indexOfStatutTransaction == 'Terminé') ...[
           outputField(
               topTextLeft: 'Status',
-              bottomTextLeft: transaction[index].status,
+              bottomTextLeft: indexOfStatutTransaction,
               svgLink: 'assets/termine.svg',
               color: Color(0xFF2ADFB6)),
-        ] else if (transaction[index].status == 'OPEN') ...[
+        ] else if (indexOfStatutTransaction == 'OPEN') ...[
           outputField(
               topTextLeft: 'Status',
               bottomTextLeft: 'En cours de Traitement',
               svgLink: 'assets/spinner.svg',
               color: Color(0xFFFFC700)),
-        ] else if (transaction[index].status == 'En Attente') ...[
+        ] else if (indexOfStatutTransaction == 'IN APPROVAL') ...[
           outputField(
               topTextLeft: 'Status',
-              bottomTextLeft: transaction[index].status,
+              bottomTextLeft: 'En Attente',
               svgLink: 'assets/spinner.svg',
               color: Color(0xFFF24E1E)),
-        ] else
+        ] else if (indexOfStatutTransaction == 'CANCELED') ...[
           outputField(
               topTextLeft: 'Status',
-              bottomTextLeft: transaction[index].status,
+              bottomTextLeft: 'Annulée',
               svgLink: 'assets/cancel.svg',
               color: const Color(0xFFFFF0000)),
+        ],
         SizedBox(
           height: 15.h,
         ),
@@ -87,7 +91,7 @@ Widget tabTransaction(transaction, index) {
           width: double.infinity,
           child: Container(
             margin: EdgeInsets.only(
-                top: transaction[index].status == 'Terminé' ? 35.r : 15.r),
+                top: indexOfStatutTransaction == 'Terminé' ? 35.r : 15.r),
             child: Padding(
               padding: EdgeInsets.all(15.r),
               child: Row(
@@ -125,13 +129,13 @@ Widget tabTransaction(transaction, index) {
 }
 
 Widget tabDestinataire(transaction, index, Function? callBackFunction,
-    bool valueOfBool, String codeReception) {
+    bool valueOfBool, String codeReception, indexOfStatutTransaction) {
   return Padding(
     padding: EdgeInsets.only(left: 30.r, right: 30.r, top: 10.r),
     child: Container(
       child: Column(
         children: [
-          if (transaction[index].status == 'OPEN' &&
+          if (indexOfStatutTransaction == 'OPEN' &&
               transaction[index].toBank == true) ...[
             outputField(
                 topTextLeft: 'Nom de la banque',
@@ -220,7 +224,7 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
                   ),
                 ),
               ),
-          ] else if (transaction[index].status == 'OPEN' &&
+          ] else if (indexOfStatutTransaction == 'OPEN' &&
               transaction[index].toBank == false) ...[
             outputField(
                 topTextLeft: 'Nom du destinataire',
@@ -307,9 +311,9 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
                   ),
                 ),
               ),
-          ] else if (transaction[index].status == 'En Attente' ||
-              transaction[index].status == 'Terminé' ||
-              transaction[index].status == 'Annulé') ...[
+          ] else if (indexOfStatutTransaction == 'IN APPROVAL' ||
+              indexOfStatutTransaction == 'Terminé' ||
+              indexOfStatutTransaction == 'CANCELED') ...[
             outputField(
                 topTextLeft: 'Nom du destinataire',
                 bottomTextLeft: transaction[index].receiverName),
@@ -403,13 +407,13 @@ Widget tabDestinataire(transaction, index, Function? callBackFunction,
 }
 
 Widget tabExpediteur(transaction, index, Function? callBackFunction,
-    bool valueOfBool, String codeReception) {
+    bool valueOfBool, String codeReception, indexOfStatutTransaction) {
   return Padding(
     padding: EdgeInsets.only(left: 30.r, right: 30.r),
     child: Column(
       children: [
-        if (transaction[index].status == 'Terminé' ||
-            transaction[index].status == 'OPEN') ...[
+        if (indexOfStatutTransaction == 'Terminé' ||
+            indexOfStatutTransaction == 'OPEN') ...[
           SizedBox(
             height: 20.h,
           ),
@@ -494,9 +498,9 @@ Widget tabExpediteur(transaction, index, Function? callBackFunction,
                 ),
               ),
             ),
-        ] else if (transaction[index].status == 'OPEN' ||
-            transaction[index].status == 'En Attente' ||
-            transaction[index].status == 'Annulé') ...[
+        ] else if (indexOfStatutTransaction == 'OPEN' ||
+            indexOfStatutTransaction == 'IN APPROVAL' ||
+            indexOfStatutTransaction == 'CANCELED') ...[
           outputField(
               topTextLeft: "Nom de l'expéditeur",
               bottomTextLeft: transaction[index].user),
@@ -678,31 +682,50 @@ class _GetDataFormState extends State<GetDataForm> {
   }
 }
 
-Widget showdialog({ctx, changetxt}) {
+Widget showdialog({ctx, changetxt, Function? callBackFunction}) {
+  var svgName;
   if (changetxt == 'Annuler' ||
       changetxt == 'Supprimer' ||
-      changetxt == 'Relancer') {
+      changetxt == 'Relancer' ||
+      changetxt == 'Confirmer') {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(45),
       ),
       child: AlertDialog(
         title: SizedBox(
-          height: 120.h,
+          height: 140.h,
           width: 250.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (changetxt != 'Relancer') ...[
-                buildIconButtonSvg(
-                  iconColor: const Color(0XFFF24E1E),
-                  iconSvg: 'assets/recyclebin.svg',
-                  fontSizeIcon: 35.sp,
-                ),
+                if (changetxt == 'Confirmer') ...[
+                  buildIconButtonSvg(
+                    iconColor: const Color(0XFFF24E1E),
+                    iconSvg: 'assets/termine.svg',
+                    fontSizeIcon: 35.sp,
+                  ),
+                ] else
+                  buildIconButtonSvg(
+                    iconColor: const Color(0XFFF24E1E),
+                    iconSvg: 'assets/recyclebin.svg',
+                    fontSizeIcon: 35.sp,
+                  ),
                 SizedBox(height: 15.h),
                 if (changetxt == 'Supprimer') ...[
                   Text(
                     "Voulez vous Supprimer cette transaction ?",
+                    style: GoogleFonts.inter(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+                SizedBox(height: 15.h),
+                if (changetxt == 'Confirmer') ...[
+                  Text(
+                    "Confirmez-vous la transaction ?",
                     style: GoogleFonts.inter(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -774,7 +797,59 @@ Widget showdialog({ctx, changetxt}) {
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (changetxt == 'Annuler') {
+                        callBackFunction!('CANCELED');
+                        Navigator.of(ctx).pop();
+                        Navigator.of(ctx).push(
+                          PageRouteBuilder(
+                            pageBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secondaryAnimation) =>
+                                TransactionPage(
+                                    isListTransaction: true,
+                                    currentTransaction: 3),
+                          ),
+                        );
+                      } else if (changetxt == 'Relancer') {
+                        callBackFunction!('IN APPROVAL');
+                        Navigator.of(ctx).pop();
+                        Navigator.of(ctx).push(
+                          PageRouteBuilder(
+                            pageBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secondaryAnimation) =>
+                                TransactionPage(
+                                    isListTransaction: true,
+                                    currentTransaction: 1),
+                          ),
+                        );
+                      } else if (changetxt == 'Confirmer') {
+                        callBackFunction!('Confirmer');
+                        Navigator.of(ctx).pop();
+                        Navigator.of(ctx).push(
+                          PageRouteBuilder(
+                            pageBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secondaryAnimation) =>
+                                TransactionListScreen(),
+                          ),
+                        );
+                      } else {
+                        callBackFunction!('DELETED');
+                        Navigator.of(ctx).pop();
+                        Navigator.of(ctx).push(
+                          PageRouteBuilder(
+                            pageBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secondaryAnimation) =>
+                                TransactionPage(
+                                    isListTransaction: true,
+                                    currentTransaction: 3),
+                          ),
+                        );
+                      }
+                    },
                     child: Text(
                       'Oui',
                       style: TextStyle(
@@ -797,7 +872,7 @@ Widget showdialog({ctx, changetxt}) {
       ),
       child: AlertDialog(
         title: SizedBox(
-          height: 120.h,
+          height: 130.h,
           width: 250.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1120,7 +1195,7 @@ class _showDialogFilterSortState extends State<showDialogFilterSort> {
                               ),
                               icon: Padding(
                                 padding: EdgeInsets.only(left: 50.r),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.arrow_drop_down,
                                   color: Color(0XFFF24E1E),
                                 ),
@@ -1728,11 +1803,11 @@ Widget TansactionsTab(List<TransactionItem> transactions, String valueTab,
       return allTansactions(transactions, isListTransaction);
 
     case 'En cours':
-      map = transactions.map((e) => e.status == 'Terminé' ? e : null);
+      // map = transactions.map((e) => e.status == 'Terminé' ? e : null);
       print('all---> ${map}');
       for (var i = 0; i < transactions.length; i++) {
         if (transactions[i].status == 'OPEN' ||
-            transactions[i].status == 'En Attente') {
+            transactions[i].status == 'IN APPROVAL') {
           print('all---> ${transactions[i].status}');
           transaction.add(transactions[i]);
         }
@@ -1750,7 +1825,7 @@ Widget TansactionsTab(List<TransactionItem> transactions, String valueTab,
 
     default:
       for (var i = 0; i < transactions.length; i++) {
-        if (transactions[i].status == 'Annulé') {
+        if (transactions[i].status == 'CANCELED') {
           print('all---> ${transactions[i].status}');
           transaction.add(transactions[i]);
         }

@@ -52,7 +52,8 @@ class _DevisesPageState extends State<DevisesPage> {
         Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (BuildContext context, Animation<double> animation,
-                    Animation<double> secondaryAnimation) => TransactionListScreen(),
+                    Animation<double> secondaryAnimation) =>
+                TransactionListScreen(),
           ),
         );
       }
@@ -88,7 +89,7 @@ class _DevisesPageState extends State<DevisesPage> {
                         'Dévises',
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 35.sp,
+                            fontSize: 25.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     ],

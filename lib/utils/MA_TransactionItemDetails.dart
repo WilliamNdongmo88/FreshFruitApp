@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../controller/MA_DataController.dart';
 import '../views/MA_EditeData.dart';
 import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
@@ -34,9 +35,25 @@ class _TransactionScreenState extends State<TransactionScreen>
   bool isListTransaction;
   _TransactionScreenState(this.transaction, this.index, this.isListTransaction);
   var txt = 'Nom du bénéficiaire';
+  late String indexOfStatutTransaction = '';
+
+  Future<void> updatesTransfert(bools) async {
+    DataController dataController = DataController();
+    print('++++++++ transaction_index---> ${transaction[index]}');
+    await dataController.updateTransfert(transaction[index], bools);
+  }
+
+  @override
+  void initState() {
+    indexOfStatutTransaction = transaction[index].status;
+    super.initState();
+  }
+
   void funChange(changetxt) {
     setState(() {
-      txt = changetxt;
+      print(
+          '++++++++++++ Modifier status +++++++++++++++ $changetxt  $isListTransaction');
+      // txt = changetxt;
       if (changetxt == "Open_pop_up") {
         showDialog(
           context: context,
@@ -48,9 +65,9 @@ class _TransactionScreenState extends State<TransactionScreen>
             context, TransactionListScreen.transactionListScreen);
       } else if (changetxt == 'WithoutLabel' && isListTransaction == true) {
         print('----back with true---- ${transaction[index].status}');
-        if (transaction[index].status == 'OPEN' ||
-            transaction[index].status == 'En Attente') {
-            Navigator.of(context).push(
+        if (indexOfStatutTransaction == 'OPEN' ||
+            indexOfStatutTransaction == 'En Attente') {
+          Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation,
                       Animation<double> secondaryAnimation) =>
@@ -59,7 +76,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                       currentTransaction: 1),
             ),
           );
-        } else if (transaction[index].status == 'Terminé') {
+        } else if (indexOfStatutTransaction == 'Terminé') {
           Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation,
@@ -88,11 +105,36 @@ class _TransactionScreenState extends State<TransactionScreen>
                 EditeData(transaction: transaction, index: index),
           ),
         );
-      } else if (changetxt == 'Annuler' || changetxt == 'Supprimer' || changetxt == 'Relancer') {
+      } else if (changetxt == 'Annuler' ||
+          changetxt == 'Supprimer' ||
+          changetxt == 'Relancer' ||
+          changetxt == 'Confirmer') {
         showDialog(
           context: context,
-          builder: (ctx) => showdialog(ctx: ctx, changetxt: changetxt),
+          builder: (ctx) => showdialog(
+              ctx: ctx, changetxt: changetxt, callBackFunction: changeStatus),
         );
+      }
+    });
+  }
+
+  void changeStatus(changetxt) {
+    bool bools = false;
+    setState(() {
+      print('changetxt--> $changetxt');
+      if (changetxt == 'CANCELED') {
+        bools = true;
+        indexOfStatutTransaction = changetxt;
+        updatesTransfert(bools);
+      } else if (changetxt == 'IN APPROVAL') {
+        indexOfStatutTransaction = changetxt;
+        updatesTransfert(bools);
+      } else if (changetxt == 'Confirmer') {
+        indexOfStatutTransaction = 'OPEN';
+        updatesTransfert(bools);
+      } else {
+        indexOfStatutTransaction = changetxt;
+        updatesTransfert(bools);
       }
     });
   }
@@ -129,8 +171,6 @@ class _TransactionScreenState extends State<TransactionScreen>
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    bool isSizeBox = false;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -155,7 +195,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                           'Détail de la transaction',
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 30.sp,
+                              fontSize: 25.sp,
                               fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -181,7 +221,8 @@ class _TransactionScreenState extends State<TransactionScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '$txt ' '$index ' '$isListTransaction',
+                                '$txt ',
+                                // '$index ' '$isListTransaction',
                                 style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 15.sp,
@@ -190,20 +231,29 @@ class _TransactionScreenState extends State<TransactionScreen>
                               SizedBox(
                                 height: 10.h,
                               ),
-                              Text(
-                                'James Kora',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              if (transaction[index].toBank == true) ...[
+                                Text(
+                                  '${transaction[index].bankNom}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ] else
+                                Text(
+                                  '${transaction[index].receiverName}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  if (transaction[index].status == 'En Attente') ...[
+                  if (indexOfStatutTransaction == 'IN APPROVAL') ...[
                     Container(
                       alignment: Alignment.center,
                       margin:
@@ -277,7 +327,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                         ],
                       ),
                     ),
-                  ] else if (transaction[index].status == 'OPEN') ...[
+                  ] else if (indexOfStatutTransaction == 'OPEN') ...[
                     Container(
                       alignment: Alignment.center,
                       margin:
@@ -333,7 +383,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                         ],
                       ),
                     ),
-                  ] else if (transaction[index].status == 'Annulé') ...[
+                  ] else if (indexOfStatutTransaction == 'CANCELED') ...[
                     Container(
                       alignment: Alignment.center,
                       margin:
@@ -516,6 +566,8 @@ class _TransactionScreenState extends State<TransactionScreen>
                                   valueTab: tabs[current],
                                   callBackFunction: funChange,
                                   valueOfBool: valueOfBool,
+                                  indexOfStatutTransaction:
+                                      indexOfStatutTransaction,
                                   codeReception: codeReception),
                             ],
                           ),

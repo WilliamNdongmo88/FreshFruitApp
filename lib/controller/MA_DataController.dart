@@ -374,6 +374,7 @@ class DataController extends GetxController {
         print("---> $result['body']");
         transfertList = List<TransactionItemToFireBase>.from(result['body'].map(
           (json) => TransactionItemToFireBase(
+            id: json['id'],
             lastTimeInPending: json['lastTimeInPending'],
             amount: json['amount'],
             bank: json['bank'],
@@ -398,5 +399,65 @@ class DataController extends GetxController {
       print(result['message']);
     }
     return transfertList;
+  }
+
+  Future<void> updateTransfert(TransactionItem transfert, bool bools) async {
+    print('***** Update bools  $bools');
+    print('***** Update Transfert Id  ${transfert.id}');
+    print('***** Update Transfert status  ${transfert.status}');
+    print('***** Update Transfert start *********');
+    if(transfert.status == 'OPEN' || transfert.status == 'IN APPROVAL' && bools == true){
+      await callCloudFunction('nl_manage_request', {
+        "action": "UPDATE",
+        "transfert": {
+          // "amount": transfert.Amount,
+          "status": "CANCELED",
+          // "createdDate": date,
+          // "receiver": {
+          //   "nom": transfert.ManualInfo?.Name,
+          //   "telephone": transfert.ManualInfo?.phoneNumber
+          // },
+          // "inZoneCity": transfert.SenderCity,
+          // "outZoneCity": transfert.ReceiverCity,
+          // "codeReception": transfert.ReceptionCode,
+        },
+        "transfertId": transfert.id
+      });
+    }else if(transfert.status == 'CANCELED' && bools == false){
+      await callCloudFunction('nl_manage_request', {
+        "action": "UPDATE",
+        "transfert": {
+          // "amount": transfert.Amount,
+          "status": "IN APPROVAL",
+          // "createdDate": date,
+          // "receiver": {
+          //   "nom": transfert.ManualInfo?.Name,
+          //   "telephone": transfert.ManualInfo?.phoneNumber
+          // },
+          // "inZoneCity": transfert.SenderCity,
+          // "outZoneCity": transfert.ReceiverCity,
+          // "codeReception": transfert.ReceptionCode,
+        },
+        "transfertId": transfert.id
+      });
+    } else if (transfert.status == 'IN APPROVAL' && bools == false) {
+      await callCloudFunction('nl_manage_request', {
+        "action": "UPDATE",
+        "transfert": {
+          // "amount": transfert.Amount,
+          "status": "OPEN",
+          // "createdDate": date,
+          // "receiver": {
+          //   "nom": transfert.ManualInfo?.Name,
+          //   "telephone": transfert.ManualInfo?.phoneNumber
+          // },
+          // "inZoneCity": transfert.SenderCity,
+          // "outZoneCity": transfert.ReceiverCity,
+          // "codeReception": transfert.ReceptionCode,
+        },
+        "transfertId": transfert.id
+      });
+    }
+    print('***** Update Transfert end *********');
   }
 }
