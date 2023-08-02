@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, avoid_print, unnecessary_this, no_logic_in_create_state
+// ignore_for_file: sort_child_properties_last, avoid_print, unnecessary_this, no_logic_in_create_state, prefer_typing_uninitialized_variables, unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,26 +33,33 @@ class _TransactionScreenState extends State<TransactionScreen>
   List<TransactionItem> transaction;
   int index;
   bool isListTransaction;
-  _TransactionScreenState(this.transaction, this.index, this.isListTransaction);
+  _TransactionScreenState(
+      this.transaction, this.index, this.isListTransaction);
   var txt = 'Nom du bénéficiaire';
   late String indexOfStatutTransaction = '';
+  var bankName;
+  var receiverName;
 
   Future<void> updatesTransfert(bools) async {
     DataController dataController = DataController();
     print('++++++++ transaction_index---> ${transaction[index]}');
-    await dataController.updateTransfert(transaction[index], bools);
+    await dataController.updateTransfert(
+        transfert: transaction[index], bools: bools);
   }
 
   @override
   void initState() {
-    indexOfStatutTransaction = transaction[index].status;
     super.initState();
+    bankName = transaction[index].bankNom;
+    receiverName = transaction[index].receiverName;
+    print('++++++++ transaction_toBank---> ${transaction[index].receiverName}');
+    print('++++++++ transaction_bankNom---> ${transaction[index].bankNom}');
+    indexOfStatutTransaction = transaction[index].status!;
   }
 
   void funChange(changetxt) {
-    setState(() {
-      print(
-          '++++++++++++ Modifier status +++++++++++++++ $changetxt  $isListTransaction');
+    setState(() async {
+      print('++++++++ Modifier status +++++++ $changetxt  $isListTransaction');
       // txt = changetxt;
       if (changetxt == "Open_pop_up") {
         showDialog(
@@ -66,7 +73,7 @@ class _TransactionScreenState extends State<TransactionScreen>
       } else if (changetxt == 'WithoutLabel' && isListTransaction == true) {
         print('----back with true---- ${transaction[index].status}');
         if (indexOfStatutTransaction == 'OPEN' ||
-            indexOfStatutTransaction == 'En Attente') {
+            indexOfStatutTransaction == 'IN APPROVAL') {
           Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation,
@@ -98,13 +105,30 @@ class _TransactionScreenState extends State<TransactionScreen>
           );
         }
       } else if (changetxt == 'Modifier') {
-        Navigator.of(context).push(
+        // Navigator.of(context).push(
+        //   PageRouteBuilder(
+        //     pageBuilder: (BuildContext context, Animation<double> animation,
+        //             Animation<double> secondaryAnimation) =>
+        //         EditeData(transaction: transaction, index: index),
+        //   ),
+        // );
+        List dataUpdade = await Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) =>
                 EditeData(transaction: transaction, index: index),
           ),
-        );
+        ) as List;
+        if (dataUpdade.isNotEmpty) {
+          if (dataUpdade[0].to_bank) {
+            bankName = dataUpdade[0].bank['nom'];
+            print('++++++++ bankName---> ${dataUpdade[0].bank['nom']}');
+          } else {
+            receiverName = dataUpdade[0].receiver['nom'];
+            print('++++++++ receiverName---> ${dataUpdade[0].receiver['nom']}');
+          }
+          print('dataUpdade--> $dataUpdade');
+        }
       } else if (changetxt == 'Annuler' ||
           changetxt == 'Supprimer' ||
           changetxt == 'Relancer' ||
@@ -233,7 +257,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                               ),
                               if (transaction[index].toBank == true) ...[
                                 Text(
-                                  '${transaction[index].bankNom}',
+                                  '$bankName',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 32.sp,
@@ -241,7 +265,7 @@ class _TransactionScreenState extends State<TransactionScreen>
                                 ),
                               ] else
                                 Text(
-                                  '${transaction[index].receiverName}',
+                                  '$receiverName',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 32.sp,

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/MA_DataController.dart';
 import '../views/MA_TransactionPage.dart';
 import '../views/homePage/MA_homePage.dart';
 import 'MA_TransactionItem.dart';
@@ -682,8 +683,24 @@ class _GetDataFormState extends State<GetDataForm> {
   }
 }
 
-Widget showdialog({ctx, changetxt, Function? callBackFunction}) {
+
+Widget showdialog(
+    {ctx,
+    changetxt,
+    Function? callBackFunction,
+    TransactionItem? transactions}) {
   var svgName;
+  // List<TransactionItem> transaction = [];
+  Future<void> updatesTransfert(transaction) async {
+    DataController dataController = DataController();
+    print('++++++++ transaction_index---> $transaction');
+    await dataController.updateTransfert(transfert: transaction);
+  }
+
+  void changeValue(transaction) {
+    updatesTransfert(transaction);
+  }
+
   if (changetxt == 'Annuler' ||
       changetxt == 'Supprimer' ||
       changetxt == 'Relancer' ||
@@ -934,7 +951,14 @@ Widget showdialog({ctx, changetxt, Function? callBackFunction}) {
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(242, 78, 30, 1),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                      // print('transactions---> $transactions');
+                      changeValue(transactions);
+                      // Future.delayed(const Duration(seconds: 1000), () {
+                        callBackFunction!('Updade');
+                      // });
+                    },
                     child: Text(
                       'Oui',
                       style: TextStyle(

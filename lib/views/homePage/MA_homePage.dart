@@ -44,9 +44,9 @@ class TransactionListScreenState extends State<TransactionListScreen> {
     alldata = await dataController.retrieveTransferts();
     getAllTransfert(alldata);
     // userName = alldata[1].owner['firstname'] + alldata[1].owner['lastname'];
-    print('++++alldata---> ${alldata[1].id}');
-    print('++++alldatabank---> ${alldata[1].bank}');
-    print('++++intitulebankintitule---> ${alldata[1].bank?['intitule']}');
+    // print('++++alldata---> ${alldata[1].id}');
+    // print('++++alldatabank---> ${alldata[1].bank}');
+    // print('++++intitulebankintitule---> ${alldata[1].bank?['intitule']}');
   }
 
   late Map receiverName;
@@ -54,8 +54,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
   void getAllTransfert(data) {
     setState(() {
       for (int? i = 0; i! < data.length; i++) {
-        print('+++++++++++ Id ---> ${data[i].id}');
-        print('+++++++++++ amount---> ${data[i].amount}');
+        // print('+++++++++++ Id ---> ${data[i].id}');
+        // print('+++++++++++ amount---> ${data[i].amount}');
         if (data[i].status == 'OPEN') {
           statusIcon = 'traitement';
           var ts = alldata[i].createdDate?['_seconds'];
@@ -64,82 +64,91 @@ class TransactionListScreenState extends State<TransactionListScreen> {
             DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
             String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
             transactions.add(TransactionItem(
-                data[i].id,
-                data[i].status,
-                data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-                statusIcon,
-                data[i].amount.toString(),
-                data[i].outZone['country']['name'],
-                data[i].outZone['name'],
-                data[i].inZone['country']['name'],
-                data[i].inZone['name'],
-                fdatetime,
-                data[i].codeReception,
-                data[i].receiver?['nom'],
-                data[i].receiver?['telephone'],
-                data[i].bank?['intitule'],
-                data[i].bank?['nom'],
-                data[i].to_bank));
-            userName = transactions[i].user;
+                id: data[i].id,
+                status: data[i].status,
+                user: data[i].owner['firstname'] +
+                    ' ' +
+                    data[i].owner['lastname'],
+                icon: statusIcon,
+                amont: data[i].amount.toString(),
+                outZoneCountry: data[i].outZone['country']['name'],
+                outZoneCity: data[i].outZone['name'],
+                inZoneCountry: data[i].inZone['country']['name'],
+                inZoneCity: data[i].inZone['name'],
+                date: fdatetime,
+                codeReception: data[i].codeReception,
+                receiverName: data[i].receiver?['nom'],
+                receiverTel: data[i].receiver?['telephone'],
+                bankIntitule: data[i].bank?['intitule'],
+                bankNom: data[i].bank?['nom'],
+                // data[i].bank?['number'],
+                toBank: data[i].to_bank));
+            userName = transactions[i].user!;
           }
         } else if (data[i].status == 'CANCELED') {
           statusIcon = 'canceled';
           // print('+++inZone---> ${receiverName['country']['name']}');
           var ts = alldata[i].createdDate?['_seconds'];
-          print('+++++++++++ ts---> $ts');
+          // print('+++++++++++ ts---> $ts');
           if (ts != null) {
             DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
             String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
             transactions.add(TransactionItem(
-                data[i].id,
-                data[i].status,
-                data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-                statusIcon,
-                data[i].amount.toString(),
-                data[i].outZone['country']['name'],
-                data[i].outZone['name'],
-                data[i].inZone['country']['name'],
-                data[i].inZone['name'],
-                fdatetime,
-                data[i].codeReception,
-                data[i].receiver?['nom'],
-                data[i].receiver?['telephone'],
-                data[i].bank?['intitule'],
-                data[i].bank?['nom'],
-                data[i].to_bank));
-            userName = transactions[i].user;
+                id: data[i].id,
+                status: data[i].status,
+                user: data[i].owner['firstname'] +
+                    ' ' +
+                    data[i].owner['lastname'],
+                icon: statusIcon,
+                amont: data[i].amount.toString(),
+                outZoneCountry: data[i].outZone['country']['name'],
+                outZoneCity: data[i].outZone['name'],
+                inZoneCountry: data[i].inZone['country']['name'],
+                inZoneCity: data[i].inZone['name'],
+                date: fdatetime,
+                codeReception: data[i].codeReception,
+                receiverName: data[i].receiver?['nom'],
+                receiverTel: data[i].receiver?['telephone'],
+                bankIntitule: data[i].bank?['intitule'],
+                bankNom: data[i].bank?['nom'],
+                // data[i].bank?['number'],
+                toBank: data[i].to_bank));
+            userName = transactions[i].user!;
           }
         }else if (data[i].status == 'IN APPROVAL') {
           statusIcon = 'attente';
           // print('+++inZone---> ${receiverName['country']['name']}');
           var ts = alldata[i].createdDate?['_seconds'];
-          print('+++++++++++ ts---> $ts');
+          // print('+++++++++++ ts---> $ts');
           if (ts != null) {
             DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
             String fdatetime = DateFormat('dd-MMM-yyy').format(tsdate);
             transactions.add(TransactionItem(
-                data[i].id,
-                data[i].status,
-                data[i].owner['firstname'] + ' ' + data[i].owner['lastname'],
-                statusIcon,
-                data[i].amount.toString(),
-                data[i].outZone['country']['name'],
-                data[i].outZone['name'],
-                data[i].inZone['country']['name'],
-                data[i].inZone['name'],
-                fdatetime,
-                data[i].codeReception,
-                data[i].receiver?['nom'],
-                data[i].receiver?['telephone'],
-                data[i].bank?['intitule'],
-                data[i].bank?['nom'],
-                data[i].to_bank));
-            userName = transactions[i].user;
+                id: data[i].id,
+                status: data[i].status,
+                user: data[i].owner['firstname'] +
+                    ' ' +
+                    data[i].owner['lastname'],
+                icon: statusIcon,
+                amont: data[i].amount.toString(),
+                outZoneCountry: data[i].outZone['country']['name'],
+                outZoneCity: data[i].outZone['name'],
+                inZoneCountry: data[i].inZone['country']['name'],
+                inZoneCity: data[i].inZone['name'],
+                date: fdatetime,
+                codeReception: data[i].codeReception,
+                receiverName: data[i].receiver?['nom'],
+                receiverTel: data[i].receiver?['telephone'],
+                bankIntitule: data[i].bank?['intitule'],
+                bankNom: data[i].bank?['nom'],
+                // data[i].bank?['number'],
+                toBank: data[i].to_bank));
+            userName = transactions[i].user!;
           }
         }
       }
       receiverName = data[0].inZone;
-      print('0000000userName---> $userName');
+      // print('0000000userName---> $userName');
     });
   }
 
@@ -363,15 +372,14 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                         shrinkWrap: true,
                                         itemCount: transactions.length,
                                         itemBuilder: (context, index) {
-                                          final transaction =
-                                              transactions[index];
+                                          final transaction = transactions[index];
                                           if (transactions.isNotEmpty) {
                                             return ListTile(
-                                              title: cardItem(
-                                                  transaction: transaction),
+                                              title: 
+                                              cardItem(transaction: transaction),
                                               // Text('data'),
                                               // Dismissible(
-                                              //     key: Key(transaction.user),
+                                              //     key: Key(transaction.user as String),
                                               //     onDismissed: (direction) {
                                               //       setState(() {
                                               //         transactions.removeAt(index);
@@ -381,7 +389,8 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                               //               content: Text(
                                               //                   "${transaction.user} supprimé")));
                                               //     },
-                                              //     child: Text(' --card-- ${transaction}'),
+                                              //     child: 
+                                              //     // Text(' --card-- ${transaction}'),
                                               //     cardItem(transaction: transaction)
                                               //     ),
                                               onTap: () {

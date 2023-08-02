@@ -1,22 +1,23 @@
 class TransactionItem {
-  String id;
-  String status;
-  String user;
+  String? id;
+  String? status;
+  String? user;
   String? icon;
   String? amont;
-  String outZoneCountry;
-  String outZoneCity;
-  String inZoneCountry;
-  String inZoneCity;
-  String date;
+  String? outZoneCountry;
+  String? outZoneCity;
+  String? inZoneCountry;
+  String? inZoneCity;
+  String? date;
   String? codeReception;
   String? receiverName;
   String? receiverTel;
   String? bankIntitule;
   String? bankNom;
-  bool toBank;
+  // String bankNumber;
+  bool? toBank;
   TransactionItem(
-      this.id,
+      {this.id,
       this.status,
       this.user,
       this.icon,
@@ -31,7 +32,10 @@ class TransactionItem {
       this.receiverTel,
       this.bankIntitule,
       this.bankNom,
-      this.toBank);
+      // this.bankNumber,
+      this.toBank});
+
+  void add(TransactionItem transactionItem) {}
 }
 
 class TransactionItemToFireBase {

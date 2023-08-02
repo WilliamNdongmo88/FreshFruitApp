@@ -395,12 +395,56 @@ class DataController extends GetxController {
     return transfertList;
   }
 
-  Future<void> updateTransfert(TransactionItem transfert, bool bools) async {
+  Future<List<TransactionItemToFireBase>> retrieveOneTransfert({required TransactionItem transfert}) async {
+    print(FirebaseAuth.instance.currentUser);
+    print("enter in nl_manage_request");
+    dynamic result =
+        await callCloudFunction('nl_manage_request', {"action": "GET-INFO", "transfertId": transfert.id});
+    if (result['ErrorCode'] == null) {
+      if (result['message'] != null) {
+        //empty result
+        print('enter In empty response scope');
+        print(result['message']);
+      } else {
+        print('enter In good response scope');
+        print("---> $result['body']");
+        transfertList.add(TransactionItemToFireBase(
+          id: result['body']['id'],
+          lastTimeInPending: result['body']['lastTimeInPending'],
+          amount: result['body']['amount'],
+          bank: result['body']['bank'],
+          codeReception: result['body']['codeReception'],
+          createdDate: result['body']['createdDate'],
+          deposit: result['body']['deposit'],
+          description: result['body']['description'],
+          inZone: result['body']['inZone'],
+          outZone: result['body']['outZone'],
+          owner: result['body']['owner'],
+          ownerId: result['body']['ownerId'],
+          receiver: result['body']['receiver'],
+          status: result['body']['status'],
+          to_bank: result['body']['to_bank'],
+        ));
+      }
+    } else {
+      //an error occur
+      print('enter In error response scope');
+      print(result['ErrorCode']);
+      print(result['message']);
+    }
+    return transfertList;
+  }
+
+  Future<void> updateTransfert(
+      {TransactionItem? transfert, bool? bools}) async {
     print('***** Update bools  $bools');
-    print('***** Update Transfert Id  ${transfert.id}');
-    print('***** Update Transfert status  ${transfert.status}');
+    // print('***** Update Transfert Id  ${transfert!.id}');
+    // print('***** Update Transfert status  ${transfert.status}');
+    // print('***** Update Transfert outZoneCity  ${transfert.outZoneCity}');
+    // print('***** Update Transfert outZoneCountry  ${transfert.outZoneCountry}');
     print('***** Update Transfert start *********');
-    if(transfert.status == 'OPEN' || transfert.status == 'IN APPROVAL' && bools == true){
+    if (transfert!.status == 'OPEN' ||
+        transfert!.status == 'IN APPROVAL' && bools == true) {
       await callCloudFunction('nl_manage_request', {
         "action": "UPDATE",
         "transfert": {
@@ -417,7 +461,7 @@ class DataController extends GetxController {
         },
         "transfertId": transfert.id
       });
-    }else if(transfert.status == 'CANCELED' && bools == false){
+    } else if (transfert.status == 'CANCELED' && bools == false) {
       await callCloudFunction('nl_manage_request', {
         "action": "UPDATE",
         "transfert": {
@@ -448,6 +492,44 @@ class DataController extends GetxController {
           // "inZoneCity": transfert.SenderCity,
           // "outZoneCity": transfert.ReceiverCity,
           // "codeReception": transfert.ReceptionCode,
+        },
+        "transfertId": transfert.id
+      });
+    } else if(transfert.toBank == false){
+      print('***** Update Transfert Id  ${transfert!.id}');
+      print('***** Update Transfert status  ${transfert.receiverName}');
+      print('***** Update Transfert status  ${transfert.receiverTel}');
+      print('***** Update Transfert outZoneCity  ${transfert.outZoneCity}');
+      print(
+          '***** Update Transfert outZoneCountry  ${transfert.outZoneCountry}');
+      print('***** Update Transfert status  ${transfert.codeReception}');
+      await callCloudFunction('nl_manage_request', {
+        "action": "UPDATE",
+        "transfert": {
+          // "amount": transfert.Amount,
+          // "status": "OPEN",
+          "receiver": {
+            "nom": transfert.receiverName,
+            "telephone": transfert.receiverTel
+          },
+          "outZoneCity": transfert.outZoneCity,
+          "codeReception": transfert.codeReception,
+        },
+        "transfertId": transfert.id
+      });
+    } else if (transfert.toBank == true){
+      await callCloudFunction('nl_manage_request', {
+        "action": "UPDATE",
+        "transfert": {
+          // "amount": transfert.Amount,
+          // "status": "OPEN",
+          // "createdDate": date,
+          "bank": {
+            "intitule": transfert.bankIntitule,
+            "nom": transfert.bankNom
+          },
+          "outZoneCity": transfert.outZoneCity,
+          "codeReception": transfert.codeReception,
         },
         "transfertId": transfert.id
       });

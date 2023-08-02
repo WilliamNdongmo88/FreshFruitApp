@@ -663,8 +663,8 @@ Widget buildIconButtonSvg(
 /// cardItem(transaction: transaction)
 /// transaction  est une liste d'elements
 Widget cardItem({required TransactionItem transaction}) {
-  print('transaction status ---> ${transaction.status}');
-  print('--------> statut ${transaction.icon}');
+  // print('transaction status ---> ${transaction.status}');
+  // print('--------> statut ${transaction.icon}');
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
@@ -734,7 +734,7 @@ Widget cardItem({required TransactionItem transaction}) {
                               ),
                             ] else
                               Text(
-                                transaction.status,
+                                transaction.status!,
                                 style: GoogleFonts.inter(
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal,
@@ -755,7 +755,7 @@ Widget cardItem({required TransactionItem transaction}) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (transaction.status == 'OPEN') ...[
-                            Text(transaction.user,
+                            Text(transaction.user!,
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
                                   fontStyle: FontStyle.normal,
@@ -778,7 +778,7 @@ Widget cardItem({required TransactionItem transaction}) {
                               ],
                             ),
                           ] else if (transaction.status == 'IN APPROVAL') ...[
-                            Text(transaction.user,
+                            Text(transaction.user!,
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
                                   fontStyle: FontStyle.normal,
@@ -805,7 +805,7 @@ Widget cardItem({required TransactionItem transaction}) {
                               ],
                             ),
                           ] else
-                            Text(transaction.user,
+                            Text(transaction.user!,
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
                                   fontStyle: FontStyle.normal,
