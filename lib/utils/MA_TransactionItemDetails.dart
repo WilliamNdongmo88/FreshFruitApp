@@ -16,16 +16,18 @@ class TransactionScreen extends StatefulWidget {
   List<TransactionItem> transaction;
   int index;
   bool isListTransaction;
+  List? dataUpdade;
   static const transactionScreenPage = '/TransactionScreen';
   TransactionScreen(
       {super.key,
       required this.transaction,
       required this.index,
-      required this.isListTransaction});
+      required this.isListTransaction,
+      this.dataUpdade});
 
   @override
   State<TransactionScreen> createState() => _TransactionScreenState(
-      this.transaction, this.index, this.isListTransaction);
+      this.transaction, this.index, this.isListTransaction, this.dataUpdade);
 }
 
 class _TransactionScreenState extends State<TransactionScreen>
@@ -33,8 +35,9 @@ class _TransactionScreenState extends State<TransactionScreen>
   List<TransactionItem> transaction;
   int index;
   bool isListTransaction;
+  List? dataUpdade;
   _TransactionScreenState(
-      this.transaction, this.index, this.isListTransaction);
+      this.transaction, this.index, this.isListTransaction, this.dataUpdade);
   var txt = 'Nom du bénéficiaire';
   late String indexOfStatutTransaction = '';
   var bankName;
@@ -55,6 +58,12 @@ class _TransactionScreenState extends State<TransactionScreen>
     print('++++++++ transaction_toBank---> ${transaction[index].receiverName}');
     print('++++++++ transaction_bankNom---> ${transaction[index].bankNom}');
     indexOfStatutTransaction = transaction[index].status!;
+  }
+
+  void updateData() {
+    setState(() {
+      print('data Update ---> $dataUpdade');
+    });
   }
 
   void funChange(changetxt) {
@@ -127,6 +136,7 @@ class _TransactionScreenState extends State<TransactionScreen>
             receiverName = dataUpdade[0].receiver['nom'];
             print('++++++++ receiverName---> ${dataUpdade[0].receiver['nom']}');
           }
+          updateData();
           print('dataUpdade--> $dataUpdade');
         }
       } else if (changetxt == 'Annuler' ||
