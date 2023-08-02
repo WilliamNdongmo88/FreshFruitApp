@@ -28,6 +28,9 @@ class _transfertFormState extends State<transfertForm> {
   bool displayManualRecap = false;
   bool displayBankRecap = false;
   String _selectedGender = 'manuel';
+/*,,,*/
+  List<RegExp> listExpre = [RegExp(r'^237[0-9]{8}'),RegExp(r'^32[0-9]{9}'),RegExp(r'^1[0-9]{10}'),RegExp(r'^86[0-9]{11}'),RegExp(r'^33[0-9]{9}')] ;
+
 
   // country Sender
   String dropdownvalueSender = 'USA';
@@ -45,8 +48,9 @@ class _transfertFormState extends State<transfertForm> {
   late List<MA_Helper_City> cityListSender;
   late List<MA_Helper_City> cityListReceiver;
 
+
   MA_Helper_Country? selectedCountrySender = null;
-  MA_Helper_City? selectedCitySender ;
+  MA_Helper_City? selectedCitySender;
   MA_Helper_Country? selectedCountryReceiver = null;
   MA_Helper_City? selectedCityReceiver = null;
 
@@ -86,7 +90,29 @@ class _transfertFormState extends State<transfertForm> {
 
 
 
+  bool errorCode = false;
+  String MessageCode = '';
+  dynamic CalloutMsg;
   bool displayError = false;
+  bool AmountError = false;
+  bool regexValue = false;
+  bool checkRegex(String val){
+
+     bool result = false;
+    for(var i=0;i<listExpre.length;i++){
+      print(i);
+      print( listExpre[i]);
+      print('In For scope of regex function');
+      if(listExpre[i].hasMatch(val)){
+        print('In IF scope of regex function');
+        result =true;
+        return result;
+      }
+    }
+     print('In Function scope of regex function');
+    return result;
+  }
+
 
   void funcBack() {
     if (currentStep == 0) {
@@ -154,11 +180,6 @@ class _transfertFormState extends State<transfertForm> {
         builder: (context , child) {
           return Scaffold(
 
-            /*appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Flutter Stepper Demo'),
-        centerTitle: true,
-      ),*/
             bottomNavigationBar: getFooter(callBackFunction: funbottomBar, currentIndex: 1),
             body: Theme(
               data: Theme.of(context).copyWith(
@@ -182,8 +203,7 @@ class _transfertFormState extends State<transfertForm> {
                                   fontSizeIcon: 35.sp,
                                   callBackFunction: funcBack),
                             ),
-                            Container(
-//margin: EdgeInsets.only(bottom:640),
+                            Container(//margin: EdgeInsets.only(bottom:640),
                               child: const Text(
                                 "Transaction d'argent",
                                 style: TextStyle(
@@ -205,13 +225,17 @@ class _transfertFormState extends State<transfertForm> {
                               steps: getSteps(),
                               currentStep: currentStep,
                               type: StepperType.horizontal,
-                              onStepTapped: (int step) => setState(() => currentStep = step),
                               onStepContinue: () {
                                 final isLastStep = currentStep == getSteps().length - 1;
                                 if (isLastStep) {
                                 } else {
                                   if(currentStep == 1){
                                     if(_selectedGender=='manuel'){
+                                      setState(() {
+                                        regexValue = checkRegex(PhoneNumber.text);
+                                      });
+
+                                      print(regexValue);
                                       if(NameReceiver.text.isEmpty){
                                         setState(() {
                                           _validateName = true;
@@ -221,17 +245,32 @@ class _transfertFormState extends State<transfertForm> {
                                           _validateName = false;
                                         });
                                       }
-                                      if(PhoneNumber.text.isEmpty){
+                                      if(PhoneNumber.text.isEmpty ){
                                         setState(() {
                                           _validatePhone = true;
                                         });
+                                      }else {
+                                        if (regexValue == false) {
+                                          setState(() {
+                                            _validatePhone = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            _validatePhone = false;
+                                          });
+                                        }
+                                      }
+                                      if(receptionCode.text.isEmpty){
+                                        setState(() {
+                                          _validateCodeReception = true ;
+                                        });
                                       }else{
                                         setState(() {
-                                          _validatePhone = false;
+                                          _validateCodeReception = false;
                                         });
                                       }
 
-                                      if(NameReceiver.text.isNotEmpty && NameReceiver.text.isNotEmpty &&
+                                      if(NameReceiver.text.isNotEmpty && PhoneNumber.text.isNotEmpty && regexValue == true &&
                                           receptionCode.text.isNotEmpty){
                                         setState(() {
                                           currentStep += 1;
@@ -289,11 +328,13 @@ class _transfertFormState extends State<transfertForm> {
                                   }
 
                                   if(currentStep ==0){
-                                    if(selectedCountryReceiver ==null || selectedCityReceiver ==null){
+
+                                    if(selectedCountryReceiver ==null || selectedCityReceiver ==null ||selectedCountrySender==null ||selectedCitySender ==null||amountController.text.isEmpty){
                                       setState(() {
                                         displayError = true;
                                       });
                                     }else{
+                                      print('here else');
                                       setState(() {
                                         currentStep += 1;
                                         displayError = false;
@@ -399,38 +440,71 @@ class _transfertFormState extends State<transfertForm> {
                                             ),
                                             onPressed: () async{
                                               if(_selectedGender =='manuel'){
-                                                MA_Helper_Manual manual = MA_Helper_Manual(NameReceiver.text,PhoneNumber.text);
-                                                //manual.phoneNumber = "655198362";
-                                                //manual.Name = "Evariste";
+
+                                                MA_Helper_Manual manual = MA_Helper_Manual(NameReceiver.text,'+${PhoneNumber.text}');
+
                                                 MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text, null,manual as MA_Helper_Manual);
-                                                /*data.Amount =1000;
-                                          data.SenderCity ='douala';
-                                          data.ReceiverCity ='Paris';
-                                          data.ReceptionCode ='15Ptre';
-                                          data.ManualInfo =manual;*/
 
+                                                _showAlertDialog('confirm',true);
 
-                                                String response = await dataController.createTransfert(data);
+                                                /*String response = await dataController.createTransfert(data);
                                                 print('@@@@@'+response);
+
+
+
                                                 if(response !=null){
-                                                  _showAlertDialog('confirm');
+                                                  _showAlertDialog('confirm',false);
+                                                }*/
+
+                                                /////////////////////////////////////////////////new Version////////////////////
+                                                CalloutMsg = await dataController.createTransfert(data);
+                                                print('in my call response');
+                                                print(CalloutMsg);
+                                                if(CalloutMsg['ErrorCode']=='failed-precondition'){
+                                                  setState(() {
+                                                    errorCode = true;
+                                                    MessageCode = CalloutMsg['message'];
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  _showAlertDialog('confirm',false);
+                                                }else if(CalloutMsg['body'] != null){
+                                                  setState(() {
+                                                    errorCode = false;
+                                                    MessageCode = CalloutMsg['body'];
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  _showAlertDialog('confirm',false);
                                                 }
+
                                               } else if(_selectedGender =='bancaire'){
                                                 MA_Helper_Bank bank = MA_Helper_Bank(NameBank.text,IntituleBank.text,numberAccount.text);
-                                                //bank.Intitule = "Evariste";
-                                                //bank.Name = "UBA";
-                                                MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode ,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text,bank as MA_Helper_Bank,null);
-                                                /*data.Amount =1000;
-                                          data.SenderCity ='douala';
-                                          data.ReceiverCity ='Paris';
-                                          data.ReceptionCode ='15Ptre';
-                                          data.BankInfo =bank;*/
 
-                                                String response = await dataController.createTransfert(data);
+                                                MA_Helper_Transfert data = MA_Helper_Transfert(amountController.hashCode ,selectedCitySender?.code,selectedCityReceiver?.code,receptionCode.text,bank as MA_Helper_Bank,null);
+
+                                                _showAlertDialog('confirm',true);
+                                                /*String response = await dataController.createTransfert(data);
                                                 print('@@@@@'+response);
-                                                print(data);
                                                 if(response !=null){
-                                                  _showAlertDialog('confirm');
+                                                  _showAlertDialog('confirm',false);
+                                                }*/
+                                                /////////////////////////////////////////////////new Version////////////////////
+                                                CalloutMsg = await dataController.createTransfert(data);
+                                                print('in my call response');
+                                                print(CalloutMsg);
+                                                if(CalloutMsg['ErrorCode']=='failed-precondition'){
+                                                  setState(() {
+                                                    errorCode = true;
+                                                    MessageCode = CalloutMsg['message'];
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  _showAlertDialog('confirm',false);
+                                                }else if(CalloutMsg['body'] != null){
+                                                  setState(() {
+                                                    errorCode = false;
+                                                    MessageCode = CalloutMsg['body'];
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  _showAlertDialog('confirm',false);
                                                 }
                                               }
 
@@ -497,7 +571,7 @@ class _transfertFormState extends State<transfertForm> {
                       children: [
                         Text('Information sur les Transactions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp)),
                         if(displayError)
-                          Text('Veillez Selectionner Le pays \n et la Ville du Recepteur !!!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp,color:Colors.red)),
+                          Text("entrer le montant ,Le pays \n et la Ville d'envoi et de  Reception !!!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp,color:Colors.red)),
 
                       ],
                     )
@@ -872,14 +946,14 @@ class _transfertFormState extends State<transfertForm> {
 
 //widgets permettant d'afficher la pop up
 
-  Future<void> _showAlertDialog(String? Type) async {
+  Future<void> _showAlertDialog(String? Type,[bool? spinType]) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        if (Type == 'confirm') {
+      if (Type == 'confirm') {
           return AlertDialog( // <-- SEE HERE
-            title:  Row(
+            title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
@@ -888,13 +962,20 @@ class _transfertFormState extends State<transfertForm> {
                       color: Colors.deepOrange,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.done_outlined, color: Colors.white,size: 15)),
+                    child: const Icon(
+                        Icons.done_outlined, color: Colors.white, size: 15)),
               ],
             ),
             content: SingleChildScrollView(
               child: ListBody(
-                children:  <Widget>[
-                  Text("Votre demande de transaction a été bien enregistée. vous recevrez une notification d'ici peu",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold ),),
+                children: <Widget>[
+                  if(spinType == false) ...[
+                    errorCode==true ? Text(MessageCode, style: TextStyle(
+                        fontSize: 15.sp, fontWeight: FontWeight.bold),) : Text("Votre Transfert a été creé avec succes", style: TextStyle(
+                        fontSize: 15.sp, fontWeight: FontWeight.bold),)
+                  ] else if(spinType == true) ...[
+                      LinearProgressIndicator(),
+                    ]
                 ],
               ),
             ),
@@ -910,9 +991,15 @@ class _transfertFormState extends State<transfertForm> {
                       color: Colors.deepOrange,
                     ),
                     child: TextButton(
-                      child: const Text('ok',style: TextStyle(color: Colors.black),),
+                      child: const Text(
+                        'ok', style: TextStyle(color: Colors.black),),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionListScreen()));
+                        if (errorCode == true) {
+                          Navigator.of(context).pop();
+                        } else if (errorCode == false) {
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              context) => TransactionListScreen()));
+                        }
                       },
                     ),
                   ),
@@ -920,9 +1007,9 @@ class _transfertFormState extends State<transfertForm> {
               ),
             ],
           );
-        }else{
-          return AlertDialog(// <-- SEE HERE
-            title:  Row(
+        } else {
+          return AlertDialog( // <-- SEE HERE
+            title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SvgPicture.asset(
@@ -936,9 +1023,13 @@ class _transfertFormState extends State<transfertForm> {
             ),
             content: SingleChildScrollView(
               child: ListBody(
-                children:  <Widget>[
-                  Text("Annuler la transaction ?",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold ),),
-                  Text(" Cette action sera irreversible",style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold,color:Colors.grey ),)
+                children: <Widget>[
+                  Text("Annuler la transaction ?", style: TextStyle(
+                      fontSize: 15.sp, fontWeight: FontWeight.bold),),
+                  Text(" Cette action sera irreversible", style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),)
                 ],
               ),
             ),
@@ -950,14 +1041,15 @@ class _transfertFormState extends State<transfertForm> {
                       height: 35.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                        border: Border.all(width: 1.w, color:Colors.grey ),
+                        border: Border.all(width: 1.w, color: Colors.grey),
                         color: Colors.grey,
                       ),
                       child: TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Non',style: TextStyle(color: Color(0xFF6F6F6F),)
+                        child: const Text(
+                            'Non', style: TextStyle(color: Color(0xFF6F6F6F),)
                         ),
                       )
                   ),
@@ -970,9 +1062,11 @@ class _transfertFormState extends State<transfertForm> {
                       color: Colors.deepOrange,
                     ),
                     child: TextButton(
-                      child: const Text('Oui',style: TextStyle(color: Colors.black),),
+                      child: const Text(
+                        'Oui', style: TextStyle(color: Colors.black),),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionListScreen()));
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => TransactionListScreen()));
                       },
                     ),
                   ),
@@ -982,7 +1076,7 @@ class _transfertFormState extends State<transfertForm> {
             ],
           );
         }
-      },
+      }
     );
   }
 
@@ -1227,7 +1321,7 @@ class _transfertFormState extends State<transfertForm> {
                     cursorColor: Colors.orange,
                     controller: PhoneNumber,
                     decoration: InputDecoration(
-                      errorText: _validatePhone?'veillez renseigner le Numero de Telephone':null,
+                      errorText: _validatePhone?'Numero valide avec code du pays(33 ou 36)':null,
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                         BorderSide(width: 2.w, color: Color(0xFF6F6F6F)), //<-- SEE HERE
@@ -1235,7 +1329,6 @@ class _transfertFormState extends State<transfertForm> {
                       ),
                     ),
                   ),
-
                 ),
               )
             ]

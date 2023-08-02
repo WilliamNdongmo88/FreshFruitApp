@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_app/controller/MA_AuthController.dart';
@@ -62,6 +63,7 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> callRetrieveCountry() async  {
     countryList = await dataController.retrieveCountry();
+    dataController.updateCountryList(countryList);
     print("****** in callRetrieveCountry Country List ******* $countryList \n ");
     print(countryList);
     for(var country in countryList){
@@ -82,26 +84,26 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+          padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 20.h),
           child: Form(
             key: formKey,
             child: Column(
               children: [
                 Image.asset('assets/logo.png'),
                 SizedBox(
-                  height: Get.height * 0.03,
+                  height: Get.height * 0.03.h,
                 ),
                 myText(
                     text: 'Connexion',
                     style: GoogleFonts.dmSans(
                         textStyle: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.bold)),
+                            fontSize: 32.sp, fontWeight: FontWeight.bold)),
                     textAlign: TextAlign.center),
                 SizedBox(
-                  height: Get.height * 0.04,
+                  height: Get.height * 0.04.h,
                 ),
                 SizedBox(
-                  height: 75,
+                  height: 75.h,
                   child: myTextField(
                       bool: false,
                       icon: 'assets/mail.png',
@@ -120,10 +122,10 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.01,
+                  height: Get.height * 0.01.h,
                 ),
                 SizedBox(
-                  height: 75,
+                  height: 75.h,
                   child: myTextField(
                       bool: true,
                       icon: 'assets/icon_name.png',
@@ -163,7 +165,7 @@ class _LoginViewState extends State<LoginView> {
                     )
                 ),*/
                 SizedBox(
-                  height: Get.height * 0.01,
+                  height: Get.height * 0.01.h,
                 ),
                 InkWell(
                   onTap: (){
@@ -181,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
                                 controller: forgetEmailController
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 10.h,
                             ),
 
                             MaterialButton(
@@ -197,13 +199,13 @@ class _LoginViewState extends State<LoginView> {
                   },
                   child: Container(
                     margin: EdgeInsets.only(
-                      top: Get.height * 0.02,
+                      top: Get.height * 0.02.h,
                     ),
                     child:  myText(
                         text: 'Mot de passe oublié?',
                         style: GoogleFonts.dmSans(
                             textStyle: TextStyle(
-                                fontSize: 18,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.normal,
                                 color: AppColors.blueText)),
                         textAlign: TextAlign.right),
@@ -217,10 +219,10 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.04,
+                  height: Get.height * 0.04.h,
                 ),
                 Obx(() => authController.isLoading.value? Center(child: CircularProgressIndicator(),) : Container(
-                    height: 50,
+                    height: 50.h,
                       child: elevatedButton(
                         text: 'Connexion',
                         onpress: (){
@@ -233,13 +235,13 @@ class _LoginViewState extends State<LoginView> {
                            authController.login(email: emailController.text.trim(),password: passwordController.text.trim());
 
                         },
-                        width: 30.0,
-                        height: 40.0,
+                        width: 30.w,
+                        height: 40.h,
                       ),
                     ),
                   ),
                 SizedBox(
-                  height: Get.height * 0.06,
+                  height: Get.height * 0.06.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -266,11 +268,11 @@ class _LoginViewState extends State<LoginView> {
                     text: 'Vous n\'avez pas encore de compte?',
                     style: GoogleFonts.dmSans(
                         textStyle: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                            fontSize: 18.sp, fontWeight: FontWeight.bold)),
                     textAlign: TextAlign.center),
                 textButton(
                     text: 'Creer un compte',
-                    fontSize: 20.0,
+                    fontSize: 20.sp,
                     color: AppColors.orange,
                     onpress: (){
                       print('******* press on the Créer un compte button ');
