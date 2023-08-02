@@ -60,12 +60,6 @@ class _TransactionScreenState extends State<TransactionScreen>
     indexOfStatutTransaction = transaction[index].status!;
   }
 
-  void updateData() {
-    setState(() {
-      print('data Update ---> $dataUpdade');
-    });
-  }
-
   void funChange(changetxt) {
     setState(() async {
       print('++++++++ Modifier status +++++++ $changetxt  $isListTransaction');
@@ -136,7 +130,6 @@ class _TransactionScreenState extends State<TransactionScreen>
             receiverName = dataUpdade[0].receiver['nom'];
             print('++++++++ receiverName---> ${dataUpdade[0].receiver['nom']}');
           }
-          updateData();
           print('dataUpdade--> $dataUpdade');
         }
       } else if (changetxt == 'Annuler' ||
