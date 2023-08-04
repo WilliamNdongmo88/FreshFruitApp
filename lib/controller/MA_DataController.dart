@@ -362,9 +362,10 @@ class DataController extends GetxController {
 
   Future<List<TransactionItemToFireBase>> retrieveTransferts() async {
     print(FirebaseAuth.instance.currentUser);
-    print("enter in nl_manage_request");
+    
     dynamic result =
         await callCloudFunction('nl_manage_request', {"action": "GET-ALL"});
+    print("result----> $result");
     if (result['ErrorCode'] == null) {
       if (result['message'] != null) {
         //empty result

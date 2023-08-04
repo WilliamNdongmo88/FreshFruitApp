@@ -8,6 +8,7 @@ import '../controller/Helper classes/MA_Helper_City.dart';
 import '../controller/Helper classes/MA_Helper_Country.dart';
 import '../controller/MA_DataController.dart';
 import '../utils/MA_CallableWidget.dart';
+import '../utils/MA_Styles.dart';
 import '../utils/MA_TransactionItem.dart';
 import '../utils/MA_TransactionItemDetails.dart';
 import '../utils/MA_Widgets.dart';
@@ -67,16 +68,24 @@ class _EditeDataState extends State<EditeData> {
     print('++++ listCountryCode---> $listCountryCode');
   }
 
+  var isSpinner = false;
   List dataUpdade = [];
   Future<void> retrieveOneTransfert() async {
+    print('dataUpdade ---> $dataUpdade');
     DataController dataController = DataController();
-    dataUpdade = (await dataController.retrieveOneTransfert(transfert: transaction[index]));
-    if (dataUpdade[0].to_bank) {
-      print('++++++++ bankName---> ${dataUpdade[0].bank['nom']}');
+    dataUpdade = (await dataController.retrieveOneTransfert(
+        transfert: transaction[index]));
+    if (dataUpdade.isEmpty) {
+      isSpinner = true;
+      print('++++++++ isSpinner---> $isSpinner');
     } else {
-      print('++++++++ receiverName---> ${dataUpdade[0].receiver['nom']}');
+      if (dataUpdade[0].to_bank) {
+        print('++++++++ bankName---> ${dataUpdade[0].bank['nom']}');
+      } else {
+        print('++++++++ receiverName---> ${dataUpdade[0].receiver['nom']}');
+      }
+      print('++++++++ toBank ---> ${transaction[index].toBank}');
     }
-    print('++++++++ toBank ---> ${transaction[index].toBank}');
   }
 
   void initState() {
@@ -147,8 +156,8 @@ class _EditeDataState extends State<EditeData> {
           'trans:${transaction[index].codeReception}';
     }
   }
-  
-  void updateData(changetxt){
+
+  void updateData(changetxt) {
     print('update value---> $changetxt');
     setState(() {
       if (changetxt == 'Updade') {
@@ -158,6 +167,7 @@ class _EditeDataState extends State<EditeData> {
       }
     });
   }
+
   void funChange(changetxt) {
     setState(() {
       // Navigator.of(context).push(
@@ -1021,6 +1031,11 @@ class _EditeDataState extends State<EditeData> {
                                 ),
                               ),
                             ),
+                            if(isSpinner == true)...[
+                            Container(
+                              child: CircularProgressIndicator(color: AppColors.orange),
+                            ),
+                            ],
                             SizedBox(
                               width: 170.w,
                               height: 45.h,
