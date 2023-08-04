@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../MA_TransactionStepper.dart';
 import '../../controller/MA_DataController.dart';
 import '../../notification/MA_Notification.dart';
+import '../../utils/MA_Styles.dart';
 import '../../utils/MA_TransactionItem.dart';
 import '../../utils/MA_TransactionItemDetails.dart';
 import '../../utils/MA_Widgets.dart';
@@ -119,7 +120,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                 toBank: data[i].to_bank));
             userName = transactions[i].user!;
           }
-        }else if (data[i].status == 'IN APPROVAL') {
+        } else if (data[i].status == 'IN APPROVAL') {
           statusIcon = 'attente';
           // print('+++inZone---> ${receiverName['country']['name']}');
           var ts = alldata[i].createdDate?['_seconds'];
@@ -365,10 +366,11 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                 if (transactions.isEmpty) ...[
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        left: 70.r, bottom: 145.r),
-                                    child: const Center(
-                                      child: Text(
-                                          'Aucun transfert pour le moment'),
+                                        left: 160.r, bottom: 100.r),
+                                    child: Center(
+                                      child: CircularProgressIndicator(color: AppColors.orange),
+                                      // Text(
+                                      //     'Aucun transfert pour le moment'),
                                     ),
                                   ),
                                 ] else
@@ -378,11 +380,12 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                         shrinkWrap: true,
                                         itemCount: transactions.length,
                                         itemBuilder: (context, index) {
-                                          final transaction = transactions[index];
+                                          final transaction =
+                                              transactions[index];
                                           if (transactions.isNotEmpty) {
                                             return ListTile(
-                                              title: 
-                                              cardItem(transaction: transaction),
+                                              title: cardItem(
+                                                  transaction: transaction),
                                               // Text('data'),
                                               // Dismissible(
                                               //     key: Key(transaction.user as String),
@@ -395,7 +398,7 @@ class TransactionListScreenState extends State<TransactionListScreen> {
                                               //               content: Text(
                                               //                   "${transaction.user} supprimé")));
                                               //     },
-                                              //     child: 
+                                              //     child:
                                               //     // Text(' --card-- ${transaction}'),
                                               //     cardItem(transaction: transaction)
                                               //     ),
